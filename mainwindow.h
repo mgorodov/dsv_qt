@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include "node.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -16,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void AddEdge(QGraphicsScene* scene,Node* circle1, Node* circle2);
 
 private:
     Ui::MainWindow *ui;

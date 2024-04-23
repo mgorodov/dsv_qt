@@ -17,6 +17,10 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        node.h
+        node.cpp
+        edge.h
+        edge.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
