@@ -1,28 +1,37 @@
 #include "node.h"
 
+#include <QBrush>
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QList>
 #include <QVector2D>
-#include <QBrush>
+
+namespace dsv::UI {
 
 qreal Node::maxZValue_ = 0;
 
-Node::Node() :text_("Value"), radius_(50), defaultColor_(Qt::lightGray) {
+Node::Node()
+    : text_("Value")
+    , radius_(50)
+    , defaultColor_(Qt::lightGray)
+{
     setFlags(ItemIsMovable | ItemSendsGeometryChanges);
     currentColor_ = defaultColor_;
     pressedColor_ = defaultColor_.darker(150);
 }
 
-QRectF Node::boundingRect() const {
+QRectF Node::boundingRect() const
+{
     return QRectF(-50, -50, radius_, radius_);
 }
 
-QRectF Node::textRect() const {
-    return QRectF(-(50+radius_*0.2), -(50+radius_*0.2), radius_*1.4, radius_*1.4);
+QRectF Node::textRect() const
+{
+    return QRectF(-(50 + radius_ * 0.2), -(50 + radius_ * 0.2), radius_ * 1.4, radius_ * 1.4);
 }
 
-void Node::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
+void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     Q_UNUSED(option)
     Q_UNUSED(widget)
     painter->setBrush(currentColor_);
@@ -30,14 +39,17 @@ void Node::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWid
     painter->drawText(textRect(), Qt::AlignCenter, text_);
 }
 
-QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value) {
+QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value)
+{
     if (change == ItemPositionChange && scene()) {
         emit positionChanged();
         QPointF newPos = value.toPointF();
         QRectF rect = scene()->sceneRect();
 
-        QRectF newRect = QRectF(newPos.x() + this->boundingRect().left(), newPos.y() + this->boundingRect().top(),
-                                this->boundingRect().width(), this->boundingRect().height());
+        QRectF newRect = QRectF(newPos.x() + this->boundingRect().left(),
+                                newPos.y() + this->boundingRect().top(),
+                                this->boundingRect().width(),
+                                this->boundingRect().height());
 
         if (!rect.contains(newRect)) {
             if (newRect.left() < rect.left()) {
@@ -58,7 +70,8 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value) {
     return QGraphicsItem::itemChange(change, value);
 }
 
-void Node::mousePressEvent(QGraphicsSceneMouseEvent* event) {
+void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
     if (event->button() == Qt::LeftButton) {
         dragStartPos_ = event->pos();
         ++maxZValue_;
@@ -69,13 +82,14 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     QGraphicsItem::mousePressEvent(event);
 }
 
-void Node::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
+void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
     QGraphicsItem::mouseMoveEvent(event);
 
-    QList<QGraphicsItem*> collidingItemsList = this->collidingItems();
+    QList<QGraphicsItem *> collidingItemsList = this->collidingItems();
 
-    for (QGraphicsItem* currentItem : collidingItemsList) {
-        Node* collidedNode = dynamic_cast<Node*>(currentItem);
+    for (QGraphicsItem *currentItem : collidingItemsList) {
+        Node *collidedNode = dynamic_cast<Node *>(currentItem);
         if (collidedNode) {
             QVector2D direction(collidedNode->pos() - this->pos());
             if (!direction.isNull()) {
@@ -95,20 +109,26 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent* event) {
     }
 }
 
-void Node::mouseReleaseEvent(QGraphicsSceneMouseEvent* event) {
+void Node::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
     currentColor_ = defaultColor_;
     update();
     QGraphicsItem::mouseReleaseEvent(event);
 }
 
-void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) {
+void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
     bool ok;
-    QString newText = QInputDialog::getText(nullptr, "Edit Text",
-                                            "Enter new text:", QLineEdit::Normal,
-                                            text_, &ok);
+    QString newText = QInputDialog::getText(nullptr,
+                                            "Edit Text",
+                                            "Enter new text:",
+                                            QLineEdit::Normal,
+                                            text_,
+                                            &ok);
     if (ok && !newText.isEmpty()) {
         text_ = newText;
         update();
     }
 }
 
+} // namespace dsv::UI

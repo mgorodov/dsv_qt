@@ -12,15 +12,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+include_directories(src)
+
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        node.h
-        node.cpp
-        edge.h
-        edge.cpp
+        src/main.cpp
+        src/application.h src/application.cpp
+        src/controller/controller.h src/controller/controller.cpp
+        src/ui/graph/edge.h src/ui/graph/edge.cpp
+        src/ui/graph/grapheditor.h src/ui/graph/grapheditor.cpp
+        src/ui/graph/node.h src/ui/graph/node.cpp
+        src/ui/widgets/codeeditor.h src/ui/widgets/codeeditor.cpp
+        src/ui/mainwindow.h src/ui/mainwindow.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
