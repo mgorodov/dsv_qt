@@ -16,7 +16,6 @@ include_directories(src)
 
 set(PROJECT_SOURCES
         src/main.cpp
-        src/application.h src/application.cpp
         src/controller/controller.h src/controller/controller.cpp
         src/ui/graph/edge.h src/ui/graph/edge.cpp
         src/ui/graph/grapheditor.h src/ui/graph/grapheditor.cpp

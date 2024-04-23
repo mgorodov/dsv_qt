@@ -1,7 +1,10 @@
-#include "application.h"
+#include <QApplication>
+#include <ui/mainwindow.h>
 
 int main(int argc, char *argv[])
 {
-    dsv::Application app(argc, argv);
-    return app.run();
+    QApplication app(argc, argv);
+    dsv::UI::MainWindow mainWindow;
+    mainWindow.show();
+    return app.exec();
 }

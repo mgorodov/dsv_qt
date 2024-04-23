@@ -11,8 +11,4 @@ GraphEditor::GraphEditor(QWidget *parent)
 {
 }
 
-QGraphicsView *getGraphicsView() {
-
-}
-
 } // namespace dsv::UI
