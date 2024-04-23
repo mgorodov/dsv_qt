@@ -8,7 +8,7 @@
 
 qreal Node::maxZValue_ = 0;
 
-Node::Node() :text_("Penis"), radius_(50), defaultColor_(Qt::lightGray) {
+Node::Node() :text_("Value"), radius_(50), defaultColor_(Qt::lightGray) {
     setFlags(ItemIsMovable | ItemSendsGeometryChanges);
     currentColor_ = defaultColor_;
     pressedColor_ = defaultColor_.darker(150);
@@ -60,7 +60,6 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value) {
 
 void Node::mousePressEvent(QGraphicsSceneMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
-        //setBrush(defaultColor_);
         dragStartPos_ = event->pos();
         ++maxZValue_;
         setZValue(maxZValue_);

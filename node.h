@@ -18,11 +18,10 @@ public:
     QRectF textRect() const;
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) override;
 
-    // Enable itemChange to track position changes
+
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
 protected:
-    // Mouse events
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;

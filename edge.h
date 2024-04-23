@@ -3,10 +3,9 @@
 
 #include <QGraphicsLineItem>
 #include <QGraphicsItem>
-#include <cmath>
 #include <QObject>
 
-class Node; // Forward declaration
+class Node;
 
 class Edge : public QObject, public QGraphicsLineItem {
     Q_OBJECT
@@ -19,7 +18,7 @@ public slots:
 private:
     Node* myStartNode;
     Node* myEndNode;
-    qreal naturalLength = 100.0; // Default natural spring length
+    qreal naturalLength = 100.0;
 };
 
 #endif // EDGE_H
