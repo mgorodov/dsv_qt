@@ -25,7 +25,6 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
     QFont font = painter.font();
     font.setPixelSize(24);
     painter.setFont(font);
-    //painter.fillRect(event->rect(), Qt::darkGray);
     painter.fillRect(event->rect(), QColor(31, 31, 31));
     QTextBlock block = firstVisibleBlock();
     int blockNumber = block.blockNumber();
@@ -34,7 +33,10 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
-            painter.setPen(QColor(110, 118, 129));
+            if (blockNumber == textCursor().blockNumber())
+                painter.setPen(QColor(150, 150, 150));
+            else
+                painter.setPen(QColor(110, 118, 129));
             painter.drawText(0,
                              top,
                              lineNumberArea->width(),
@@ -103,7 +105,6 @@ void CodeEditor::highlightCurrentLine()
         selection.cursor.clearSelection();
         extraSelections.append(selection);
     }
-
     setExtraSelections(extraSelections);
 }
 

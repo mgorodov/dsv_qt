@@ -12,14 +12,13 @@ class Node : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    Node();
+    Node(const QString& text="Value");
 
     QRectF boundingRect() const override;
     QRectF textRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;

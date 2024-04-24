@@ -10,8 +10,8 @@ namespace dsv::UI {
 
 qreal Node::maxZValue_ = 0;
 
-Node::Node()
-    : text_("Value")
+Node::Node(const QString& text)
+    : text_(text)
     , radius_(50)
     , defaultColor_(Qt::white)
 {

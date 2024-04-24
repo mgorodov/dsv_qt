@@ -9,6 +9,7 @@
 #include <ui/graph/node.h>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPushButton>
 
 namespace dsv::UI {
 
@@ -32,14 +33,15 @@ void MainWindow::createInterface()
     auto *codeEditor = new CodeEditor(this);
     codeEditor->setMaximumWidth(300);
     codeEditor->setMinimumWidth(200);
+    codeEditor->setPlainText("1, 2\n2, 3\n");
 
     QGraphicsScene *scene = new QGraphicsScene;
     QGraphicsView *view = new QGraphicsView(scene);
     view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 
-    Node *circle1 = new Node();
-    Node *circle2 = new Node();
-    Node *circle3 = new Node();
+    Node *circle1 = new Node("1");
+    Node *circle2 = new Node("2");
+    Node *circle3 = new Node("3");
 
     circle1->setPos(100, 50);
     circle2->setPos(400, 300);

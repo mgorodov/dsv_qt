@@ -1,12 +1,24 @@
 #pragma once
+#include <QObject>
 #include <vector>
 
 namespace dsv {
 
-class Model
+template<typename V>
+struct Node
+{};
+
+template<typename E>
+struct Edge
+{};
+
+class Model : public QObject
 {
+    Q_OBJECT
 public:
     Model();
+signals:
+    void notify();
 private:
 };
 
