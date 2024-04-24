@@ -46,7 +46,6 @@ void GraphEditor::AddEdge(size_t sourceId, size_t destId)
     QObject::connect(nodes_[destId], &Node::positionChanged, new_edge, &Edge::adjust);
 
     edges_[sourceId][destId] = new_edge;
-    edges_[destId][sourceId] = new_edge;
 
     scene->addItem(new_edge);
 }
@@ -71,36 +70,30 @@ void GraphEditor::RemoveEdge(size_t sourceId, size_t destId) {
 
 void GraphEditor::RemoveNode(size_t id) {
 
-    auto nodeIter = nodes_.find(id);
-    if (nodeIter != nodes_.end()) {
-        scene->removeItem(nodeIter->second);
-        delete nodeIter->second;
-        nodes_.erase(nodeIter);
+    if (nodes_.count(id)) {
+        scene->removeItem(nodes_[id]);
+        delete nodes_[id];
+        nodes_.erase(id);
     } else {
         std::cerr << "Node with ID " << id << " does not exist." << std::endl;
         return;
     }
 
 
-    auto edgeIterOut = edges_.find(id);
-    if (edgeIterOut != edges_.end()) {
-        for (auto& edge : edgeIterOut->second) {
-            scene->removeItem(edge.second);
-            delete edge.second;
+    if (edges_.count(id)) {
+        for (auto& [id, edge] : edges_[id]) {
+            scene->removeItem(edge);
+            delete edge;
         }
-        edges_.erase(edgeIterOut);
+        edges_.erase(id);
     }
 
 
-    for (auto& pair : edges_) {
-        auto& innerMap = pair.second;
-        auto edgeIterIn = innerMap.find(id);
-        if (edgeIterIn != innerMap.end()) {
-            if(edgeIterIn->second) {
-                //scene->removeItem(edgeIterIn->second); //!!!!Тут какая-то хуйня, вроде она должна была чекнуть, что мы уже удалил, но нихуя не чекается и пытается удалить пустоту
-                //delete edgeIterIn->second;
-            }
-            innerMap.erase(edgeIterIn);
+    for (auto& [source, edges] : edges_) {
+        if (edges.count(id)) {
+            scene->removeItem(edges_[source][id]);
+            delete edges_[source][id];
+            edges_[source].erase(id);
         }
     }
 }

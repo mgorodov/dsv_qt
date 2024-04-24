@@ -59,6 +59,7 @@ void MainWindow::createInterface()
     graphEditor->AddNode(1);
     graphEditor->AddNode(0);
     graphEditor->AddEdge(1, 0);
+    graphEditor->AddEdge(0, 1);
     graphEditor->AddNode(2);
     graphEditor->AddEdge(2, 0);
     graphEditor->RemoveEdge(1, 0);
