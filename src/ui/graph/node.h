@@ -19,6 +19,10 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+
+    int getRadius();
+
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
@@ -36,6 +40,7 @@ private:
 
 signals:
     void positionChanged();
+    void ValueChanged();
 };
 
 } // namespace dsv::UI

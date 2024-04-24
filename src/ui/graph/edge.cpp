@@ -4,9 +4,9 @@
 namespace dsv::UI {
 
 Edge::Edge(Node *startNode, Node *endNode)
-    : QGraphicsLineItem(nullptr)
-    , myStartNode(startNode)
-    , myEndNode(endNode)
+    : QGraphicsLineItem(nullptr),
+    myStartNode(startNode),
+    myEndNode(endNode)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(Qt::gray, 2));

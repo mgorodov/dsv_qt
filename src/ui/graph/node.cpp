@@ -30,6 +30,11 @@ QRectF Node::textRect() const
     return QRectF(-(50 + radius_ * 0.2), -(50 + radius_ * 0.2), radius_ * 1.4, radius_ * 1.4);
 }
 
+int Node::getRadius()
+{
+    return radius_;
+}
+
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option)
@@ -95,7 +100,7 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             if (!direction.isNull()) {
                 direction.normalize();
 
-                qreal pushDistance = 1;
+                qreal pushDistance = 10;
                 QPointF pushVector = direction.toPointF() * pushDistance;
                 collidedNode->setPos(collidedNode->pos() + pushVector);
             }
