@@ -1,4 +1,5 @@
 #include "codeeditor.h"
+#include <QDebug>
 #include <QPainter>
 #include <QTextBlock>
 
@@ -15,9 +16,41 @@ CodeEditor::CodeEditor(QWidget *parent)
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
+    setTabStopDistance(50);
 }
 
-int CodeEditor::lineNumberAreaWidth()
+void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
+{
+    QPainter painter(lineNumberArea);
+    QFont font = painter.font();
+    font.setPixelSize(24);
+    painter.setFont(font);
+    //painter.fillRect(event->rect(), Qt::darkGray);
+    painter.fillRect(event->rect(), QColor(31, 31, 31));
+    QTextBlock block = firstVisibleBlock();
+    int blockNumber = block.blockNumber();
+    int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int bottom = top + qRound(blockBoundingRect(block).height());
+    while (block.isValid() && top <= event->rect().bottom()) {
+        if (block.isVisible() && bottom >= event->rect().top()) {
+            QString number = QString::number(blockNumber + 1);
+            painter.setPen(QColor(110, 118, 129));
+            painter.drawText(0,
+                             top,
+                             lineNumberArea->width(),
+                             fontMetrics().height(),
+                             Qt::AlignRight,
+                             number);
+        }
+
+        block = block.next();
+        top = bottom;
+        bottom = top + qRound(blockBoundingRect(block).height());
+        ++blockNumber;
+    }
+}
+
+int CodeEditor::getLineNumberAreaWidth() const
 {
     int digits = 1;
     int max = qMax(1, blockCount());
@@ -26,14 +59,14 @@ int CodeEditor::lineNumberAreaWidth()
         ++digits;
     }
 
-    int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+    int space = 6 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
 
     return space;
 }
 
 void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
-    setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
+    setViewportMargins(getLineNumberAreaWidth(), 0, 0, 0);
 }
 
 void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
@@ -52,7 +85,7 @@ void CodeEditor::resizeEvent(QResizeEvent *e)
     QPlainTextEdit::resizeEvent(e);
 
     QRect cr = contentsRect();
-    lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
+    lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), getLineNumberAreaWidth(), cr.height()));
 }
 
 void CodeEditor::highlightCurrentLine()
@@ -62,7 +95,7 @@ void CodeEditor::highlightCurrentLine()
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::yellow).lighter(160);
+        QColor lineColor = QColor(255, 255, 255, 20);
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);
@@ -74,31 +107,19 @@ void CodeEditor::highlightCurrentLine()
     setExtraSelections(extraSelections);
 }
 
-void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
-{
-    QPainter painter(lineNumberArea);
-    painter.fillRect(event->rect(), Qt::lightGray);
-    QTextBlock block = firstVisibleBlock();
-    int blockNumber = block.blockNumber();
-    int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
-    int bottom = top + qRound(blockBoundingRect(block).height());
-    while (block.isValid() && top <= event->rect().bottom()) {
-        if (block.isVisible() && bottom >= event->rect().top()) {
-            QString number = QString::number(blockNumber + 1);
-            painter.setPen(Qt::black);
-            painter.drawText(0,
-                             top,
-                             lineNumberArea->width(),
-                             fontMetrics().height(),
-                             Qt::AlignRight,
-                             number);
-        }
+LineNumberArea::LineNumberArea(CodeEditor *editor)
+    : QWidget(editor)
+    , codeEditor(editor)
+{}
 
-        block = block.next();
-        top = bottom;
-        bottom = top + qRound(blockBoundingRect(block).height());
-        ++blockNumber;
-    }
+QSize LineNumberArea::sizeHint() const
+{
+    return QSize(codeEditor->getLineNumberAreaWidth(), 0);
+}
+
+void LineNumberArea::paintEvent(QPaintEvent *event)
+{
+    codeEditor->lineNumberAreaPaintEvent(event);
 }
 
 } // namespace dsv::UI

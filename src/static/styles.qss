@@ -1,0 +1,13 @@
+dsv--UI--MainWindow {
+    background: black;
+}
+
+dsv--UI--CodeEditor {
+    background-color: #1f1f1f;
+    color: white;
+    font-size: 24px;
+}
+
+QGraphicsView {
+    background-color: #1f1f1f1f
+}

@@ -11,9 +11,8 @@ class CodeEditor : public QPlainTextEdit
 
 public:
     CodeEditor(QWidget *parent = nullptr);
-
     void lineNumberAreaPaintEvent(QPaintEvent *event);
-    int lineNumberAreaWidth();
+    int getLineNumberAreaWidth() const;
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -30,15 +29,11 @@ private:
 class LineNumberArea : public QWidget
 {
 public:
-    LineNumberArea(CodeEditor *editor)
-        : QWidget(editor)
-        , codeEditor(editor)
-    {}
-
-    QSize sizeHint() const override { return QSize(codeEditor->lineNumberAreaWidth(), 0); }
+    LineNumberArea(CodeEditor *editor);
+    QSize sizeHint() const override;
 
 protected:
-    void paintEvent(QPaintEvent *event) override { codeEditor->lineNumberAreaPaintEvent(event); }
+    void paintEvent(QPaintEvent *event);
 
 private:
     CodeEditor *codeEditor;

@@ -13,7 +13,7 @@ qreal Node::maxZValue_ = 0;
 Node::Node()
     : text_("Value")
     , radius_(50)
-    , defaultColor_(Qt::lightGray)
+    , defaultColor_(Qt::white)
 {
     setFlags(ItemIsMovable | ItemSendsGeometryChanges);
     currentColor_ = defaultColor_;
@@ -120,8 +120,8 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     bool ok;
     QString newText = QInputDialog::getText(nullptr,
-                                            "Edit Text",
-                                            "Enter new text:",
+                                            "Edit Node",
+                                            "Enter new node value",
                                             QLineEdit::Normal,
                                             text_,
                                             &ok);

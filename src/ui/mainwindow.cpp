@@ -42,8 +42,8 @@ void MainWindow::createInterface()
     Node *circle3 = new Node();
 
     circle1->setPos(100, 50);
-    circle2->setPos(100, 100);
-    circle3->setPos(200, 200);
+    circle2->setPos(400, 300);
+    circle3->setPos(700, 100);
     scene->addItem(circle1);
     scene->addItem(circle2);
     scene->addItem(circle3);
