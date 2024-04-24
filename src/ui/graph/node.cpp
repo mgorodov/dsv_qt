@@ -10,14 +10,14 @@ namespace dsv::UI {
 
 qreal Node::maxZValue_ = 0;
 
-Node::Node(const QString& text)
+Node::Node(const QString& text, const qreal radius)
     : text_(text)
-    , radius_(50)
+    , radius_(radius)
     , defaultColor_(Qt::white)
 {
     setFlags(ItemIsMovable | ItemSendsGeometryChanges);
     currentColor_ = defaultColor_;
-    pressedColor_ = defaultColor_.darker(150);
+    pressedColor_ = defaultColor_.darker(180);
 }
 
 QRectF Node::boundingRect() const
@@ -40,6 +40,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     Q_UNUSED(option)
     Q_UNUSED(widget)
     painter->setBrush(currentColor_);
+    painter->setPen(Qt::black);
     painter->drawEllipse(-50, -50, radius_, radius_);
     painter->drawText(textRect(), Qt::AlignCenter, text_);
 }

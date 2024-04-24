@@ -19,7 +19,44 @@ GraphEditor::GraphEditor(QWidget *parent)
 
 void GraphEditor::PlaceNodeOnEmptySpace(Node* cur)
 {
-    cur->setPos(100, 50);
+    if (!scene || !cur) return;
+
+    qreal stepSize = 50.0;
+    qreal angleIncrement = 30.0;
+    qreal currentAngle = 0.0;
+    QPointF center = scene->sceneRect().center();
+
+    while (true) {
+        qreal dx = stepSize * qCos(qDegreesToRadians(currentAngle));
+        qreal dy = stepSize * qSin(qDegreesToRadians(currentAngle));
+        QPointF candidatePos = center + QPointF(dx, dy);
+
+        cur->setPos(candidatePos);
+
+        bool isColliding = false;
+        QList<QGraphicsItem*> collidingItems = scene->collidingItems(cur);
+        for (QGraphicsItem* item : collidingItems) {
+            if (item != cur) {
+                isColliding = true;
+                break;
+            }
+        }
+
+        if (!isColliding) {
+            scene->addItem(cur);
+            return;
+        }
+
+        currentAngle += angleIncrement;
+        if (currentAngle >= 360.0) {
+            currentAngle -= 360.0;
+            stepSize += 50.0;
+        }
+    }
+
+    QRectF nodeBoundingRect = cur->boundingRect();
+    cur->setPos(scene->sceneRect().topLeft() - QPointF(nodeBoundingRect.width(), nodeBoundingRect.height()));
+    scene->addItem(cur);
 }
 
 void GraphEditor::AddNode(size_t id)
@@ -28,10 +65,10 @@ void GraphEditor::AddNode(size_t id)
         std::cerr << "Node with ID " << id << " already exists." << std::endl;
         return;
     }
-    Node* new_node = new Node();
+    const QString& val = QString::number(id);
+    Node* new_node = new Node(val);
     nodes_[id] = new_node;
     PlaceNodeOnEmptySpace(new_node);
-    scene->addItem(new_node);
 }
 
 void GraphEditor::AddEdge(size_t sourceId, size_t destId)
@@ -51,15 +88,12 @@ void GraphEditor::AddEdge(size_t sourceId, size_t destId)
 }
 
 void GraphEditor::RemoveEdge(size_t sourceId, size_t destId) {
-    auto sourceIt = edges_.find(sourceId);
-    if (sourceIt != edges_.end()) {
-        auto& destMap = sourceIt->second;
-        auto destIt = destMap.find(destId);
 
-        if (destIt != destMap.end()) {
-            scene->removeItem(destIt->second);
-            delete destIt->second;
-            destMap.erase(destId);
+    if (edges_.count(sourceId)) {
+        if (edges_[sourceId][destId]) {
+            scene->removeItem(edges_[sourceId][destId]);
+            delete edges_[sourceId][destId];
+            edges_[sourceId].erase(destId);
         } else {
             std::cerr << "Edge from " << sourceId << " to " << destId << " does not exist." << std::endl;
         }

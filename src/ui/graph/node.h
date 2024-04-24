@@ -12,7 +12,7 @@ class Node : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    Node(const QString& text="Value");
+    Node(const QString& text = "Value", const qreal radius = 50);
 
     QRectF boundingRect() const override;
     QRectF textRect() const;

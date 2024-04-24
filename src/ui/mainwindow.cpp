@@ -27,33 +27,6 @@ void MainWindow::createInterface()
     codeEditor->setMinimumWidth(200);
     codeEditor->setPlainText("1, 2\n2, 3\n");
 
-    // QGraphicsScene *scene = new QGraphicsScene;
-    // QGraphicsView *view = new QGraphicsView(scene);
-    // view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
-
-
-    // Node *circle1 = new Node("1");
-    // Node *circle2 = new Node("2");
-    // Node *circle3 = new Node("3");
-
-    // Node *circle1 = new Node();
-    // Node *circle2 = new Node();
-    // Node *circle3 = new Node();
-
-    // circle1->setPos(100, 50);
-    // circle2->setPos(400, 300);
-    // circle3->setPos(700, 100);
-    // scene->addItem(circle1);
-    // scene->addItem(circle2);
-    // scene->addItem(circle3);
-    // AddEdge(scene, circle1, circle2);
-    // AddEdge(scene, circle2, circle3);
-
-    // scene->setSceneRect(0, 0, 1200, 800);
-
-    // view->setRenderHint(QPainter::Antialiasing);
-    // //mainLayout->addWidget(view, 0, 1, 1, 100);
-
     GraphEditor* graphEditor = new GraphEditor(this);
 
     graphEditor->AddNode(1);
@@ -66,7 +39,13 @@ void MainWindow::createInterface()
     graphEditor->AddEdge(1, 0);
 
     //graphEditor->AddNode(3);
-    graphEditor->RemoveNode(0);
+    graphEditor->RemoveNode(2);
+    graphEditor->AddNode(2);
+    graphEditor->AddNode(3);
+    graphEditor->AddNode(4);
+    graphEditor->AddNode(5);
+    graphEditor->AddNode(6);
+    graphEditor->AddNode(7);
 
     auto *mainLayout = new QGridLayout(this);
     mainLayout->addWidget(codeEditor, 0, 0);
