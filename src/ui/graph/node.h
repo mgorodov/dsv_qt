@@ -22,6 +22,8 @@ public:
 
     int getRadius();
 
+    void pushOtherNodes();
+
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -34,6 +36,7 @@ private:
     QPointF dragStartPos_;
     int radius_;
     static qreal maxZValue_;
+    static int recursionDepth;
     QColor defaultColor_;
     QColor currentColor_;
     QColor pressedColor_;

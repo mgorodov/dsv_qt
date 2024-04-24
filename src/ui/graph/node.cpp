@@ -9,6 +9,7 @@
 namespace dsv::UI {
 
 qreal Node::maxZValue_ = 0;
+int Node::recursionDepth = 0;
 
 Node::Node(const QString& text, const qreal radius)
     : text_(text)
@@ -91,7 +92,10 @@ void Node::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseMoveEvent(event);
+    pushOtherNodes();
+}
 
+void Node::pushOtherNodes() {
     QList<QGraphicsItem *> collidingItemsList = this->collidingItems();
 
     for (QGraphicsItem *currentItem : collidingItemsList) {
@@ -110,6 +114,15 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             QRectF newRect = collidedNode->boundingRect().translated(newPos);
             if (!rect.contains(newRect)) {
                 collidedNode->setPos(collidedNode->sceneBoundingRect().intersected(rect).topLeft());
+            }
+            recursionDepth += 1;
+            if(recursionDepth < 1000) {
+            collidedNode->pushOtherNodes();
+            }
+            else
+            {
+                recursionDepth = 0;
+                return;
             }
         }
     }
