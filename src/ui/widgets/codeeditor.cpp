@@ -25,9 +25,9 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
     painter.setFont(font);
     painter.fillRect(event->rect(), QColor(31, 31, 31));
     QTextBlock block = firstVisibleBlock();
-    int blockNumber  = block.blockNumber();
-    int top          = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
-    int bottom       = top + qRound(blockBoundingRect(block).height());
+    int blockNumber = block.blockNumber();
+    int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int bottom = top + qRound(blockBoundingRect(block).height());
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
@@ -38,8 +38,8 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
             painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
         }
 
-        block  = block.next();
-        top    = bottom;
+        block = block.next();
+        top = bottom;
         bottom = top + qRound(blockBoundingRect(block).height());
         ++blockNumber;
     }
@@ -47,7 +47,7 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
 
 int CodeEditor::getLineNumberAreaWidth() const {
     int digits = 1;
-    int max    = qMax(1, blockCount());
+    int max = qMax(1, blockCount());
     while (max >= 10) {
         max /= 10;
         ++digits;

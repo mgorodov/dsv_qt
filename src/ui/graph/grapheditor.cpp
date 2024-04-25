@@ -11,7 +11,7 @@ namespace dsv::UI {
 
 GraphEditor::GraphEditor(QWidget* parent) : QWidget(parent) {
     scene = new QGraphicsScene;
-    view  = new QGraphicsView(scene);
+    view = new QGraphicsView(scene);
     view->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
     scene->setSceneRect(0, 0, 1200, 800);
     view->setRenderHint(QPainter::Antialiasing);
@@ -21,19 +21,19 @@ void GraphEditor::PlaceNodeOnEmptySpace(Node* cur) {
     if (!scene || !cur)
         return;
 
-    qreal stepSize       = 50.0;
+    qreal stepSize = 50.0;
     qreal angleIncrement = 30.0;
-    qreal currentAngle   = 0.0;
-    QPointF center       = scene->sceneRect().center();
+    qreal currentAngle = 0.0;
+    QPointF center = scene->sceneRect().center();
 
     while (true) {
-        qreal dx             = stepSize * qCos(qDegreesToRadians(currentAngle));
-        qreal dy             = stepSize * qSin(qDegreesToRadians(currentAngle));
+        qreal dx = stepSize * qCos(qDegreesToRadians(currentAngle));
+        qreal dy = stepSize * qSin(qDegreesToRadians(currentAngle));
         QPointF candidatePos = center + QPointF(dx, dy);
 
         cur->setPos(candidatePos);
 
-        bool isColliding                     = false;
+        bool isColliding = false;
         QList<QGraphicsItem*> collidingItems = scene->collidingItems(cur);
         for (QGraphicsItem* item : collidingItems) {
             if (item != cur) {
@@ -65,8 +65,8 @@ void GraphEditor::AddNode(size_t id) {
         return;
     }
     const QString& val = QString::number(id);
-    Node* new_node     = new Node(val);
-    nodes_[id]         = new_node;
+    Node* new_node = new Node(val);
+    nodes_[id] = new_node;
     PlaceNodeOnEmptySpace(new_node);
 }
 

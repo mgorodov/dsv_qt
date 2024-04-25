@@ -8,7 +8,7 @@
 
 namespace dsv::UI {
 
-qreal Node::maxZValue_   = 0;
+qreal Node::maxZValue_ = 0;
 int Node::recursionDepth = 0;
 
 Node::Node(const QString &text, const qreal radius) : text_(text), radius_(radius), defaultColor_(Qt::white) {
@@ -42,7 +42,7 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value) {
     if (change == ItemPositionChange && scene()) {
         emit positionChanged();
         QPointF newPos = value.toPointF();
-        QRectF rect    = scene()->sceneRect();
+        QRectF rect = scene()->sceneRect();
 
         QRectF newRect = QRectF(newPos.x() + this->boundingRect().left(), newPos.y() + this->boundingRect().top(),
                                 this->boundingRect().width(), this->boundingRect().height());
@@ -96,7 +96,7 @@ void Node::pushOtherNodes() {
                 QPointF pushVector = direction.toPointF() * pushDistance;
                 collidedNode->setPos(collidedNode->pos() + pushVector);
             }
-            QRectF rect    = scene()->sceneRect();
+            QRectF rect = scene()->sceneRect();
             QPointF newPos = collidedNode->pos();
             QRectF newRect = collidedNode->boundingRect().translated(newPos);
             if (!rect.contains(newRect)) {

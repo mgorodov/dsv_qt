@@ -9,7 +9,6 @@ AllowShortIfStatementsOnASingleLine: Never
 SortIncludes: CaseInsensitive
 BraceWrapping:
     BeforeElse: true
-AlignConsecutiveAssignments: true
 ColumnLimit: 120
 AllowShortFunctionsOnASingleLine: Empty
 InsertNewlineAtEOF: true
