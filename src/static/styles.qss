@@ -2,6 +2,18 @@ dsv--UI--MainWindow {
     background: black;
 }
 
+dsv--UI--ActivityBar {
+    background-color: #181818;
+    color: white;
+    border:none;
+    font-size: 24px;
+}
+
+dsv--UI--ActivityBar > QPushButton {border:none}
+dsv--UI--ActivityBar > QPushButton:!hover {background-color: #181818}
+dsv--UI--ActivityBar > QPushButton:hover {background-color: #282828}
+dsv--UI--ActivityBar > QPushButton:pressed {background-color: #353535}
+
 dsv--UI--CodeEditor {
     background-color: #1f1f1f;
     color: white;
