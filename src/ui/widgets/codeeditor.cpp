@@ -1,13 +1,12 @@
 #include "codeeditor.h"
+
 #include <QDebug>
 #include <QPainter>
 #include <QTextBlock>
 
 namespace dsv::UI {
 
-CodeEditor::CodeEditor(QWidget *parent)
-    : QPlainTextEdit(parent)
-{
+CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent) {
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, &CodeEditor::blockCountChanged, this, &CodeEditor::updateLineNumberAreaWidth);
@@ -19,17 +18,16 @@ CodeEditor::CodeEditor(QWidget *parent)
     setTabStopDistance(50);
 }
 
-void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
-{
+void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event) {
     QPainter painter(lineNumberArea);
     QFont font = painter.font();
     font.setPixelSize(24);
     painter.setFont(font);
     painter.fillRect(event->rect(), QColor(31, 31, 31));
     QTextBlock block = firstVisibleBlock();
-    int blockNumber = block.blockNumber();
-    int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
-    int bottom = top + qRound(blockBoundingRect(block).height());
+    int blockNumber  = block.blockNumber();
+    int top          = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int bottom       = top + qRound(blockBoundingRect(block).height());
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
@@ -37,25 +35,19 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
                 painter.setPen(QColor(150, 150, 150));
             else
                 painter.setPen(QColor(110, 118, 129));
-            painter.drawText(0,
-                             top,
-                             lineNumberArea->width(),
-                             fontMetrics().height(),
-                             Qt::AlignRight,
-                             number);
+            painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
         }
 
-        block = block.next();
-        top = bottom;
+        block  = block.next();
+        top    = bottom;
         bottom = top + qRound(blockBoundingRect(block).height());
         ++blockNumber;
     }
 }
 
-int CodeEditor::getLineNumberAreaWidth() const
-{
+int CodeEditor::getLineNumberAreaWidth() const {
     int digits = 1;
-    int max = qMax(1, blockCount());
+    int max    = qMax(1, blockCount());
     while (max >= 10) {
         max /= 10;
         ++digits;
@@ -66,13 +58,11 @@ int CodeEditor::getLineNumberAreaWidth() const
     return space;
 }
 
-void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
-{
+void CodeEditor::updateLineNumberAreaWidth(int /* newBlockCount */) {
     setViewportMargins(getLineNumberAreaWidth(), 0, 0, 0);
 }
 
-void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
-{
+void CodeEditor::updateLineNumberArea(const QRect &rect, int dy) {
     if (dy)
         lineNumberArea->scroll(0, dy);
     else
@@ -82,16 +72,14 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy)
         updateLineNumberAreaWidth(0);
 }
 
-void CodeEditor::resizeEvent(QResizeEvent *e)
-{
+void CodeEditor::resizeEvent(QResizeEvent *e) {
     QPlainTextEdit::resizeEvent(e);
 
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), getLineNumberAreaWidth(), cr.height()));
 }
 
-void CodeEditor::highlightCurrentLine()
-{
+void CodeEditor::highlightCurrentLine() {
     QList<QTextEdit::ExtraSelection> extraSelections;
 
     if (!isReadOnly()) {
@@ -108,19 +96,14 @@ void CodeEditor::highlightCurrentLine()
     setExtraSelections(extraSelections);
 }
 
-LineNumberArea::LineNumberArea(CodeEditor *editor)
-    : QWidget(editor)
-    , codeEditor(editor)
-{}
+LineNumberArea::LineNumberArea(CodeEditor *editor) : QWidget(editor), codeEditor(editor) {}
 
-QSize LineNumberArea::sizeHint() const
-{
+QSize LineNumberArea::sizeHint() const {
     return QSize(codeEditor->getLineNumberAreaWidth(), 0);
 }
 
-void LineNumberArea::paintEvent(QPaintEvent *event)
-{
+void LineNumberArea::paintEvent(QPaintEvent *event) {
     codeEditor->lineNumberAreaPaintEvent(event);
 }
 
-} // namespace dsv::UI
+}  // namespace dsv::UI

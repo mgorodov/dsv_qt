@@ -1,14 +1,14 @@
 #pragma once
 
+#include <ui/graph/node.h>
+
 #include <QGraphicsItem>
 #include <QGraphicsLineItem>
 #include <QObject>
-#include <ui/graph/node.h>
 
 namespace dsv::UI {
 
-class Edge : public QObject, public QGraphicsLineItem
-{
+class Edge : public QObject, public QGraphicsLineItem {
     Q_OBJECT
 public:
     Edge(Node *startNode, Node *endNode);
@@ -22,4 +22,4 @@ private:
     qreal naturalLength = 100.0;
 };
 
-} // namespace dsv::UI
+}  // namespace dsv::UI

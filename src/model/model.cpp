@@ -4,4 +4,4 @@ namespace dsv {
 
 Model::Model() {}
 
-} // namespace dsv
+}  // namespace dsv

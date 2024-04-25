@@ -4,8 +4,7 @@
 
 namespace dsv::UI {
 
-class MainWindow : public QWidget
-{
+class MainWindow : public QWidget {
     Q_OBJECT
 public:
     explicit MainWindow(QWidget *parent = nullptr);
@@ -14,4 +13,4 @@ private:
     void createInterface();
 };
 
-} // namespace dsv::UI
+}  // namespace dsv::UI

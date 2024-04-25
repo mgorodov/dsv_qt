@@ -8,11 +8,10 @@
 
 namespace dsv::UI {
 
-class Node : public QObject, public QGraphicsItem
-{
+class Node : public QObject, public QGraphicsItem {
     Q_OBJECT
 public:
-    Node(const QString& text = "Value", const qreal radius = 50);
+    Node(const QString &text = "Value", const qreal radius = 50);
 
     QRectF boundingRect() const override;
     QRectF textRect() const;
@@ -23,7 +22,6 @@ public:
     int getRadius();
 
     void pushOtherNodes();
-
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
@@ -46,4 +44,4 @@ signals:
     void ValueChanged();
 };
 
-} // namespace dsv::UI
+}  // namespace dsv::UI

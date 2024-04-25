@@ -15,9 +15,12 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 include_directories(src)
 
 set(PROJECT_SOURCES
+        src/application.h src/application.cpp
         src/main.cpp
         src/controller/controller.h src/controller/controller.cpp
         src/model/model.h src/model/model.cpp
+        src/static/resources.qrc
+        src/static/static.h src/static/static.cpp
         src/ui/graph/edge.h src/ui/graph/edge.cpp
         src/ui/graph/grapheditor.h src/ui/graph/grapheditor.cpp
         src/ui/graph/node.h src/ui/graph/node.cpp

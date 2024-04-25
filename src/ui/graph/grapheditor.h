@@ -1,19 +1,19 @@
 #ifndef GRAPHEDITOR_H
 #define GRAPHEDITOR_H
 
-#include <QWidget>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QVBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include "node.h"
+#include <QLineEdit>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QWidget>
+
 #include "edge.h"
+#include "node.h"
 
 namespace dsv::UI {
 
-class GraphEditor : public QWidget
-{
+class GraphEditor : public QWidget {
     Q_OBJECT
 public:
     explicit GraphEditor(QWidget *parent = nullptr);
@@ -25,12 +25,12 @@ public:
     void RemoveEdge(size_t from, size_t to);
 
 private:
-    void PlaceNodeOnEmptySpace(Node* cur);
+    void PlaceNodeOnEmptySpace(Node *cur);
 
-    std::unordered_map<size_t, Node*> nodes_;
-    std::unordered_map<size_t, std::unordered_map<size_t, Edge*>> edges_;
+    std::unordered_map<size_t, Node *> nodes_;
+    std::unordered_map<size_t, std::unordered_map<size_t, Edge *>> edges_;
 };
 
-} // namespace dsv::UI
+}  // namespace dsv::UI
 
-#endif // GRAPHEDITOR_H
+#endif  // GRAPHEDITOR_H

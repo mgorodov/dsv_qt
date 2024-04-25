@@ -5,8 +5,7 @@
 
 namespace dsv::UI {
 
-class CodeEditor : public QPlainTextEdit
-{
+class CodeEditor : public QPlainTextEdit {
     Q_OBJECT
 
 public:
@@ -26,8 +25,7 @@ private:
     QWidget *lineNumberArea;
 };
 
-class LineNumberArea : public QWidget
-{
+class LineNumberArea : public QWidget {
 public:
     LineNumberArea(CodeEditor *editor);
     QSize sizeHint() const override;
@@ -39,4 +37,4 @@ private:
     CodeEditor *codeEditor;
 };
 
-} // namespace dsv::UI
+}  // namespace dsv::UI

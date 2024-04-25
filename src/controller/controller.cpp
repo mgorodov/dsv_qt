@@ -2,8 +2,6 @@
 
 namespace dsv {
 
-Controller::Controller() {
+Controller::Controller() {}
 
-}
-
-}
+}  // namespace dsv

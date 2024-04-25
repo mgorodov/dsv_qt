@@ -2,10 +2,9 @@
 
 namespace dsv {
 
-class Controller
-{
+class Controller {
 public:
     Controller();
 };
 
-} // namespace dsv
+}  // namespace dsv
