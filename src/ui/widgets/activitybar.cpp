@@ -16,20 +16,13 @@ ActivityBar::ActivityBar(QWidget* parent) : QGroupBox(parent) {
 
     auto* button2 = new QPushButton(this);
     button2->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    button2->setIcon(QIcon(":/icons/code-slash.svg"));
+    button2->setIcon(QIcon(":/icons/code.svg"));
     button2->setIconSize(QSize(48, 48));
     button2->setFixedSize(70, 70);
-
-    auto* button3 = new QPushButton(this);
-    button3->setAttribute(Qt::WA_LayoutUsesWidgetRect);
-    button3->setIcon(QIcon(":/icons/code.svg"));
-    button3->setIconSize(QSize(48, 48));
-    button3->setFixedSize(70, 70);
 
     auto* vbox = new QVBoxLayout;
     vbox->addWidget(button1);
     vbox->addWidget(button2);
-    vbox->addWidget(button3);
     vbox->addStretch(1);
     // vbox->setMargin(0);
     vbox->setContentsMargins(0, 0, 0, 0);

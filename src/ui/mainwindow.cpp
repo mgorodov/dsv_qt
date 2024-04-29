@@ -9,6 +9,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGridLayout>
+#include <QMenuBar>
+#include <QToolBar>
 
 namespace dsv::UI {
 
@@ -44,9 +46,9 @@ void MainWindow::createInterface() {
     graphEditor->AddNode(6);
     graphEditor->AddNode(7);
 
-    auto *mainLayout = new QGridLayout(this);
-
     auto *activityBar = new ActivityBar(this);
+
+    auto *mainLayout = new QGridLayout(this);
     mainLayout->addWidget(activityBar, 0, 0);
     mainLayout->addWidget(codeEditor, 0, 1);
     mainLayout->addWidget(graphEditor->view, 0, 2);
