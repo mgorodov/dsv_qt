@@ -45,6 +45,10 @@ void MainWindow::createInterface() {
     graphEditor->AddNode(5);
     graphEditor->AddNode(6);
     graphEditor->AddNode(7);
+    graphEditor->AddEdge(2, 3);
+    graphEditor->AddEdge(4, 5);
+    graphEditor->AddEdge(1, 5);
+    graphEditor->AddEdge(2, 5);
 
     auto *activityBar = new ActivityBar(this);
 
