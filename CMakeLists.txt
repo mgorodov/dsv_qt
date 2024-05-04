@@ -1,80 +1,36 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(dsv_qt VERSION 0.1 LANGUAGES CXX)
+project(dsv VERSION 0.1 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 include_directories(src)
-
 set(PROJECT_SOURCES
-        src/application.cpp
-        src/main.cpp
-        src/controller/controller.cpp
-        src/model/model.cpp
-        src/static/resources.qrc
-        src/static/static.cpp
-        src/ui/graph/edge.cpp
-        src/ui/graph/grapheditor.cpp
-        src/ui/graph/node.cpp
-        src/ui/widgets/activitybar.cpp
-        src/ui/widgets/codeeditor.cpp
-        src/ui/mainwindow.cpp
+    src/application.cpp
+    src/main.cpp
+    src/controller/controller.cpp
+    src/model/model.cpp
+    src/static/resources.qrc
+    src/static/static.cpp
+    src/ui/graph/edge.cpp
+    src/ui/graph/grapheditor.cpp
+    src/ui/graph/node.cpp
+    src/ui/widgets/activitybar.cpp
+    src/ui/widgets/codeeditor.cpp
+    src/ui/mainwindow.cpp
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(dsv_qt
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET dsv_qt APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(dsv_qt SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(dsv_qt
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
+qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
-target_link_libraries(dsv_qt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
-if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.dsv_qt)
-endif()
-set_target_properties(dsv_qt PROPERTIES
-    ${BUNDLE_ID_OPTION}
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
+set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
-
-include(GNUInstallDirs)
-install(TARGETS dsv_qt
-    BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-)
-
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(dsv_qt)
-endif()
