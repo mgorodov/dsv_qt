@@ -1,7 +1,7 @@
 #include "grapheditor.h"
 
-#include <ui/graph/edge.h>
-#include <ui/graph/node.h>
+#include <ui/views/graph_editor/edge.h>
+#include <ui/views/graph_editor/node.h>
 
 #include <iostream>
 #include <QGraphicsScene>

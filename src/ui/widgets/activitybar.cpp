@@ -1,6 +1,6 @@
 #include "activitybar.h"
 
-#include <static/static.h>
+#include <ui/static/static.h>
 
 #include <QPushButton>
 #include <QVBoxLayout>

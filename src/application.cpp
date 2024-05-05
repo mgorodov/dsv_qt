@@ -1,6 +1,6 @@
 #include "application.h"
 
-#include <static/static.h>
+#include <ui/static/static.h>
 
 #include <QFile>
 

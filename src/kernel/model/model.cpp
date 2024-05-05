@@ -2,7 +2,7 @@
 
 #include <queue>
 
-namespace dsv {
+namespace dsv::Kernel {
 
 Model::Model() {}
 
@@ -175,4 +175,4 @@ std::vector<std::vector<int>> Model::FloydWarshall() {
     return dist;
 }
 
-}  // namespace dsv
+}  // namespace dsv::Kernel

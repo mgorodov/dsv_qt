@@ -2,7 +2,7 @@
 #include <QObject>
 #include <vector>
 
-namespace dsv {
+namespace dsv::Kernel {
 
 enum class ENodeState { INTACT, SELECTED, USED };
 
@@ -50,4 +50,4 @@ private:
     size_t MinKey(std::unordered_map<size_t, int>& key, std::unordered_map<size_t, bool>& inMST);
 };
 
-}  // namespace dsv
+}  // namespace dsv::Kernel

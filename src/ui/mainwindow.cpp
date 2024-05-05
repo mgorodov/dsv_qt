@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 
-#include <ui/graph/edge.h>
-#include <ui/graph/grapheditor.h>
-#include <ui/graph/node.h>
+#include <ui/views/code_editor/codeeditor.h>
+#include <ui/views/graph_editor/edge.h>
+#include <ui/views/graph_editor/grapheditor.h>
+#include <ui/views/graph_editor/node.h>
 #include <ui/widgets/activitybar.h>
-#include <ui/widgets/codeeditor.h>
 
 #include <QGraphicsScene>
 #include <QGraphicsView>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ui/graph/node.h>
+#include <ui/views/graph_editor/node.h>
 
 #include <QGraphicsItem>
 #include <QGraphicsLineItem>
