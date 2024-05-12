@@ -1,35 +1,12 @@
 #pragma once
 
-#include <kernel/data_model/data_model.h>
+#include <kernel/data_model/graph.h>
+#include <kernel/graph_editor/drawable_graph.h>
 #include <kernel/graph_editor/graph_editor_model_controller.h>
 #include <misc/mouse_action.h>
 #include <misc/Observer.h>
 
-#include <QColor>
-#include <QPointF>
-#include <unordered_map>
-
 namespace dsv::Kernel {
-
-struct DrawableGraph {
-    struct Node {
-        QPointF position;
-        double radius;
-        QString text;
-        QColor fill, contour;
-    };
-
-    struct Edge {
-        QPointF from;
-        QPointF to;
-        double width;
-        QString text;
-        QColor color;
-    };
-
-    std::unordered_map<size_t, Node> nodes;
-    std::unordered_map<size_t, std::unordered_map<size_t, Edge>> edges;
-};
 
 class GraphEditorModel {
     using GraphData = std::optional<Graph>;

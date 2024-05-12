@@ -13,4 +13,5 @@ public:
 private:
     UI::MainWindow mainWindow_;
 };
+
 }  // namespace dsv

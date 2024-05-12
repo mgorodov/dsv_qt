@@ -17,6 +17,7 @@ set(PROJECT_SOURCES
     src/application/application_kernel.cpp
 
     src/kernel/code_editor/code_editor_model.cpp
+    src/kernel/code_editor/code_editor_model_controller.cpp
     src/kernel/graph_editor/graph_editor_model.cpp
     src/kernel/graph_editor/graph_editor_model_controller.cpp
     src/kernel/data_model/graph.cpp
@@ -27,9 +28,9 @@ set(PROJECT_SOURCES
 
     src/ui/static/resources.qrc
     src/ui/static/static.cpp
-    src/ui/views/code_editor/codeeditor.cpp
+    src/ui/views/code_editor/code_editor.cpp
     src/ui/views/graph_editor/edge.cpp
-    src/ui/views/graph_editor/grapheditor.cpp
+    src/ui/views/graph_editor/graph_editor.cpp
     src/ui/views/graph_editor/node.cpp
     src/ui/widgets/activitybar.cpp
     src/ui/mainwindow.cpp
@@ -37,7 +38,9 @@ set(PROJECT_SOURCES
     src/main.cpp
 )
 
-qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES}
+    src/kernel/code_editor/serialized_graph.h
+    src/kernel/code_editor/code_editor_model_controller.h src/kernel/code_editor/code_editor_model_controller.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 set_target_properties(${PROJECT_NAME} PROPERTIES

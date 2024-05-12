@@ -1,4 +1,4 @@
-#include "codeeditor.h"
+#include "code_editor.h"
 
 #include <QDebug>
 #include <QPainter>
@@ -95,6 +95,8 @@ void CodeEditor::highlightCurrentLine() {
     }
     setExtraSelections(extraSelections);
 }
+
+void CodeEditor::onTextData(TextData &&textData) {}
 
 LineNumberArea::LineNumberArea(CodeEditor *editor) : QWidget(editor), codeEditor(editor) {}
 

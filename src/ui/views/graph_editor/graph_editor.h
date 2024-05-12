@@ -20,7 +20,7 @@ class GraphEditor : public QGraphicsView {
 
 public:
     explicit GraphEditor(QWidget* parent = nullptr);
-    ObserverDrawData* drawDataPort() {
+    ObserverDrawData* drawDataInPort() {
         return &drawDataInPort_;
     }
     void subscribeToMouseData(ObserverMouse* observer) {

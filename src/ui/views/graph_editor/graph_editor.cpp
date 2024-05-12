@@ -1,4 +1,4 @@
-#include "grapheditor.h"
+#include "graph_editor.h"
 
 #include <QGraphicsEllipseItem>
 

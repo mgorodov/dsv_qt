@@ -1,5 +1,8 @@
 #pragma once
 
+#include <kernel/code_editor/serialized_graph.h>
+#include <misc/Observer.h>
+
 #include <QPlainTextEdit>
 #include <QWidget>
 
@@ -7,9 +10,15 @@ namespace dsv::UI {
 
 class CodeEditor : public QPlainTextEdit {
     Q_OBJECT
+    using TextData = std::optional<Kernel::SerializedGraph>;
+    using ObserverTextData = NSLibrary::CObserver<TextData>;
 
 public:
     CodeEditor(QWidget *parent = nullptr);
+    ObserverTextData *textDataInPort() {
+        return &textDataInPort_;
+    }
+
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int getLineNumberAreaWidth() const;
 
@@ -23,6 +32,9 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
+
+    void onTextData(TextData &&textData);
+    ObserverTextData textDataInPort_ = [this](TextData &&textData) { onTextData(std::move(textData)); };
 };
 
 class LineNumberArea : public QWidget {

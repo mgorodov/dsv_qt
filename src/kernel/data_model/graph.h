@@ -8,6 +8,7 @@ namespace dsv::Kernel {
 
 enum class ENodeState { INTACT, SELECTED, USED };
 enum class EEdgeState { INTACT, SELECTED, USED };
+
 struct Node {
     int val;
     ENodeState state{ENodeState::INTACT};

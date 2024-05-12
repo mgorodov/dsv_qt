@@ -1,6 +1,7 @@
 #pragma once
 
-#include <ui/views/graph_editor/grapheditor.h>
+#include <ui/views/code_editor/code_editor.h>
+#include <ui/views/graph_editor/graph_editor.h>
 
 #include <QWidget>
 
@@ -13,9 +14,13 @@ public:
     GraphEditor* getGraphEditor() {
         return &graphEditor_;
     }
+    CodeEditor* getCodeEditor() {
+        return &codeEditor_;
+    }
 
 private:
     void createInterface();
+    CodeEditor codeEditor_;
     GraphEditor graphEditor_;
 };
 
