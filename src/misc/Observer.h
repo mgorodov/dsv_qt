@@ -18,11 +18,11 @@ class CObservable;
 template <class TData>
 class CObserver : protected QReceiver {
     using CData = TData;
-    using CObservable = CObservable<CData>;
+    using CObservableBase = CObservable<CData>;
     using CSignature = void(CData&&);
     using CAction = std::function<CSignature>;
 
-    friend CObservable;
+    friend CObservableBase;
 
 public:
     template <class T>
@@ -52,26 +52,26 @@ private:
         return this;
     }
 
-    void setObservable(CObservable* observable) {
+    void setObservable(CObservableBase* observable) {
         assert(observable);
         Observable_ = observable;
     }
 
-    CObservable* Observable_ = nullptr;
+    CObservableBase* Observable_ = nullptr;
     CAction onNotify_;
 };
 
 template <class TData>
 class CObservable : protected QSender {
     using CData = TData;
-    using CObserver = CObserver<CData>;
-    using CObserversContainer = std::list<CObserver*>;
+    using CObserverBase = CObserver<CData>;
+    using CObserversContainer = std::list<CObserverBase*>;
     using CReturn = const CData&;
     using CSignature = CReturn();
     using CGetAction = std::function<CSignature>;
-    using CListeners = std::list<CObserver*>;
+    using CListeners = std::list<CObserverBase*>;
 
-    friend CObserver;
+    friend CObserverBase;
 
 public:
     template <class TF>
@@ -88,10 +88,10 @@ public:
     }
 
     void notify() const {
-        for (CObserver* obs : Listeners_) QSender::send(obs->address(), Data_());
+        for (CObserverBase* obs : Listeners_) QSender::send(obs->address(), Data_());
     }
 
-    void subscribe(CObserver* obs) {
+    void subscribe(CObserverBase* obs) {
         assert(obs);
         if (obs->isSubscribed())
             obs->unsubscribe();
@@ -105,7 +105,7 @@ public:
     }
 
 private:
-    void detach_(CObserver* obs) {
+    void detach_(CObserverBase* obs) {
         assert(obs);
         Listeners_.remove(obs);
     }
@@ -125,11 +125,11 @@ void CObserver<TData>::unsubscribe() {
 template <>
 class CObserver<void> : protected QReceiver {
     using CData = void;
-    using CObservable = CObservable<CData>;
+    using CObservableBase = CObservable<CData>;
     using CSignature = void();
     using CAction = std::function<CSignature>;
 
-    friend CObservable;
+    friend CObservableBase;
 
 public:
     template <class T>
@@ -160,23 +160,23 @@ private:
         return this;
     }
 
-    void setObservable(CObservable* observable) {
+    void setObservable(CObservableBase* observable) {
         assert(observable);
         Observable_ = observable;
     }
 
-    CObservable* Observable_ = nullptr;
+    CObservableBase* Observable_ = nullptr;
     CAction onNotify_;
 };
 
 template <>
 class CObservable<void> : protected QSender {
     using CData = void;
-    using CObserver = CObserver<CData>;
-    using CObserversContainer = std::list<CObserver*>;
-    using CListeners = std::list<CObserver*>;
+    using CObserverBase = CObserver<CData>;
+    using CObserversContainer = std::list<CObserverBase*>;
+    using CListeners = std::list<CObserverBase*>;
 
-    friend CObserver;
+    friend CObserverBase;
 
 public:
     CObservable() = default;
@@ -189,10 +189,10 @@ public:
     }
 
     void notify() const {
-        for (CObserver* obs : Listeners_) QSender::send(obs->address(), std::any());
+        for (CObserverBase* obs : Listeners_) QSender::send(obs->address(), std::any());
     }
 
-    void subscribe(CObserver* obs) {
+    void subscribe(CObserverBase* obs) {
         assert(obs);
         if (obs->isSubscribed())
             obs->unsubscribe();
@@ -206,7 +206,7 @@ public:
     }
 
 private:
-    void detach_(CObserver* obs) {
+    void detach_(CObserverBase* obs) {
         assert(obs);
         Listeners_.remove(obs);
     }
@@ -225,14 +225,14 @@ template <class TData>
 class CObservableMono : protected CObservable<TData> {
     using CData = TData;
     using CBase = CObservable<CData>;
-    using CObserver = CObserver<CData>;
+    using CObserverBase = CObserver<CData>;
 
 public:
     using CBase::CBase;
 
     using CBase::notify;
 
-    void subscribe(CObserver* obs) {
+    void subscribe(CObserverBase* obs) {
         CBase::unsubscribeAll();
         CBase::subscribe(obs);
     }
