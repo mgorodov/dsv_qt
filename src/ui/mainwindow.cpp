@@ -14,7 +14,7 @@
 
 namespace dsv::UI {
 
-MainWindow::MainWindow(QWidget *parent) : QWidget{parent} {
+MainWindow::MainWindow(QWidget *parent) : QWidget{parent}, graphEditor_{this} {
     setGeometry(160, 90, 1600, 900);
     createInterface();
 }
@@ -27,35 +27,12 @@ void MainWindow::createInterface() {
     codeEditor->setPlaceholderText(
         "EXTREMELY\nPARTICULARLY\nHUGE\n&\nJUST\nAWESOME\nCOCK\n\n\\( ͡❛ ͜ʖ ͡❛)/\n    ......\n8=====D");
 
-    GraphEditor *graphEditor = new GraphEditor(this);
-    graphEditor->AddNode(1);
-    graphEditor->AddNode(0);
-    graphEditor->AddEdge(1, 0);
-    graphEditor->AddEdge(0, 1);
-    graphEditor->AddNode(2);
-    graphEditor->AddEdge(2, 0);
-    graphEditor->RemoveEdge(1, 0);
-    graphEditor->AddEdge(1, 0);
-
-    // graphEditor->AddNode(3);
-    graphEditor->RemoveNode(2);
-    graphEditor->AddNode(2);
-    graphEditor->AddNode(3);
-    graphEditor->AddNode(4);
-    graphEditor->AddNode(5);
-    graphEditor->AddNode(6);
-    graphEditor->AddNode(7);
-    graphEditor->AddEdge(2, 3);
-    graphEditor->AddEdge(4, 5);
-    graphEditor->AddEdge(1, 5);
-    graphEditor->AddEdge(2, 5);
-
     auto *activityBar = new ActivityBar(this);
 
     auto *mainLayout = new QGridLayout(this);
     mainLayout->addWidget(activityBar, 0, 0);
     mainLayout->addWidget(codeEditor, 0, 1);
-    mainLayout->addWidget(graphEditor->view, 0, 2);
+    mainLayout->addWidget(&graphEditor_, 0, 2);
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mainLayout);

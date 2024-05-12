@@ -8,6 +8,8 @@ namespace dsv {
 
 Application::Application() {
     mainWindow_.setStyleSheet(Static::loadResource(":/styles.qss"));
+    graphEditorModel_.subscribeToDrawData(mainWindow_.getGraphEditor()->drawDataPort());
+    mainWindow_.getGraphEditor()->subscribeToMouseData(graphEditorModel_.mouseDataInPort());
 }
 
 void Application::run() {

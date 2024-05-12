@@ -1,10 +1,11 @@
 #pragma once
 
+#include <application/application_kernel.h>
 #include <ui/mainwindow.h>
 
 namespace dsv {
 
-class Application {
+class Application : ApplicationKernel {
 public:
     Application();
     void run();
