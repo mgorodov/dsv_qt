@@ -22,19 +22,6 @@ namespace dsv::Kernel {
 GraphEditorModel::GraphEditorModel(GraphEditorModelController& graphEditorModelController)
     : graphEditorModelController_{graphEditorModelController}, drawData_{std::in_place_t{}} {}
 
-void GraphEditorModel::onMouseData(MouseData&& mouseData) {
-    if (!mouseData) {
-        qDebug() << "No mouse data yet";
-        return;
-    }
-    if (mouseData->status == EMouseStatus::DoubleClicked)
-        graphEditorModelController_.handleDoubleClick();
-
-    qDebug() << static_cast<int>(mouseData->status) << ": " << mouseData->position.x() << " "
-             << mouseData->position.y();
-    if (!drawData_.has_value())
-        return;
-}
 
 void GraphEditorModel::onGraphData(GraphData&& graphData) {
     if (!graphData) {
@@ -61,5 +48,13 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     }
     drawDataOutPort_.notify();
 }
+
+void GraphEditorModel::addNode()
+{
+    // Some animations here
+
+    graphEditorModelController_.handleAddingNode();
+}
+
 
 }  // namespace dsv::Kernel

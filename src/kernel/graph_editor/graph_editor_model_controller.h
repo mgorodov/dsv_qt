@@ -7,7 +7,7 @@ namespace dsv::Kernel {
 class GraphEditorModelController {
 public:
     GraphEditorModelController(DataModel& dataModel);
-    void handleDoubleClick();
+    void handleAddingNode();
 
 private:
     DataModel& dataModel_;

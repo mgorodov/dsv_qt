@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
     src/kernel/code_editor/code_editor_model_controller.cpp
     src/kernel/graph_editor/graph_editor_model.cpp
     src/kernel/graph_editor/graph_editor_model_controller.cpp
+    src/kernel/graph_editor/graph_editor_view_controller.cpp
     src/kernel/data_model/graph.cpp
     src/kernel/data_model/data_model.cpp
 
@@ -40,7 +41,8 @@ set(PROJECT_SOURCES
 
 qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES}
     src/kernel/code_editor/serialized_graph.h
-    src/kernel/code_editor/code_editor_model_controller.h src/kernel/code_editor/code_editor_model_controller.cpp)
+    src/kernel/code_editor/code_editor_model_controller.h src/kernel/code_editor/code_editor_model_controller.cpp
+    src/kernel/graph_editor/graph_editor_view_controller.cpp)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 set_target_properties(${PROJECT_NAME} PROPERTIES

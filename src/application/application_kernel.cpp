@@ -5,6 +5,7 @@ namespace dsv {
 ApplicationKernel::ApplicationKernel()
     : codeEditorModel_{codeEditorModelController_},
       graphEditorModel_{graphEditorModelController_},
+      graphEditorViewController_{graphEditorModel_},
       codeEditorModelController_{dataModel_},
       graphEditorModelController_{dataModel_} {
     dataModel_.subscribe(graphEditorModel_.graphDataInPort());

@@ -4,7 +4,7 @@ namespace dsv::Kernel {
 
 GraphEditorModelController::GraphEditorModelController(DataModel& dataModel) : dataModel_{dataModel} {}
 
-void GraphEditorModelController::handleDoubleClick() {
+void GraphEditorModelController::handleAddingNode() {
     static int counter = 0;
     dataModel_.addNode(counter++, Node{0, ENodeState::INTACT});
 }

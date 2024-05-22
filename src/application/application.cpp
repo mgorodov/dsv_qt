@@ -10,7 +10,7 @@ Application::Application() {
     mainWindow_.setStyleSheet(Static::loadResource(":/styles.qss"));
     graphEditorModel_.subscribeToDrawData(mainWindow_.getGraphEditor()->drawDataInPort());
     codeEditorModel_.subscribeToTextData(mainWindow_.getCodeEditor()->textDataInPort());
-    mainWindow_.getGraphEditor()->subscribeToMouseData(graphEditorModel_.mouseDataInPort());
+    mainWindow_.getGraphEditor()->subscribeToMouseData(graphEditorViewController_.mouseDataInPort());
 }
 
 void Application::run() {

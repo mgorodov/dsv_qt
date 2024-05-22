@@ -24,23 +24,19 @@ public:
     ObserverGraphData* graphDataInPort() {
         return &graphDataInPort_;
     }
-    ObserverMouseData* mouseDataInPort() {
-        return &mouseDataInPort_;
-    }
     void subscribeToDrawData(ObserverDrawData* observer) {
         assert(observer);
         drawDataOutPort_.subscribe(observer);
     }
+    void addNode();
 
 private:
     GraphEditorModelController& graphEditorModelController_;
     DrawData drawData_;
-    void onMouseData(MouseData&& mouseData);
     void onKeyData(MouseData&& mouseData);
 
     void onGraphData(GraphData&& graphData);
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
-    ObserverMouseData mouseDataInPort_ = [this](MouseData&& mouseData) { onMouseData(std::move(mouseData)); };
 
     ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& { return drawData_; };
 };
