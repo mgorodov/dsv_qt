@@ -11,6 +11,7 @@ Application::Application() {
     graphEditorModel_.subscribeToDrawData(mainWindow_.getGraphEditor()->drawDataInPort());
     codeEditorModel_.subscribeToTextData(mainWindow_.getCodeEditor()->textDataInPort());
     mainWindow_.getGraphEditor()->subscribeToMouseData(graphEditorViewController_.mouseDataInPort());
+    mainWindow_.getGraphEditor()->subscribeToKeyData(graphEditorViewController_.keyDataInPort());
 }
 
 void Application::run() {

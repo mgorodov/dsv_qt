@@ -29,6 +29,16 @@ void GraphEditor::mouseReleaseEvent(QMouseEvent *event) {
     mouseDataOutPort_.set(MouseAction{EMouseStatus::Released, event->pos()});
 }
 
+void GraphEditor::keyPressEvent(QKeyEvent *event) {
+    keyDataOutPort_.set(KeyAction{EKeyStatus::Pressed, event->key()});
+    event->accept();
+}
+
+void GraphEditor::keyReleaseEvent(QKeyEvent *event) {
+    keyDataOutPort_.set(KeyAction{EKeyStatus::Released, event->key()});
+    event->accept();
+}
+
 void GraphEditor::onDrawData(DrawData &&drawData) {
     if (!drawData) {
         qDebug() << "No drawData yet";

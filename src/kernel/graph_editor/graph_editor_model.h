@@ -33,7 +33,6 @@ public:
 private:
     GraphEditorModelController& graphEditorModelController_;
     DrawData drawData_;
-    void onKeyData(MouseData&& mouseData);
 
     void onGraphData(GraphData&& graphData);
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };

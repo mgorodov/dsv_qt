@@ -42,7 +42,8 @@ set(PROJECT_SOURCES
 qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES}
     src/kernel/code_editor/serialized_graph.h
     src/kernel/code_editor/code_editor_model_controller.h src/kernel/code_editor/code_editor_model_controller.cpp
-    src/kernel/graph_editor/graph_editor_view_controller.cpp)
+    src/kernel/graph_editor/graph_editor_view_controller.cpp
+    src/misc/keyboard_action.h)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 set_target_properties(${PROJECT_NAME} PROPERTIES
