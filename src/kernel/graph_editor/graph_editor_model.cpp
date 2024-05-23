@@ -22,7 +22,6 @@ namespace dsv::Kernel {
 GraphEditorModel::GraphEditorModel(GraphEditorModelController& graphEditorModelController)
     : graphEditorModelController_{graphEditorModelController}, drawData_{std::in_place_t{}} {}
 
-
 void GraphEditorModel::onGraphData(GraphData&& graphData) {
     if (!graphData) {
         if (drawData_) {
@@ -49,12 +48,10 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     drawDataOutPort_.notify();
 }
 
-void GraphEditorModel::addNode()
-{
+void GraphEditorModel::addNode() {
     // Some animations here
 
     graphEditorModelController_.handleAddingNode();
 }
-
 
 }  // namespace dsv::Kernel

@@ -30,13 +30,13 @@ void GraphEditor::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void GraphEditor::keyPressEvent(QKeyEvent *event) {
-    keyDataOutPort_.set(KeyAction{EKeyStatus::Pressed, event->key()});
-    event->accept();
+    keyDataOutPort_.set(KeyAction{EKeyStatus::Pressed, static_cast<Qt::Key>(event->key())});
+    // event->accept();
 }
 
 void GraphEditor::keyReleaseEvent(QKeyEvent *event) {
-    keyDataOutPort_.set(KeyAction{EKeyStatus::Released, event->key()});
-    event->accept();
+    keyDataOutPort_.set(KeyAction{EKeyStatus::Released, static_cast<Qt::Key>(event->key())});
+    // event->accept();
 }
 
 void GraphEditor::onDrawData(DrawData &&drawData) {

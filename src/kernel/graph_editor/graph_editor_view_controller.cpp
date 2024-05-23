@@ -4,7 +4,8 @@
 
 namespace dsv::Kernel {
 
-GraphEditorViewController::GraphEditorViewController(GraphEditorModel& graphEditorModel) : graphEditorModel_{graphEditorModel} {}
+GraphEditorViewController::GraphEditorViewController(GraphEditorModel& graphEditorModel)
+    : graphEditorModel_{graphEditorModel} {}
 
 void GraphEditorViewController::onMouseData(MouseData&& mouseData) {
     if (!mouseData) {
@@ -29,7 +30,7 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
     qDebug() << "Key: " << static_cast<int>(keyData->status) << ": " << keyData->key;
 }
 
-void GraphEditorViewController::handleDoubleClick(){
+void GraphEditorViewController::handleDoubleClick() {
     graphEditorModel_.addNode();
 }
 

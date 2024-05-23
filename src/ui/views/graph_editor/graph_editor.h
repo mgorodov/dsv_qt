@@ -1,13 +1,13 @@
 #pragma once
 
 #include <kernel/graph_editor/graph_editor_model.h>
-#include <misc/Observer.h>
 #include <misc/keyboard_action.h>
+#include <misc/Observer.h>
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QMouseEvent>
 #include <QKeyEvent>
+#include <QMouseEvent>
 
 namespace dsv::UI {
 
@@ -44,8 +44,8 @@ private:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
 
-    void keyPressEvent(QKeyEvent *event) override;
-    void keyReleaseEvent(QKeyEvent *event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
 
     void onDrawData(DrawData&& drawData);
     ObserverDrawData drawDataInPort_ = [this](DrawData&& drawData) { onDrawData(std::move(drawData)); };

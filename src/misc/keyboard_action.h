@@ -4,11 +4,11 @@
 
 namespace dsv {
 
-enum class EKeyStatus {Pressed, Released};
+enum class EKeyStatus { Released, Pressed };
 
 struct KeyAction {
     EKeyStatus status;
-    int key;
+    Qt::Key key;
 };
 
 }  // namespace dsv
