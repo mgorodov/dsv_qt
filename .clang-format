@@ -12,3 +12,4 @@ BraceWrapping:
 ColumnLimit: 120
 AllowShortFunctionsOnASingleLine: Empty
 InsertNewlineAtEOF: true
+AlignAfterOpenBracket: BlockIndent

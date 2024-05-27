@@ -10,7 +10,7 @@ namespace dsv::UI {
 class MainWindow : public QWidget {
     Q_OBJECT
 public:
-    explicit MainWindow(QWidget* parent = nullptr);
+    MainWindow(Kernel::CodeEditorController& codeEditorController, QWidget* parent = nullptr);
     GraphEditor* getGraphEditor() {
         return &graphEditor_;
     }

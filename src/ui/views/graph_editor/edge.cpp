@@ -15,9 +15,10 @@ void Edge::adjust() {
     if (!myStartNode || !myEndNode)
         return;
 
-    QLineF line(mapFromItem(myStartNode, -25, -25),
-                mapFromItem(myEndNode, -25, -25));  // TODO: change 25 to half of radius
-                                                    // qreal length = line.length();
+    QLineF line(
+        mapFromItem(myStartNode, -25, -25), mapFromItem(myEndNode, -25, -25)
+    );  // TODO: change 25 to half of radius
+        // qreal length = line.length();
 
     // if (length > naturalLength) {
     //     QPointF edgeOffset((line.dx() * (length - naturalLength) / length),

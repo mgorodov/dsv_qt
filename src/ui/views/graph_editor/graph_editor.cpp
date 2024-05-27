@@ -44,9 +44,9 @@ void GraphEditor::onDrawData(DrawData &&drawData) {
         qDebug() << "No drawData yet";
         return;
     }
-    qDebug() << "Number of nodes: " << drawData->nodes.size();
+    // qDebug() << "Number of nodes: " << drawData->nodes.size();
     for (const auto &[index, node] : drawData->nodes) {
-        qDebug() << index << ": " << node.position << " " << node.fill;
+        // qDebug() << index << ": " << node.position << " " << node.fill;
         auto circle = new QGraphicsEllipseItem(node.position.x(), node.position.y(), 30, 30);
         circle->setFlag(QGraphicsItem::ItemClipsChildrenToShape, true);
         circle->setBrush(node.fill);

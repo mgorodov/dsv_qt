@@ -14,7 +14,7 @@ dsv--UI--ActivityBar > QPushButton:!hover {background-color: #181818}
 dsv--UI--ActivityBar > QPushButton:hover {background-color: #282828}
 dsv--UI--ActivityBar > QPushButton:pressed {background-color: #353535}
 
-dsv--UI--CodeEditor {
+dsv--UI--CodeEditorBase {
     background-color: #1f1f1f;
     color: white;
     font-size: 24px;

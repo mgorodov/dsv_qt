@@ -44,8 +44,10 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value) {
         QPointF newPos = value.toPointF();
         QRectF rect = scene()->sceneRect();
 
-        QRectF newRect = QRectF(newPos.x() + this->boundingRect().left(), newPos.y() + this->boundingRect().top(),
-                                this->boundingRect().width(), this->boundingRect().height());
+        QRectF newRect = QRectF(
+            newPos.x() + this->boundingRect().left(), newPos.y() + this->boundingRect().top(),
+            this->boundingRect().width(), this->boundingRect().height()
+        );
 
         if (!rect.contains(newRect)) {
             if (newRect.left() < rect.left()) {

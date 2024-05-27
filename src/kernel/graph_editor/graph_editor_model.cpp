@@ -35,14 +35,15 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     DrawableGraph& drawableGraph = drawData_.value();
 
     for (const auto& [index, node] : drawableGraph.nodes) {
-        if (!graphData->nodes_.count(index))
+        if (!graphData->nodes.count(index))
             drawableGraph.nodes.erase(index);
     }
 
-    for (const auto& [index, node] : graphData->nodes_) {
+    for (const auto& [index, node] : graphData->nodes) {
         if (!drawableGraph.nodes.count(index)) {
-            drawableGraph.nodes[index] = DrawableGraph::Node{QPointF(tmpRnd.getRnd(), tmpRnd.getRnd()), 30, "",
-                                                             tmpRnd.rndClr(), tmpRnd.rndClr()};
+            drawableGraph.nodes[index] = DrawableGraph::Node{
+                QPointF(tmpRnd.getRnd(), tmpRnd.getRnd()), 30, "", tmpRnd.rndClr(), tmpRnd.rndClr()
+            };
         }
     }
     drawDataOutPort_.notify();

@@ -27,7 +27,13 @@ public:
 private:
     CodeEditorModelController& codeEditorModelController_;
     TextData textData_;
+
     void onGraphData(GraphData&& graphData);
+    void removeExtraNodes(const Graph& graph);
+    void removeExtraEdges(const Graph& graph);
+    void addMissingEdges(const Graph& graph);
+    void addMissingNodes(const Graph& graph);
+
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
     ObservableTextData textDataOutPort_ = [this]() -> const TextData& { return textData_; };
 };

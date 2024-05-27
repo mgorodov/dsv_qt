@@ -3,10 +3,11 @@
 namespace dsv {
 
 ApplicationKernel::ApplicationKernel()
-    : codeEditorModel_{codeEditorModelController_},
+    : codeEditorController_{codeEditorModel_},
+      codeEditorModel_{codeEditorModelController_},
+      codeEditorModelController_{dataModel_},
       graphEditorModel_{graphEditorModelController_},
       graphEditorViewController_{graphEditorModel_},
-      codeEditorModelController_{dataModel_},
       graphEditorModelController_{dataModel_} {
     dataModel_.subscribe(graphEditorModel_.graphDataInPort());
     dataModel_.subscribe(codeEditorModel_.graphDataInPort());

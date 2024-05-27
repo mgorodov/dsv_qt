@@ -1,5 +1,6 @@
 #pragma once
 
+#include <kernel/code_editor/code_editor_controller.h>
 #include <kernel/code_editor/code_editor_model.h>
 #include <kernel/code_editor/code_editor_model_controller.h>
 #include <kernel/data_model/data_model.h>
@@ -14,6 +15,7 @@ public:
     ApplicationKernel();
 
 protected:
+    Kernel::CodeEditorController codeEditorController_;
     Kernel::CodeEditorModel codeEditorModel_;
     Kernel::GraphEditorModel graphEditorModel_;
     Kernel::GraphEditorViewController graphEditorViewController_;

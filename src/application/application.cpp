@@ -6,7 +6,7 @@
 
 namespace dsv {
 
-Application::Application() {
+Application::Application() : mainWindow_{codeEditorController_} {
     mainWindow_.setStyleSheet(Static::loadResource(":/styles.qss"));
     graphEditorModel_.subscribeToDrawData(mainWindow_.getGraphEditor()->drawDataInPort());
     codeEditorModel_.subscribeToTextData(mainWindow_.getCodeEditor()->textDataInPort());

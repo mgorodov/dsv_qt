@@ -14,18 +14,13 @@
 
 namespace dsv::UI {
 
-MainWindow::MainWindow(QWidget *parent) : QWidget{parent}, codeEditor_{this}, graphEditor_{this} {
+MainWindow::MainWindow(Kernel::CodeEditorController &codeEditorController, QWidget *parent)
+    : QWidget{parent}, codeEditor_{codeEditorController, this}, graphEditor_{this} {
     setGeometry(160, 90, 1600, 900);
     createInterface();
 }
 
 void MainWindow::createInterface() {
-    codeEditor_.setMaximumWidth(300);
-    codeEditor_.setMinimumWidth(200);
-    codeEditor_.setPlainText("1, 2\n2, 3\n");
-    codeEditor_.setPlaceholderText(
-        "EXTREMELY\nPARTICULARLY\nHUGE\n&\nJUST\nAWESOME\nCOCK\n\n\\( ͡❛ ͜ʖ ͡❛)/\n    ......\n8=====D");
-
     auto *activityBar = new ActivityBar(this);
 
     auto *mainLayout = new QGridLayout(this);

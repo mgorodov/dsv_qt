@@ -15,8 +15,10 @@ void GraphEditorViewController::onMouseData(MouseData&& mouseData) {
     if (mouseData->status == EMouseStatus::DoubleClicked)
         handleDoubleClick();
 
+    /*
     qDebug() << "Mouse: " << static_cast<int>(mouseData->status) << ": " << mouseData->position.x() << " "
              << mouseData->position.y();
+    */
 }
 
 void GraphEditorViewController::onKeyData(KeyData&& keyData) {
