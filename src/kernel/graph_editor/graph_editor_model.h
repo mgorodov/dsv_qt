@@ -21,7 +21,7 @@ class GraphEditorModel {
     using ObserverMouseData = NSLibrary::CObserver<MouseData>;
 
 public:
-    GraphEditorModel(GraphEditorModelController& graphEditorModelController);
+    GraphEditorModel();
     ObserverGraphData* graphDataInPort();
     void subscribeToDrawData(ObserverDrawData* observer);
     void addNode();
@@ -32,7 +32,7 @@ private:
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
     ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& { return drawData_; };
 
-    GraphEditorModelController& graphEditorModelController_;
+    // TODO: observer GraphEditorModelController& graphEditorModelController_;
     DrawData drawData_;
     RandomGen rndGen_;
 };

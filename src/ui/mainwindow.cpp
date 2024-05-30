@@ -14,8 +14,7 @@
 
 namespace dsv::UI {
 
-MainWindow::MainWindow(Kernel::CodeEditorController &codeEditorController)
-    : codeEditor_{codeEditorController}, graphEditor_{} {
+MainWindow::MainWindow() {
     setGeometry(160, 90, 1600, 900);
     createInterface();
 }

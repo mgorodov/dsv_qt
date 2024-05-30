@@ -6,8 +6,7 @@ namespace dsv::Kernel {
 using GraphData = std::optional<Graph>;
 using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
-CodeEditorModel::CodeEditorModel(CodeEditorModelController& codeEditorModelController)
-    : codeEditorModelController_{codeEditorModelController}, textData_{std::in_place_t{}} {}
+CodeEditorModel::CodeEditorModel() : textData_{std::in_place_t{}} {}
 
 void CodeEditorModel::onGraphData(GraphData&& graphData) {
     if (!graphData) {
@@ -23,14 +22,14 @@ void CodeEditorModel::onGraphData(GraphData&& graphData) {
 }
 
 void CodeEditorModel::addMissingNodes(Graph& graph) {
-    for (const auto& [index, node] : graph.GetNodes()) {
+    for (const auto& [index, node] : graph.getNodes()) {
         SerializedGraph::Row row{.from = QString::number(index)};
         textData_->rows.push_back(std::move(row));
     }
 }
 
 void CodeEditorModel::addMissingEdges(Graph& graph) {
-    for (const auto& [from, toEdge] : graph.GetEdges()) {
+    for (const auto& [from, toEdge] : graph.getEdges()) {
         for (const auto& [to, edge] : toEdge) {
             SerializedGraph::Row row{
                 .from = QString::number(from), .to = QString::number(to), .weight = QString::number(edge.weight)
@@ -43,7 +42,7 @@ void CodeEditorModel::addMissingEdges(Graph& graph) {
 void CodeEditorModel::removeExtraNodes(Graph& graph) {
     for (const auto& row : textData_->rows) {
     }
-    for (const auto& [index, node] : graph.GetNodes()) {
+    for (const auto& [index, node] : graph.getNodes()) {
         SerializedGraph::Row row{.from = QString::number(index)};
         textData_->rows.push_back(std::move(row));
     }

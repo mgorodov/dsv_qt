@@ -14,8 +14,10 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 include_directories(src)
 set(PROJECT_SOURCES
     src/application/application.cpp
+    src/application/application_gui.cpp
     src/application/application_kernel.cpp
 
+    src/kernel/code_editor/code_editor_controller.cpp
     src/kernel/code_editor/code_editor_model.cpp
     src/kernel/code_editor/code_editor_model_controller.cpp
     src/kernel/graph_editor/graph_editor_model.cpp
@@ -42,8 +44,8 @@ set(PROJECT_SOURCES
     src/main.cpp
 )
 
-
 qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE TRUE

@@ -6,10 +6,10 @@ namespace dsv::Kernel {
 
 class CodeEditorModelController {
 public:
-    CodeEditorModelController(DataModel& dataModel);
+    void connect(DataModel* dataModel);
 
 private:
-    DataModel& dataModel_;
+    DataModel* dataModel_ = nullptr;
 };
 
 }  // namespace dsv::Kernel

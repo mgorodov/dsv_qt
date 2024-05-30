@@ -4,5 +4,6 @@
         <file>icons/code-slash.svg</file>
         <file>icons/code.svg</file>
         <file>icons/settings.svg</file>
+        <file>icons/graph.png</file>
     </qresource>
 </RCC>

@@ -51,6 +51,14 @@ void GraphEditor::onDrawData(DrawData &&drawData) {
         circle->setBrush(node.fill);
         scene_->addItem(circle);
     }
+    for (const auto &[from, toEdge] : drawData->edges) {
+        for (const auto &[to, edge] : toEdge) {
+            const auto &fromNode = drawData->nodes.at(from);
+            const auto &toNode = drawData->nodes.at(to);
+            auto *line = new QGraphicsLineItem(QLineF{fromNode.position, toNode.position});
+            scene_->addItem(line);
+        }
+    }
 }
 
 }  // namespace dsv::UI

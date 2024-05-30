@@ -15,7 +15,7 @@ class CodeEditorModel {
     using ObservableTextData = NSLibrary::CObservable<TextData>;
 
 public:
-    CodeEditorModel(CodeEditorModelController& codeEditorModelController);
+    CodeEditorModel();  //(CodeEditorModelController& codeEditorModelController);
     ObserverGraphData* graphDataInPort();
     void subscribeToTextData(ObserverTextData* observer);
 
@@ -29,7 +29,7 @@ private:
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
     ObservableTextData textDataOutPort_ = [this]() -> const TextData& { return textData_; };
 
-    CodeEditorModelController& codeEditorModelController_;
+    // TODO: observer CodeEditorModelController& codeEditorModelController_;
     TextData textData_;
 };
 

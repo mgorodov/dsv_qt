@@ -17,6 +17,7 @@ CodeEditorBase::CodeEditorBase(QWidget *parent) : QPlainTextEdit(parent) {
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
     setTabStopDistance(50);
+    setFrameStyle(QFrame::NoFrame);
 }
 
 void CodeEditorBase::lineNumberAreaPaintEvent(QPaintEvent *event) {
@@ -33,7 +34,7 @@ void CodeEditorBase::lineNumberAreaPaintEvent(QPaintEvent *event) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             if (blockNumber == textCursor().blockNumber())
-                painter.setPen(QColor(150, 150, 150));
+                painter.setPen(QColor(180, 180, 180));
             else
                 painter.setPen(QColor(110, 118, 129));
             painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);

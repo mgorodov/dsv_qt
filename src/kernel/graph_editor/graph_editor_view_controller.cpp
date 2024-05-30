@@ -9,8 +9,12 @@ using ObserverMouseData = NSLibrary::CObserver<MouseData>;
 using KeyData = std::optional<KeyAction>;
 using ObserverKeyData = NSLibrary::CObserver<KeyData>;
 
-GraphEditorViewController::GraphEditorViewController(GraphEditorModel& graphEditorModel)
-    : graphEditorModel_{graphEditorModel} {}
+void GraphEditorViewController::connect(GraphEditorModel* graphEditorModel) {
+    assert(graphEditorModel);
+    assert(!graphEditorModel_);
+    graphEditorModel_ = graphEditorModel;
+    qDebug() << "GraphEditorModel connected to GraphEditorViewController";
+}
 
 ObserverMouseData* GraphEditorViewController::mouseDataInPort() {
     return &mouseDataInPort_;
@@ -46,7 +50,8 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
 }
 
 void GraphEditorViewController::handleDoubleClick() {
-    graphEditorModel_.addNode();
+    // TODO
+    // graphEditorModel_.addNode();
 }
 
 }  // namespace dsv::Kernel

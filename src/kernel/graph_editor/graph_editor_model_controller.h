@@ -6,11 +6,12 @@ namespace dsv::Kernel {
 
 class GraphEditorModelController {
 public:
-    GraphEditorModelController(DataModel& dataModel);
+    void connect(DataModel* dataModel);
+
     void handleAddingNode();
 
 private:
-    DataModel& dataModel_;
+    DataModel* dataModel_ = nullptr;
 };
 
 }  // namespace dsv::Kernel

@@ -8,34 +8,27 @@
 #include <kernel/graph_editor/graph_editor_model_controller.h>
 #include <kernel/graph_editor/graph_editor_view_controller.h>
 
-namespace dsv {
-
-using CodeEditorModel = Kernel::CodeEditorModel;
-using GraphEditorModel = Kernel::GraphEditorModel;
-using GraphEditorViewController = Kernel::GraphEditorViewController;
-using CodeEditorModelController = Kernel::CodeEditorModelController;
-using GraphEditorModelController = Kernel::GraphEditorModelController;
-using CodeEditorController = Kernel::CodeEditorController;
-using DataModel = Kernel::DataModel;
+namespace dsv::Kernel {
 
 class ApplicationKernel {
 public:
     ApplicationKernel();
 
 protected:
-    CodeEditorController* GetCodeEditorController();
-    GraphEditorViewController* GetGraphEditorViewController();
-    GraphEditorModel* GetGraphEditorModel();
-    CodeEditorModel* GetCodeEditorModel();
+    CodeEditorController* getCodeEditorController();
+    GraphEditorViewController* getGraphEditorViewController();
+    GraphEditorModel* getGraphEditorModel();
+    CodeEditorModel* getCodeEditorModel();
 
 private:
     CodeEditorModel codeEditorModel_;
     GraphEditorModel graphEditorModel_;
     CodeEditorController codeEditorController_;
     GraphEditorViewController graphEditorViewController_;
+
     CodeEditorModelController codeEditorModelController_;
     GraphEditorModelController graphEditorModelController_;
     DataModel dataModel_;
 };
 
-}  // namespace dsv
+}  // namespace dsv::Kernel

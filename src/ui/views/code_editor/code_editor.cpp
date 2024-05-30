@@ -2,8 +2,7 @@
 
 namespace dsv::UI {
 
-CodeEditor::CodeEditor(Kernel::CodeEditorController &codeEditorController, QWidget *parent)
-    : codeEditorController_(codeEditorController), CodeEditorBase(parent) {
+CodeEditor::CodeEditor(QWidget *parent) : CodeEditorBase(parent) {
     setMaximumWidth(300);
     setMinimumWidth(200);
     setPlainText("1, 2\n2, 3\n");

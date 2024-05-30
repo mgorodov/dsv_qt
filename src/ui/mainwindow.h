@@ -12,7 +12,7 @@ using CodeEditorController = Kernel::CodeEditorController;
 class MainWindow : public QWidget {
     Q_OBJECT
 public:
-    MainWindow(CodeEditorController& codeEditorController);
+    MainWindow();
 
     GraphEditor* getGraphEditor();
     CodeEditor* getCodeEditor();

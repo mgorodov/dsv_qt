@@ -1,21 +1,17 @@
 #include "application.h"
 
-#include <ui/static/static.h>
-
-#include <QFile>
-
 namespace dsv {
 
-Application::Application() : mainWindow_{*GetCodeEditorController()} {
-    mainWindow_.setStyleSheet(Static::loadResource(":/styles.qss"));
-    GetGraphEditorModel()->subscribeToDrawData(mainWindow_.getGraphEditor()->drawDataInPort());
-    GetCodeEditorModel()->subscribeToTextData(mainWindow_.getCodeEditor()->textDataInPort());
-    mainWindow_.getGraphEditor()->subscribeToMouseData(GetGraphEditorViewController()->mouseDataInPort());
-    mainWindow_.getGraphEditor()->subscribeToKeyData(GetGraphEditorViewController()->keyDataInPort());
+Application::Application() {
+    getGraphEditorModel()->subscribeToDrawData(getMainWindow()->getGraphEditor()->drawDataInPort());
+    getCodeEditorModel()->subscribeToTextData(getMainWindow()->getCodeEditor()->textDataInPort());
+
+    getMainWindow()->getGraphEditor()->subscribeToMouseData(getGraphEditorViewController()->mouseDataInPort());
+    getMainWindow()->getGraphEditor()->subscribeToKeyData(getGraphEditorViewController()->keyDataInPort());
 }
 
-void Application::show() {
-    mainWindow_.show();
+void Application::showMainWindow() {
+    getMainWindow()->show();
 }
 
 }  // namespace dsv

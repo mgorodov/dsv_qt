@@ -14,13 +14,12 @@ class CodeEditor : public CodeEditorBase {
     using ObserverTextData = NSLibrary::CObserver<TextData>;
 
 public:
-    CodeEditor(Kernel::CodeEditorController &codeEditorController, QWidget *parent = nullptr);
+    CodeEditor(QWidget *parent = nullptr);
     ObserverTextData *textDataInPort() {
         return &textDataInPort_;
     }
 
 private:
-    Kernel::CodeEditorController &codeEditorController_;
     void onTextData(TextData &&textData);
     ObserverTextData textDataInPort_ = [this](TextData &&textData) { onTextData(std::move(textData)); };
 };

@@ -1,8 +1,15 @@
 #include "code_editor_controller.h"
 
+#include <QDebug>
+
 namespace dsv::Kernel {
 
-CodeEditorController::CodeEditorController(CodeEditorModel& codeEditorModel) : codeEditorModel_(codeEditorModel) {}
+void CodeEditorController::connect(CodeEditorModel* codeEditorModel) {
+    assert(codeEditorModel);
+    assert(!codeEditorModel_);
+    codeEditorModel_ = codeEditorModel;
+    qDebug() << "CodeEditorModel connected to CodeEditorController";
+}
 
 std::vector<size_t> CodeEditorController::getInvalidLines(const QString& content) {
     std::vector<size_t> invalidLines;

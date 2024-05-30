@@ -1,37 +1,34 @@
 #include "application_kernel.h"
 
-namespace dsv {
+#include <QDebug>
 
-using CodeEditorModel = Kernel::CodeEditorModel;
-using GraphEditorModel = Kernel::GraphEditorModel;
-using GraphEditorViewController = Kernel::GraphEditorViewController;
-using CodeEditorController = Kernel::CodeEditorController;
+namespace dsv::Kernel {
 
-ApplicationKernel::ApplicationKernel()
-    : codeEditorModel_{codeEditorModelController_},
-      codeEditorController_{codeEditorModel_},
-      codeEditorModelController_{dataModel_},
-      graphEditorModel_{graphEditorModelController_},
-      graphEditorViewController_{graphEditorModel_},
-      graphEditorModelController_{dataModel_} {
+ApplicationKernel::ApplicationKernel() {
+    codeEditorModelController_.connect(&dataModel_);
+    graphEditorModelController_.connect(&dataModel_);
+
+    codeEditorController_.connect(&codeEditorModel_);
+    graphEditorViewController_.connect(&graphEditorModel_);
+
     dataModel_.subscribe(graphEditorModel_.graphDataInPort());
     dataModel_.subscribe(codeEditorModel_.graphDataInPort());
 }
 
-CodeEditorController* ApplicationKernel::GetCodeEditorController() {
+CodeEditorController* ApplicationKernel::getCodeEditorController() {
     return &codeEditorController_;
 }
 
-GraphEditorModel* ApplicationKernel::GetGraphEditorModel() {
+GraphEditorModel* ApplicationKernel::getGraphEditorModel() {
     return &graphEditorModel_;
 }
 
-CodeEditorModel* ApplicationKernel::GetCodeEditorModel() {
+CodeEditorModel* ApplicationKernel::getCodeEditorModel() {
     return &codeEditorModel_;
 }
 
-GraphEditorViewController* ApplicationKernel::GetGraphEditorViewController() {
+GraphEditorViewController* ApplicationKernel::getGraphEditorViewController() {
     return &graphEditorViewController_;
 }
 
-}  // namespace dsv
+}  // namespace dsv::Kernel

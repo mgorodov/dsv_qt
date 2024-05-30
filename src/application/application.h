@@ -1,18 +1,15 @@
 #pragma once
 
+#include <application/application_gui.h>
+#include <application/application_kernel.h>
 #include <ui/mainwindow.h>
-
-#include "application_kernel.h"
 
 namespace dsv {
 
-class Application : ApplicationKernel {
+class Application : Kernel::ApplicationKernel, UI::ApplicationGUI {
 public:
     Application();
-    void show();
-
-private:
-    UI::MainWindow mainWindow_;
+    void showMainWindow();
 };
 
 }  // namespace dsv

@@ -8,8 +8,7 @@ using DrNode = DrawableGraph::Node;
 using GraphData = std::optional<Graph>;
 using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
-GraphEditorModel::GraphEditorModel(GraphEditorModelController& graphEditorModelController)
-    : graphEditorModelController_{graphEditorModelController}, drawData_{std::in_place_t{}} {}
+GraphEditorModel::GraphEditorModel() : drawData_{std::in_place_t{}} {}
 
 ObserverGraphData* GraphEditorModel::graphDataInPort() {
     return &graphDataInPort_;
@@ -33,11 +32,11 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     DrawableGraph& drawableGraph = drawData_.value();
 
     for (const auto& [index, node] : drawableGraph.nodes) {
-        if (!graphData->GetNodes().count(index))
+        if (!graphData->getNodes().count(index))
             drawableGraph.nodes.erase(index);
     }
 
-    for (const auto& [index, node] : graphData->GetNodes()) {
+    for (const auto& [index, node] : graphData->getNodes()) {
         if (!drawableGraph.nodes.count(index)) {
             drawableGraph.nodes[index] =
                 DrNode{QPointF(rndGen_.getRnd(), rndGen_.getRnd()), 30, "", rndGen_.rndClr(), rndGen_.rndClr()};
@@ -49,7 +48,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
 void GraphEditorModel::addNode() {
     // Some animations here
 
-    graphEditorModelController_.handleAddingNode();
+    // TODO: observer graphEditorModelController_.handleAddingNode();
 }
 
 }  // namespace dsv::Kernel

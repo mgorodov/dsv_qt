@@ -15,7 +15,8 @@ class GraphEditorViewController {
     using ObserverKeyData = NSLibrary::CObserver<KeyData>;
 
 public:
-    GraphEditorViewController(GraphEditorModel& graphEditorModel);
+    void connect(GraphEditorModel* graphEditorModel);
+
     ObserverMouseData* mouseDataInPort();
     ObserverKeyData* keyDataInPort();
 
@@ -27,7 +28,7 @@ private:
     ObserverMouseData mouseDataInPort_ = [this](MouseData&& mouseData) { onMouseData(std::move(mouseData)); };
     ObserverKeyData keyDataInPort_ = [this](KeyData&& keyData) { onKeyData(std::move(keyData)); };
 
-    GraphEditorModel& graphEditorModel_;
+    GraphEditorModel* graphEditorModel_ = nullptr;
 };
 
 }  // namespace dsv::Kernel
