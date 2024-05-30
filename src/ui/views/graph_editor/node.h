@@ -29,19 +29,20 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
 
-private:
-    QString text_;
-    QPointF dragStartPos_;
-    int radius_;
-    static qreal maxZValue_;
-    static int recursionDepth;
-    QColor defaultColor_;
-    QColor currentColor_;
-    QColor pressedColor_;
-
 signals:
     void positionChanged();
     void ValueChanged();
+
+private:
+    static qreal maxZValue_;
+    static int recursionDepth_;
+
+    int radius_;
+    QString text_;
+    QPointF dragStartPos_;
+    QColor defaultColor_;
+    QColor currentColor_;
+    QColor pressedColor_;
 };
 
 }  // namespace dsv::UI

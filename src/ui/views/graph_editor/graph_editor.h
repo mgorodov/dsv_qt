@@ -48,6 +48,7 @@ private:
     void keyReleaseEvent(QKeyEvent* event) override;
 
     void onDrawData(DrawData&& drawData);
+
     ObserverDrawData drawDataInPort_ = [this](DrawData&& drawData) { onDrawData(std::move(drawData)); };
     ObservableMouse mouseDataOutPort_;
     ObservableKey keyDataOutPort_;

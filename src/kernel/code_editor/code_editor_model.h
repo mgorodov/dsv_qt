@@ -16,26 +16,21 @@ class CodeEditorModel {
 
 public:
     CodeEditorModel(CodeEditorModelController& codeEditorModelController);
-    ObserverGraphData* graphDataInPort() {
-        return &graphDataInPort_;
-    }
-    void subscribeToTextData(ObserverTextData* observer) {
-        assert(observer);
-        textDataOutPort_.subscribe(observer);
-    }
+    ObserverGraphData* graphDataInPort();
+    void subscribeToTextData(ObserverTextData* observer);
 
 private:
-    CodeEditorModelController& codeEditorModelController_;
-    TextData textData_;
-
     void onGraphData(GraphData&& graphData);
-    void removeExtraNodes(const Graph& graph);
-    void removeExtraEdges(const Graph& graph);
-    void addMissingEdges(const Graph& graph);
-    void addMissingNodes(const Graph& graph);
+    void removeExtraNodes(Graph& graph);
+    void removeExtraEdges(Graph& graph);
+    void addMissingEdges(Graph& graph);
+    void addMissingNodes(Graph& graph);
 
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
     ObservableTextData textDataOutPort_ = [this]() -> const TextData& { return textData_; };
+
+    CodeEditorModelController& codeEditorModelController_;
+    TextData textData_;
 };
 
 }  // namespace dsv::Kernel

@@ -12,10 +12,7 @@ class DataModel {
 
 public:
     DataModel();
-    void subscribe(ObserverGraphData* observer) {
-        assert(observer);
-        port_.subscribe(observer);
-    }
+    void subscribe(ObserverGraphData* observer);
 
     void addNode(size_t index, Node node);
     void removeNode(size_t index);

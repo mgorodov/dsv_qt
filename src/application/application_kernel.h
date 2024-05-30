@@ -10,20 +10,32 @@
 
 namespace dsv {
 
+using CodeEditorModel = Kernel::CodeEditorModel;
+using GraphEditorModel = Kernel::GraphEditorModel;
+using GraphEditorViewController = Kernel::GraphEditorViewController;
+using CodeEditorModelController = Kernel::CodeEditorModelController;
+using GraphEditorModelController = Kernel::GraphEditorModelController;
+using CodeEditorController = Kernel::CodeEditorController;
+using DataModel = Kernel::DataModel;
+
 class ApplicationKernel {
 public:
     ApplicationKernel();
 
 protected:
-    Kernel::CodeEditorController codeEditorController_;
-    Kernel::CodeEditorModel codeEditorModel_;
-    Kernel::GraphEditorModel graphEditorModel_;
-    Kernel::GraphEditorViewController graphEditorViewController_;
+    CodeEditorController* GetCodeEditorController();
+    GraphEditorViewController* GetGraphEditorViewController();
+    GraphEditorModel* GetGraphEditorModel();
+    CodeEditorModel* GetCodeEditorModel();
 
 private:
-    Kernel::CodeEditorModelController codeEditorModelController_;
-    Kernel::GraphEditorModelController graphEditorModelController_;
-    Kernel::DataModel dataModel_;
+    CodeEditorModel codeEditorModel_;
+    GraphEditorModel graphEditorModel_;
+    CodeEditorController codeEditorController_;
+    GraphEditorViewController graphEditorViewController_;
+    CodeEditorModelController codeEditorModelController_;
+    GraphEditorModelController graphEditorModelController_;
+    DataModel dataModel_;
 };
 
 }  // namespace dsv

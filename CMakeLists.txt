@@ -26,6 +26,7 @@ set(PROJECT_SOURCES
 
     src/misc/QPorts.cpp
     src/misc/QRunTime.cpp
+    src/misc/random_gen.cpp
 
     src/ui/static/resources.qrc
     src/ui/static/static.cpp
@@ -41,10 +42,8 @@ set(PROJECT_SOURCES
     src/main.cpp
 )
 
-qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES}
-    src/kernel/code_editor/code_editor_controller.h src/kernel/code_editor/code_editor_controller.cpp
-    src/kernel/code_editor/serialized_graph.cpp)
 
+qt_add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE TRUE

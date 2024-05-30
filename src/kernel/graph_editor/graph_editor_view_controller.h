@@ -16,21 +16,18 @@ class GraphEditorViewController {
 
 public:
     GraphEditorViewController(GraphEditorModel& graphEditorModel);
-    ObserverMouseData* mouseDataInPort() {
-        return &mouseDataInPort_;
-    }
-    ObserverKeyData* keyDataInPort() {
-        return &keyDataInPort_;
-    }
+    ObserverMouseData* mouseDataInPort();
+    ObserverKeyData* keyDataInPort();
 
 private:
-    GraphEditorModel& graphEditorModel_;
     void handleDoubleClick();
     void onMouseData(MouseData&& mouseData);
     void onKeyData(KeyData&& keyData);
 
     ObserverMouseData mouseDataInPort_ = [this](MouseData&& mouseData) { onMouseData(std::move(mouseData)); };
     ObserverKeyData keyDataInPort_ = [this](KeyData&& keyData) { onKeyData(std::move(keyData)); };
+
+    GraphEditorModel& graphEditorModel_;
 };
 
 }  // namespace dsv::Kernel

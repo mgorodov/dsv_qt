@@ -3,9 +3,22 @@
 #include <QDebug>
 
 namespace dsv::Kernel {
+using MouseData = std::optional<MouseAction>;
+using ObserverMouseData = NSLibrary::CObserver<MouseData>;
+
+using KeyData = std::optional<KeyAction>;
+using ObserverKeyData = NSLibrary::CObserver<KeyData>;
 
 GraphEditorViewController::GraphEditorViewController(GraphEditorModel& graphEditorModel)
     : graphEditorModel_{graphEditorModel} {}
+
+ObserverMouseData* GraphEditorViewController::mouseDataInPort() {
+    return &mouseDataInPort_;
+}
+
+ObserverKeyData* GraphEditorViewController::keyDataInPort() {
+    return &keyDataInPort_;
+}
 
 void GraphEditorViewController::onMouseData(MouseData&& mouseData) {
     if (!mouseData) {

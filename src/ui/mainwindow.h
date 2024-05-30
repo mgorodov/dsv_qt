@@ -7,19 +7,19 @@
 
 namespace dsv::UI {
 
+using CodeEditorController = Kernel::CodeEditorController;
+
 class MainWindow : public QWidget {
     Q_OBJECT
 public:
-    MainWindow(Kernel::CodeEditorController& codeEditorController, QWidget* parent = nullptr);
-    GraphEditor* getGraphEditor() {
-        return &graphEditor_;
-    }
-    CodeEditor* getCodeEditor() {
-        return &codeEditor_;
-    }
+    MainWindow(CodeEditorController& codeEditorController);
+
+    GraphEditor* getGraphEditor();
+    CodeEditor* getCodeEditor();
 
 private:
     void createInterface();
+
     CodeEditor codeEditor_;
     GraphEditor graphEditor_;
 };

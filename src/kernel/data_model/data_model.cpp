@@ -4,6 +4,11 @@ namespace dsv::Kernel {
 
 DataModel::DataModel() : graph_{std::in_place_t{}} {}
 
+void DataModel::subscribe(ObserverGraphData* observer) {
+    assert(observer);
+    port_.subscribe(observer);
+}
+
 void DataModel::addNode(size_t index, Node node) {
     graph_->addNode(index, node);
     port_.notify();

@@ -20,7 +20,7 @@ ActivityBar::ActivityBar(QWidget* parent) : QGroupBox(parent) {
     button2->setIconSize(QSize(48, 48));
     button2->setFixedSize(70, 70);
 
-    auto* vbox = new QVBoxLayout;
+    auto* vbox = new QVBoxLayout(this);
     vbox->addWidget(button1);
     vbox->addWidget(button2);
     vbox->addStretch(1);

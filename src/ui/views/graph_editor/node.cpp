@@ -9,12 +9,15 @@
 namespace dsv::UI {
 
 qreal Node::maxZValue_ = 0;
-int Node::recursionDepth = 0;
+int Node::recursionDepth_ = 0;
 
-Node::Node(const QString &text, const qreal radius) : text_(text), radius_(radius), defaultColor_(Qt::white) {
+Node::Node(const QString &text, const qreal radius)
+    : text_(text),
+      radius_(radius),
+      defaultColor_(Qt::white),
+      currentColor_(defaultColor_),
+      pressedColor_(defaultColor_.darker(180)) {
     setFlags(ItemIsMovable | ItemSendsGeometryChanges);
-    currentColor_ = defaultColor_;
-    pressedColor_ = defaultColor_.darker(180);
 }
 
 QRectF Node::boundingRect() const {
@@ -45,21 +48,21 @@ QVariant Node::itemChange(GraphicsItemChange change, const QVariant &value) {
         QRectF rect = scene()->sceneRect();
 
         QRectF newRect = QRectF(
-            newPos.x() + this->boundingRect().left(), newPos.y() + this->boundingRect().top(),
-            this->boundingRect().width(), this->boundingRect().height()
+            newPos.x() + boundingRect().left(), newPos.y() + boundingRect().top(), boundingRect().width(),
+            boundingRect().height()
         );
 
         if (!rect.contains(newRect)) {
             if (newRect.left() < rect.left()) {
-                newPos.setX(rect.left() - this->boundingRect().left());
+                newPos.setX(rect.left() - boundingRect().left());
             } else if (newRect.right() > rect.right()) {
-                newPos.setX(rect.right() - this->boundingRect().right());
+                newPos.setX(rect.right() - boundingRect().right());
             }
 
             if (newRect.top() < rect.top()) {
-                newPos.setY(rect.top() - this->boundingRect().top());
+                newPos.setY(rect.top() - boundingRect().top());
             } else if (newRect.bottom() > rect.bottom()) {
-                newPos.setY(rect.bottom() - this->boundingRect().bottom());
+                newPos.setY(rect.bottom() - boundingRect().bottom());
             }
 
             return newPos;
@@ -85,12 +88,12 @@ void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void Node::pushOtherNodes() {
-    QList<QGraphicsItem *> collidingItemsList = this->collidingItems();
+    QList<QGraphicsItem *> collidingItemsList = collidingItems();
 
     for (QGraphicsItem *currentItem : collidingItemsList) {
         Node *collidedNode = dynamic_cast<Node *>(currentItem);
         if (collidedNode) {
-            QVector2D direction(collidedNode->pos() - this->pos());
+            QVector2D direction(collidedNode->pos() - pos());
             if (!direction.isNull()) {
                 direction.normalize();
 
@@ -104,11 +107,11 @@ void Node::pushOtherNodes() {
             if (!rect.contains(newRect)) {
                 collidedNode->setPos(collidedNode->sceneBoundingRect().intersected(rect).topLeft());
             }
-            recursionDepth += 1;
-            if (recursionDepth < 1000) {
+            recursionDepth_ += 1;
+            if (recursionDepth_ < 1000) {
                 collidedNode->pushOtherNodes();
             } else {
-                recursionDepth = 0;
+                recursionDepth_ = 0;
                 return;
             }
         }

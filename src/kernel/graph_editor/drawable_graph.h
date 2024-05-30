@@ -12,7 +12,8 @@ struct DrawableGraph {
         QPointF position;
         double radius;
         QString text;
-        QColor fill, contour;
+        QColor fill;
+        QColor contour;
     };
 
     struct Edge {

@@ -6,7 +6,7 @@ GraphEditorModelController::GraphEditorModelController(DataModel& dataModel) : d
 
 void GraphEditorModelController::handleAddingNode() {
     static int counter = 0;
-    dataModel_.addNode(counter++, Node{0, ENodeState::INTACT});
+    dataModel_.addNode(counter++, Node{0, ENodeState::Intact});
 }
 
 }  // namespace dsv::Kernel

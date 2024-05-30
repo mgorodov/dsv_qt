@@ -14,10 +14,18 @@
 
 namespace dsv::UI {
 
-MainWindow::MainWindow(Kernel::CodeEditorController &codeEditorController, QWidget *parent)
-    : QWidget{parent}, codeEditor_{codeEditorController, this}, graphEditor_{this} {
+MainWindow::MainWindow(Kernel::CodeEditorController &codeEditorController)
+    : codeEditor_{codeEditorController}, graphEditor_{} {
     setGeometry(160, 90, 1600, 900);
     createInterface();
+}
+
+GraphEditor *MainWindow::getGraphEditor() {
+    return &graphEditor_;
+}
+
+CodeEditor *MainWindow::getCodeEditor() {
+    return &codeEditor_;
 }
 
 void MainWindow::createInterface() {

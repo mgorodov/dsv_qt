@@ -1,26 +1,24 @@
 #include "graph_editor_model.h"
 
 #include <QDebug>
-#include <random>
-
-struct RandomGenTmp {
-    RandomGenTmp() : gen(rd()), distr(50, 800) {}
-    int getRnd() {
-        return distr(gen);
-    }
-    QColor rndClr() {
-        return QColor::fromRgb(getRnd() % 255, getRnd() % 255, getRnd() % 255);
-    }
-    std::random_device rd;
-    std::mt19937 gen;
-    std::uniform_int_distribution<> distr;
-};
-
-RandomGenTmp tmpRnd;
 
 namespace dsv::Kernel {
+using DrNode = DrawableGraph::Node;
+
+using GraphData = std::optional<Graph>;
+using ObserverGraphData = NSLibrary::CObserver<GraphData>;
+
 GraphEditorModel::GraphEditorModel(GraphEditorModelController& graphEditorModelController)
     : graphEditorModelController_{graphEditorModelController}, drawData_{std::in_place_t{}} {}
+
+ObserverGraphData* GraphEditorModel::graphDataInPort() {
+    return &graphDataInPort_;
+}
+
+void GraphEditorModel::subscribeToDrawData(ObserverDrawData* observer) {
+    assert(observer);
+    drawDataOutPort_.subscribe(observer);
+}
 
 void GraphEditorModel::onGraphData(GraphData&& graphData) {
     if (!graphData) {
@@ -35,15 +33,14 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     DrawableGraph& drawableGraph = drawData_.value();
 
     for (const auto& [index, node] : drawableGraph.nodes) {
-        if (!graphData->nodes.count(index))
+        if (!graphData->GetNodes().count(index))
             drawableGraph.nodes.erase(index);
     }
 
-    for (const auto& [index, node] : graphData->nodes) {
+    for (const auto& [index, node] : graphData->GetNodes()) {
         if (!drawableGraph.nodes.count(index)) {
-            drawableGraph.nodes[index] = DrawableGraph::Node{
-                QPointF(tmpRnd.getRnd(), tmpRnd.getRnd()), 30, "", tmpRnd.rndClr(), tmpRnd.rndClr()
-            };
+            drawableGraph.nodes[index] =
+                DrNode{QPointF(rndGen_.getRnd(), rndGen_.getRnd()), 30, "", rndGen_.rndClr(), rndGen_.rndClr()};
         }
     }
     drawDataOutPort_.notify();

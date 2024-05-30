@@ -4,6 +4,6 @@
 int main(int argc, char *argv[]) {
     QRunTime qtRuntime(argc, argv);
     dsv::Application app;
-    app.run();
+    app.show();
     return qtRuntime.exec();
 }

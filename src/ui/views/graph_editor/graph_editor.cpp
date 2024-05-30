@@ -4,8 +4,7 @@
 
 namespace dsv::UI {
 
-GraphEditor::GraphEditor(QWidget *parent) : QGraphicsView(parent) {
-    scene_ = new QGraphicsScene(parent);
+GraphEditor::GraphEditor(QWidget *parent) : QGraphicsView(parent), scene_{new QGraphicsScene(parent)} {
     scene_->setSceneRect(0, 0, 1200, 800);
     fitInView(scene_->sceneRect(), Qt::KeepAspectRatio);
     setRenderHint(QPainter::Antialiasing);

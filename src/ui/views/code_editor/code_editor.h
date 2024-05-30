@@ -8,7 +8,9 @@
 namespace dsv::UI {
 
 class CodeEditor : public CodeEditorBase {
-    using TextData = std::optional<Kernel::SerializedGraph>;
+    Q_OBJECT
+    using SerializedGraph = Kernel::SerializedGraph;
+    using TextData = std::optional<SerializedGraph>;
     using ObserverTextData = NSLibrary::CObserver<TextData>;
 
 public:

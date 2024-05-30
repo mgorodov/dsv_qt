@@ -5,6 +5,7 @@
 #include <kernel/graph_editor/graph_editor_model_controller.h>
 #include <misc/mouse_action.h>
 #include <misc/Observer.h>
+#include <misc/random_gen.h>
 
 namespace dsv::Kernel {
 
@@ -21,23 +22,19 @@ class GraphEditorModel {
 
 public:
     GraphEditorModel(GraphEditorModelController& graphEditorModelController);
-    ObserverGraphData* graphDataInPort() {
-        return &graphDataInPort_;
-    }
-    void subscribeToDrawData(ObserverDrawData* observer) {
-        assert(observer);
-        drawDataOutPort_.subscribe(observer);
-    }
+    ObserverGraphData* graphDataInPort();
+    void subscribeToDrawData(ObserverDrawData* observer);
     void addNode();
 
 private:
+    void onGraphData(GraphData&& graphData);
+
+    ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
+    ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& { return drawData_; };
+
     GraphEditorModelController& graphEditorModelController_;
     DrawData drawData_;
-
-    void onGraphData(GraphData&& graphData);
-    ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
-
-    ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& { return drawData_; };
+    RandomGen rndGen_;
 };
 
 }  // namespace dsv::Kernel
