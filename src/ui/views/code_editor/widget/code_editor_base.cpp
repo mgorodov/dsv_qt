@@ -7,9 +7,7 @@
 
 namespace dsv::UI {
 
-CodeEditorBase::CodeEditorBase(QWidget *parent) : QPlainTextEdit(parent) {
-    lineNumberArea = new LineNumberArea(this);
-
+CodeEditorBase::CodeEditorBase(QWidget *parent) : QPlainTextEdit(parent), lineNumberArea_{new LineNumberArea(this)} {
     connect(this, &CodeEditorBase::blockCountChanged, this, &CodeEditorBase::updateLineNumberAreaWidth);
     connect(this, &CodeEditorBase::updateRequest, this, &CodeEditorBase::updateLineNumberArea);
     connect(this, &CodeEditorBase::cursorPositionChanged, this, &CodeEditorBase::highlightCurrentLine);
@@ -21,7 +19,7 @@ CodeEditorBase::CodeEditorBase(QWidget *parent) : QPlainTextEdit(parent) {
 }
 
 void CodeEditorBase::lineNumberAreaPaintEvent(QPaintEvent *event) {
-    QPainter painter(lineNumberArea);
+    QPainter painter{lineNumberArea_};
     QFont font = painter.font();
     font.setPixelSize(24);
     painter.setFont(font);
@@ -37,7 +35,7 @@ void CodeEditorBase::lineNumberAreaPaintEvent(QPaintEvent *event) {
                 painter.setPen(QColor(180, 180, 180));
             else
                 painter.setPen(QColor(110, 118, 129));
-            painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(), Qt::AlignRight, number);
+            painter.drawText(0, top, lineNumberArea_->width(), fontMetrics().height(), Qt::AlignRight, number);
         }
 
         block = block.next();
@@ -66,9 +64,9 @@ void CodeEditorBase::updateLineNumberAreaWidth(int /* newBlockCount */) {
 
 void CodeEditorBase::updateLineNumberArea(const QRect &rect, int dy) {
     if (dy)
-        lineNumberArea->scroll(0, dy);
+        lineNumberArea_->scroll(0, dy);
     else
-        lineNumberArea->update(0, rect.y(), lineNumberArea->width(), rect.height());
+        lineNumberArea_->update(0, rect.y(), lineNumberArea_->width(), rect.height());
 
     if (rect.contains(viewport()->rect()))
         updateLineNumberAreaWidth(0);
@@ -78,7 +76,7 @@ void CodeEditorBase::resizeEvent(QResizeEvent *e) {
     QPlainTextEdit::resizeEvent(e);
 
     QRect cr = contentsRect();
-    lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), getLineNumberAreaWidth(), cr.height()));
+    lineNumberArea_->setGeometry(QRect(cr.left(), cr.top(), getLineNumberAreaWidth(), cr.height()));
 }
 
 void CodeEditorBase::highlightCurrentLine() {

@@ -22,7 +22,7 @@ private slots:
     void updateLineNumberArea(const QRect &rect, int dy);
 
 private:
-    QWidget *lineNumberArea;
+    QWidget *lineNumberArea_;
 };
 
 }  // namespace dsv::UI
