@@ -7,6 +7,10 @@
 namespace dsv::Kernel {
 
 struct SerializedGraph {
+    static SerializedGraph fromGraph(Graph& graph);
+    Graph toGraph();
+    void migrateTo(const SerializedGraph& newState);
+
     struct Row {
         QString from;
         QString to;
@@ -14,11 +18,6 @@ struct SerializedGraph {
         bool operator==(const SerializedGraph::Row& rhs) const;
     };
     std::vector<Row> rows;
-
-    static SerializedGraph fromGraph(const Graph& graph);
-    Graph toGraph();
-
-    void migrateTo(const SerializedGraph& newState);
 };
 
 }  // namespace dsv::Kernel

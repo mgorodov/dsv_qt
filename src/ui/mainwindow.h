@@ -22,7 +22,6 @@ private:
     void createInterface();
 
     Toolbar toolbar_;
-    // CodeEditor codeEditor_;
     GraphEditor graphEditor_;
 };
 

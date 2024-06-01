@@ -8,6 +8,20 @@ using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
 CodeEditorModel::CodeEditorModel() : textData_{std::in_place_t{}} {}
 
+ObserverGraphData* CodeEditorModel::graphDataInPort() {
+    return &graphDataInPort_;
+}
+
+void CodeEditorModel::subscribeToTextData(ObserverTextData* observer) {
+    assert(observer);
+    textDataOutPort_.subscribe(observer);
+}
+
+void CodeEditorModel::subscribeToEditData(ObserverEditData* observer) {
+    assert(observer);
+    editDataOutPort_.subscribe(observer);
+}
+
 void CodeEditorModel::onGraphData(GraphData&& graphData) {
     if (!graphData) {
         qDebug() << "No graph data yet for CodeEditorModel";
@@ -49,20 +63,6 @@ void CodeEditorModel::removeExtraNodes(Graph& graph) {
 }
 
 void CodeEditorModel::removeExtraEdges(Graph& graph) {}
-
-ObserverGraphData* CodeEditorModel::graphDataInPort() {
-    return &graphDataInPort_;
-}
-
-void CodeEditorModel::subscribeToTextData(ObserverTextData* observer) {
-    assert(observer);
-    textDataOutPort_.subscribe(observer);
-}
-
-void CodeEditorModel::subscribeToEditData(ObserverEditData* observer) {
-    assert(observer);
-    editDataOutPort_.subscribe(observer);
-}
 
 void CodeEditorModel::addNode() {
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add});

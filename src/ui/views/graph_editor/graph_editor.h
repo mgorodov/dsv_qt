@@ -26,17 +26,9 @@ class GraphEditor : public QGraphicsView {
 
 public:
     explicit GraphEditor(QWidget* parent = nullptr);
-    ObserverDrawData* drawDataInPort() {
-        return &drawDataInPort_;
-    }
-    void subscribeToMouseData(ObserverMouse* observer) {
-        assert(observer);
-        mouseDataOutPort_.subscribe(observer);
-    }
-    void subscribeToKeyData(ObserverKey* observer) {
-        assert(observer);
-        keyDataOutPort_.subscribe(observer);
-    }
+    ObserverDrawData* drawDataInPort();
+    void subscribeToMouseData(ObserverMouse* observer);
+    void subscribeToKeyData(ObserverKey* observer);
 
 private:
     void mouseDoubleClickEvent(QMouseEvent* event) override;

@@ -27,10 +27,10 @@ public:
 
 private:
     void onGraphData(GraphData&& graphData);
+    void addMissingNodes(Graph& graph);
+    void addMissingEdges(Graph& graph);
     void removeExtraNodes(Graph& graph);
     void removeExtraEdges(Graph& graph);
-    void addMissingEdges(Graph& graph);
-    void addMissingNodes(Graph& graph);
     void addNode();
     void addEdge();
     void removeNode();
@@ -38,6 +38,7 @@ private:
 
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
     ObservableTextData textDataOutPort_ = [this]() -> const TextData& { return textData_; };
+
     ObservableEditData editDataOutPort_;
 
     TextData textData_;

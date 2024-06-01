@@ -15,21 +15,23 @@ public:
     ApplicationKernel();
 
 protected:
-    CodeEditorController* getCodeEditorController();
-    GraphEditorViewController* getGraphEditorViewController();
-    GraphEditorModel* getGraphEditorModel();
     CodeEditorModel* getCodeEditorModel();
     CodeEditorModelController* getCodeEditorModelController();
+    CodeEditorController* getCodeEditorController();
+
+    GraphEditorModel* getGraphEditorModel();
     GraphEditorModelController* getGraphEditorModelController();
+    GraphEditorViewController* getGraphEditorViewController();
 
 private:
     CodeEditorModel codeEditorModel_;
-    GraphEditorModel graphEditorModel_;
+    CodeEditorModelController codeEditorModelController_;
     CodeEditorController codeEditorController_;
+
+    GraphEditorModel graphEditorModel_;
+    GraphEditorModelController graphEditorModelController_;
     GraphEditorViewController graphEditorViewController_;
 
-    CodeEditorModelController codeEditorModelController_;
-    GraphEditorModelController graphEditorModelController_;
     DataModel dataModel_;
 };
 

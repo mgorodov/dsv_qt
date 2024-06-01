@@ -15,6 +15,14 @@ ApplicationKernel::ApplicationKernel() {
     dataModel_.subscribe(codeEditorModel_.graphDataInPort());
 }
 
+CodeEditorModel* ApplicationKernel::getCodeEditorModel() {
+    return &codeEditorModel_;
+}
+
+CodeEditorModelController* ApplicationKernel::getCodeEditorModelController() {
+    return &codeEditorModelController_;
+}
+
 CodeEditorController* ApplicationKernel::getCodeEditorController() {
     return &codeEditorController_;
 }
@@ -23,20 +31,12 @@ GraphEditorModel* ApplicationKernel::getGraphEditorModel() {
     return &graphEditorModel_;
 }
 
-CodeEditorModel* ApplicationKernel::getCodeEditorModel() {
-    return &codeEditorModel_;
+GraphEditorModelController* ApplicationKernel::getGraphEditorModelController() {
+    return &graphEditorModelController_;
 }
 
 GraphEditorViewController* ApplicationKernel::getGraphEditorViewController() {
     return &graphEditorViewController_;
-}
-
-CodeEditorModelController* ApplicationKernel::getCodeEditorModelController() {
-    return &codeEditorModelController_;
-}
-
-GraphEditorModelController* ApplicationKernel::getGraphEditorModelController() {
-    return &graphEditorModelController_;
 }
 
 }  // namespace dsv::Kernel

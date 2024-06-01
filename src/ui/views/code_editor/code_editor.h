@@ -15,12 +15,11 @@ class CodeEditor : public CodeEditorBase {
 
 public:
     CodeEditor(QWidget *parent = nullptr);
-    ObserverTextData *textDataInPort() {
-        return &textDataInPort_;
-    }
+    ObserverTextData *textDataInPort();
 
 private:
     void onTextData(TextData &&textData);
+
     ObserverTextData textDataInPort_ = [this](TextData &&textData) { onTextData(std::move(textData)); };
 };
 

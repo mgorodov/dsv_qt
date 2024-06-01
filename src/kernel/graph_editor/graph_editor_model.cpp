@@ -19,6 +19,27 @@ void GraphEditorModel::subscribeToDrawData(ObserverDrawData* observer) {
     drawDataOutPort_.subscribe(observer);
 }
 
+void GraphEditorModel::subscribeToEditData(ObserverEditData* observer) {
+    assert(observer);
+    editDataOutPort_.subscribe(observer);
+}
+
+void GraphEditorModel::addNode() {
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add});
+}
+
+void GraphEditorModel::addEdge() {
+    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add});
+}
+
+void GraphEditorModel::removeNode() {
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete});
+}
+
+void GraphEditorModel::removeEdge() {
+    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete});
+}
+
 void GraphEditorModel::onGraphData(GraphData&& graphData) {
     if (!graphData) {
         if (drawData_) {
@@ -43,27 +64,6 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
         }
     }
     drawDataOutPort_.notify();
-}
-
-void GraphEditorModel::subscribeToEditData(ObserverEditData* observer) {
-    assert(observer);
-    editDataOutPort_.subscribe(observer);
-}
-
-void GraphEditorModel::addNode() {
-    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add});
-}
-
-void GraphEditorModel::addEdge() {
-    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add});
-}
-
-void GraphEditorModel::removeNode() {
-    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete});
-}
-
-void GraphEditorModel::removeEdge() {
-    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete});
 }
 
 }  // namespace dsv::Kernel

@@ -58,6 +58,13 @@ int CodeEditorBase::getLineNumberAreaWidth() const {
     return space;
 }
 
+void CodeEditorBase::resizeEvent(QResizeEvent *e) {
+    QPlainTextEdit::resizeEvent(e);
+
+    QRect cr = contentsRect();
+    lineNumberArea_->setGeometry(QRect(cr.left(), cr.top(), getLineNumberAreaWidth(), cr.height()));
+}
+
 void CodeEditorBase::updateLineNumberAreaWidth(int /* newBlockCount */) {
     setViewportMargins(getLineNumberAreaWidth(), 0, 0, 0);
 }
@@ -70,13 +77,6 @@ void CodeEditorBase::updateLineNumberArea(const QRect &rect, int dy) {
 
     if (rect.contains(viewport()->rect()))
         updateLineNumberAreaWidth(0);
-}
-
-void CodeEditorBase::resizeEvent(QResizeEvent *e) {
-    QPlainTextEdit::resizeEvent(e);
-
-    QRect cr = contentsRect();
-    lineNumberArea_->setGeometry(QRect(cr.left(), cr.top(), getLineNumberAreaWidth(), cr.height()));
 }
 
 void CodeEditorBase::highlightCurrentLine() {

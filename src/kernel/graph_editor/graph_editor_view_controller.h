@@ -21,9 +21,9 @@ public:
     ObserverKeyData* keyDataInPort();
 
 private:
-    void handleDoubleClick();
     void onMouseData(MouseData&& mouseData);
     void onKeyData(KeyData&& keyData);
+    void handleDoubleClick();
 
     ObserverMouseData mouseDataInPort_ = [this](MouseData&& mouseData) { onMouseData(std::move(mouseData)); };
     ObserverKeyData keyDataInPort_ = [this](KeyData&& keyData) { onKeyData(std::move(keyData)); };

@@ -8,11 +8,11 @@ bool SerializedGraph::Row::operator==(const SerializedGraph::Row& rhs) const {
     return from == rhs.from && to == rhs.to && weight == rhs.weight;
 }
 
-SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
+SerializedGraph SerializedGraph::fromGraph(Graph& graph) {
     SerializedGraph serializedGraph;
 
     std::unordered_set<size_t> usedNodes;
-    for (const auto& [from, toEdges] : graph.edges) {
+    for (const auto& [from, toEdges] : graph.getEdges()) {
         for (const auto& [to, edge] : toEdges) {
             SerializedGraph::Row row{
                 .from = QString::number(from), .to = QString::number(to), .weight = QString::number(edge.weight)
@@ -23,7 +23,7 @@ SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
         }
     }
 
-    for (const auto& [index, node] : graph.nodes) {
+    for (const auto& [index, node] : graph.getNodes()) {
         if (usedNodes.count(index))
             continue;
         SerializedGraph::Row row{.from = QString::number(index)};
@@ -38,12 +38,12 @@ Graph SerializedGraph::toGraph() {
     for (const auto& row : rows) {
         if (row.to.isEmpty() && row.weight.isEmpty()) {
             auto index = row.from.toInt();
-            graph.nodes[index] = Node{0};
+            graph.addNode(index, Node{0});
         } else {
             auto from = row.from.toInt();
             auto to = row.to.toInt();
             auto weight = row.weight.toInt();
-            graph.edges[from][to] = Edge{weight};
+            graph.addEdge(from, to, Edge{weight});
         }
     }
     return graph;

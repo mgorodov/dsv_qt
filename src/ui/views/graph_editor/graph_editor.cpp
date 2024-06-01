@@ -4,12 +4,29 @@
 
 namespace dsv::UI {
 
+using DrawData = std::optional<Kernel::DrawableGraph>;
+using ObserverDrawData = NSLibrary::CObserver<DrawData>;
+
 GraphEditor::GraphEditor(QWidget *parent) : QGraphicsView(parent), scene_{new QGraphicsScene(parent)} {
     scene_->setSceneRect(0, 0, 1200, 800);
     fitInView(scene_->sceneRect(), Qt::KeepAspectRatio);
     setRenderHint(QPainter::Antialiasing);
     setMouseTracking(true);
     setScene(scene_);
+}
+
+ObserverDrawData *GraphEditor::drawDataInPort() {
+    return &drawDataInPort_;
+}
+
+void GraphEditor::subscribeToMouseData(ObserverMouse *observer) {
+    assert(observer);
+    mouseDataOutPort_.subscribe(observer);
+}
+
+void GraphEditor::subscribeToKeyData(ObserverKey *observer) {
+    assert(observer);
+    keyDataOutPort_.subscribe(observer);
 }
 
 void GraphEditor::mouseDoubleClickEvent(QMouseEvent *event) {
