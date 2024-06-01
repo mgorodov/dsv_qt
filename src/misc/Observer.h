@@ -3,7 +3,6 @@
 #include <cassert>
 #include <functional>
 #include <list>
-#include <type_traits>
 
 #include "QPorts.h"
 

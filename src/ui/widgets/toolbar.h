@@ -1,8 +1,7 @@
 #pragma once
 #include <ui/views/code_editor/code_editor.h>
-#include <ui/widgets/settings_pannel.h>
-
-#include <QGroupBox>
+#include <ui/views/settings_pannel/settings_pannel.h>
+#include <ui/widgets/activity_bar.h>
 
 namespace dsv::UI {
 
@@ -13,10 +12,9 @@ public:
     CodeEditor* getCodeEditor();
 
 private:
-    void constructActivityBar();
     void createLayout();
 
-    QGroupBox* activityBar_;
+    ActivityBar activityBar_;
     SettingsPannel settingsPannel_;
     CodeEditor codeEditor_;
 };

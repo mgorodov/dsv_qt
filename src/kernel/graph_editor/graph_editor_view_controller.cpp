@@ -3,6 +3,7 @@
 #include <QDebug>
 
 namespace dsv::Kernel {
+
 using MouseData = std::optional<MouseAction>;
 using ObserverMouseData = NSLibrary::CObserver<MouseData>;
 

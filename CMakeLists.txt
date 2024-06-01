@@ -25,6 +25,7 @@ set(PROJECT_SOURCES
     src/kernel/graph_editor/graph_editor_view_controller.cpp
     src/kernel/data_model/graph.cpp
     src/kernel/data_model/data_model.cpp
+    src/kernel/settings_pannel/settings_model.cpp
 
     src/misc/QPorts.cpp
     src/misc/QRunTime.cpp
@@ -38,8 +39,9 @@ set(PROJECT_SOURCES
     src/ui/views/graph_editor/edge.cpp
     src/ui/views/graph_editor/graph_editor.cpp
     src/ui/views/graph_editor/node.cpp
-    src/ui/widgets/settings_pannel.cpp
+    src/ui/views/settings_pannel/settings_pannel.cpp
     src/ui/widgets/toolbar.cpp
+    src/ui/widgets/activity_bar.cpp
     src/ui/mainwindow.cpp
 
     src/main.cpp
