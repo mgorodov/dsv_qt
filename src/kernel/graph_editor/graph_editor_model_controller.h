@@ -1,16 +1,24 @@
 #pragma once
 
 #include <kernel/data_model/data_model.h>
+#include <misc/edit_action.h>
 
 namespace dsv::Kernel {
 
 class GraphEditorModelController {
+    using EditData = std::optional<EditAction>;
+    using ObserverEditData = NSLibrary::CObserver<EditData>;
+
 public:
     void connect(DataModel* dataModel);
-
-    void handleAddingNode();
+    ObserverEditData* editDataInPort();
 
 private:
+    void handleAddingNode();
+    void onEditData(EditData&& mouseData);
+
+    ObserverEditData editDataInPort_ = [this](EditData&& editData) { onEditData(std::move(editData)); };
+
     DataModel* dataModel_ = nullptr;
 };
 

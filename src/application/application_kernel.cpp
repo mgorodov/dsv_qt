@@ -31,4 +31,12 @@ GraphEditorViewController* ApplicationKernel::getGraphEditorViewController() {
     return &graphEditorViewController_;
 }
 
+CodeEditorModelController* ApplicationKernel::getCodeEditorModelController() {
+    return &codeEditorModelController_;
+}
+
+GraphEditorModelController* ApplicationKernel::getGraphEditorModelController() {
+    return &graphEditorModelController_;
+}
+
 }  // namespace dsv::Kernel

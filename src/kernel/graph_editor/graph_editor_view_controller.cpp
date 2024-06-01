@@ -51,7 +51,7 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
 
 void GraphEditorViewController::handleDoubleClick() {
     // TODO
-    // graphEditorModel_.addNode();
+    graphEditorModel_->addNode();
 }
 
 }  // namespace dsv::Kernel

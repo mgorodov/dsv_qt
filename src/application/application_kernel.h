@@ -19,6 +19,8 @@ protected:
     GraphEditorViewController* getGraphEditorViewController();
     GraphEditorModel* getGraphEditorModel();
     CodeEditorModel* getCodeEditorModel();
+    CodeEditorModelController* getCodeEditorModelController();
+    GraphEditorModelController* getGraphEditorModelController();
 
 private:
     CodeEditorModel codeEditorModel_;

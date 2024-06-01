@@ -45,10 +45,25 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     drawDataOutPort_.notify();
 }
 
-void GraphEditorModel::addNode() {
-    // Some animations here
+void GraphEditorModel::subscribeToEditData(ObserverEditData* observer) {
+    assert(observer);
+    editDataOutPort_.subscribe(observer);
+}
 
-    // TODO: observer graphEditorModelController_.handleAddingNode();
+void GraphEditorModel::addNode() {
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add});
+}
+
+void GraphEditorModel::addEdge() {
+    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add});
+}
+
+void GraphEditorModel::removeNode() {
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete});
+}
+
+void GraphEditorModel::removeEdge() {
+    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete});
 }
 
 }  // namespace dsv::Kernel

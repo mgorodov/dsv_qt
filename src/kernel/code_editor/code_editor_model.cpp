@@ -59,4 +59,25 @@ void CodeEditorModel::subscribeToTextData(ObserverTextData* observer) {
     textDataOutPort_.subscribe(observer);
 }
 
+void CodeEditorModel::subscribeToEditData(ObserverEditData* observer) {
+    assert(observer);
+    editDataOutPort_.subscribe(observer);
+}
+
+void CodeEditorModel::addNode() {
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add});
+}
+
+void CodeEditorModel::addEdge() {
+    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add});
+}
+
+void CodeEditorModel::removeNode() {
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete});
+}
+
+void CodeEditorModel::removeEdge() {
+    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete});
+}
+
 }  // namespace dsv::Kernel
