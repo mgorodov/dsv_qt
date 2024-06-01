@@ -4,7 +4,6 @@
 #include <ui/views/graph_editor/edge.h>
 #include <ui/views/graph_editor/graph_editor.h>
 #include <ui/views/graph_editor/node.h>
-#include <ui/widgets/activitybar.h>
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -24,16 +23,13 @@ GraphEditor *MainWindow::getGraphEditor() {
 }
 
 CodeEditor *MainWindow::getCodeEditor() {
-    return &codeEditor_;
+    return toolbar_.getCodeEditor();
 }
 
 void MainWindow::createInterface() {
-    auto *activityBar = new ActivityBar(this);
-
     auto *mainLayout = new QGridLayout(this);
-    mainLayout->addWidget(activityBar, 0, 0);
-    mainLayout->addWidget(&codeEditor_, 0, 1);
-    mainLayout->addWidget(&graphEditor_, 0, 2);
+    mainLayout->addWidget(&toolbar_, 0, 0);
+    mainLayout->addWidget(&graphEditor_, 0, 1);
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mainLayout);

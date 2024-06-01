@@ -38,7 +38,8 @@ set(PROJECT_SOURCES
     src/ui/views/graph_editor/edge.cpp
     src/ui/views/graph_editor/graph_editor.cpp
     src/ui/views/graph_editor/node.cpp
-    src/ui/widgets/activitybar.cpp
+    src/ui/widgets/settings_pannel.cpp
+    src/ui/widgets/toolbar.cpp
     src/ui/mainwindow.cpp
 
     src/main.cpp
