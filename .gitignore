@@ -1,3 +1,5 @@
 build/
 CMakeLists.txt.user
 run_clang_format.sh
+.DS_Store
+
