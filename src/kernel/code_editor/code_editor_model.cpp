@@ -27,42 +27,9 @@ void CodeEditorModel::onGraphData(GraphData&& graphData) {
         qDebug() << "No graph data yet for CodeEditorModel";
         return;
     }
-    removeExtraNodes(graphData.value());
-    removeExtraEdges(graphData.value());
-    addMissingEdges(graphData.value());
-    addMissingNodes(graphData.value());
-
+    textData_ = SerializedGraph::fromGraph(graphData.value());
     textDataOutPort_.notify();
 }
-
-void CodeEditorModel::addMissingNodes(Graph& graph) {
-    for (const auto& [index, node] : graph.getNodes()) {
-        SerializedGraph::Row row{.from = QString::number(index)};
-        textData_->rows.push_back(std::move(row));
-    }
-}
-
-void CodeEditorModel::addMissingEdges(Graph& graph) {
-    for (const auto& [from, toEdge] : graph.getEdges()) {
-        for (const auto& [to, edge] : toEdge) {
-            SerializedGraph::Row row{
-                .from = QString::number(from), .to = QString::number(to), .weight = QString::number(edge.weight)
-            };
-            textData_->rows.push_back(std::move(row));
-        }
-    }
-}
-
-void CodeEditorModel::removeExtraNodes(Graph& graph) {
-    for (const auto& row : textData_->rows) {
-    }
-    for (const auto& [index, node] : graph.getNodes()) {
-        SerializedGraph::Row row{.from = QString::number(index)};
-        textData_->rows.push_back(std::move(row));
-    }
-}
-
-void CodeEditorModel::removeExtraEdges(Graph& graph) {}
 
 void CodeEditorModel::addNode() {
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add});

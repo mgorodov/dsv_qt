@@ -16,11 +16,9 @@ public:
 
 protected:
     CodeEditorModel* getCodeEditorModel();
-    CodeEditorModelController* getCodeEditorModelController();
     CodeEditorController* getCodeEditorController();
 
     GraphEditorModel* getGraphEditorModel();
-    GraphEditorModelController* getGraphEditorModelController();
     GraphEditorViewController* getGraphEditorViewController();
 
 private:

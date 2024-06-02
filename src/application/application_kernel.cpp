@@ -13,14 +13,13 @@ ApplicationKernel::ApplicationKernel() {
 
     dataModel_.subscribe(graphEditorModel_.graphDataInPort());
     dataModel_.subscribe(codeEditorModel_.graphDataInPort());
+
+    graphEditorModel_.subscribeToEditData(graphEditorModelController_.editDataInPort());
+    codeEditorModel_.subscribeToEditData(codeEditorModelController_.editDataInPort());
 }
 
 CodeEditorModel* ApplicationKernel::getCodeEditorModel() {
     return &codeEditorModel_;
-}
-
-CodeEditorModelController* ApplicationKernel::getCodeEditorModelController() {
-    return &codeEditorModelController_;
 }
 
 CodeEditorController* ApplicationKernel::getCodeEditorController() {
@@ -29,10 +28,6 @@ CodeEditorController* ApplicationKernel::getCodeEditorController() {
 
 GraphEditorModel* ApplicationKernel::getGraphEditorModel() {
     return &graphEditorModel_;
-}
-
-GraphEditorModelController* ApplicationKernel::getGraphEditorModelController() {
-    return &graphEditorModelController_;
 }
 
 GraphEditorViewController* ApplicationKernel::getGraphEditorViewController() {

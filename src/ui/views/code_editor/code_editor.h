@@ -13,14 +13,26 @@ class CodeEditor : public CodeEditorBase {
     using TextData = std::optional<SerializedGraph>;
     using ObserverTextData = NSLibrary::CObserver<TextData>;
 
+    using ContentData = std::optional<QString>;
+    using ObservableContentData = NSLibrary::CObservableDataMono<ContentData>;
+    using ObserverContentData = NSLibrary::CObserver<ContentData>;
+
 public:
     CodeEditor(QWidget *parent = nullptr);
     ObserverTextData *textDataInPort();
+    void subscribeToContentData(ObserverContentData *observer);
+
+signals:
+    void invalidLinesChanged(const std::vector<size_t> &indexes);
+
+private slots:
+    void onTextChanged();
 
 private:
     void onTextData(TextData &&textData);
 
     ObserverTextData textDataInPort_ = [this](TextData &&textData) { onTextData(std::move(textData)); };
+    ObservableContentData contentDataOutPort_;
 };
 
 }  // namespace dsv::UI

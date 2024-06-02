@@ -16,6 +16,9 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
+public slots:
+    void updateInvalidLines(const std::vector<size_t> &indexes);
+
 private slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
@@ -23,6 +26,7 @@ private slots:
 
 private:
     QWidget *lineNumberArea_;
+    std::vector<size_t> invalidLines_;
 };
 
 }  // namespace dsv::UI

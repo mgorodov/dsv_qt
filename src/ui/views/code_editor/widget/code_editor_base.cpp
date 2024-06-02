@@ -69,6 +69,11 @@ void CodeEditorBase::updateLineNumberAreaWidth(int /* newBlockCount */) {
     setViewportMargins(getLineNumberAreaWidth(), 0, 0, 0);
 }
 
+void CodeEditorBase::updateInvalidLines(const std::vector<size_t> &indexes) {
+    invalidLines_ = indexes;
+    highlightCurrentLine();
+}
+
 void CodeEditorBase::updateLineNumberArea(const QRect &rect, int dy) {
     if (dy)
         lineNumberArea_->scroll(0, dy);
@@ -92,6 +97,18 @@ void CodeEditorBase::highlightCurrentLine() {
         selection.cursor = textCursor();
         selection.cursor.clearSelection();
         extraSelections.append(selection);
+
+        for (size_t index : invalidLines_) {
+            QTextEdit::ExtraSelection selection;
+
+            QColor lineColor = QColor(255, 0, 0, 40);
+
+            selection.format.setBackground(lineColor);
+            selection.format.setProperty(QTextFormat::FullWidthSelection, true);
+            selection.cursor = QTextCursor{document()->findBlockByLineNumber(index)};
+            selection.cursor.clearSelection();
+            extraSelections.append(selection);
+        }
     }
     setExtraSelections(extraSelections);
 }

@@ -8,14 +8,15 @@ namespace dsv::Kernel {
 
 struct SerializedGraph {
     static SerializedGraph fromGraph(Graph& graph);
-    Graph toGraph();
+    Graph toGraph() const;
     void migrateTo(const SerializedGraph& newState);
 
     struct Row {
         QString from;
         QString to;
         QString weight;
-        bool operator==(const SerializedGraph::Row& rhs) const;
+
+        bool operator==(const Row& rhs) const;
     };
     std::vector<Row> rows;
 };

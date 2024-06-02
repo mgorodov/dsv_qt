@@ -3,11 +3,10 @@
 namespace dsv {
 
 Application::Application() {
-    getGraphEditorModel()->subscribeToDrawData(getMainWindow()->getGraphEditor()->drawDataInPort());
     getCodeEditorModel()->subscribeToTextData(getMainWindow()->getCodeEditor()->textDataInPort());
+    getGraphEditorModel()->subscribeToDrawData(getMainWindow()->getGraphEditor()->drawDataInPort());
 
-    getGraphEditorModel()->subscribeToEditData(getGraphEditorModelController()->editDataInPort());
-    getCodeEditorModel()->subscribeToEditData(getCodeEditorModelController()->editDataInPort());
+    getMainWindow()->getCodeEditor()->subscribeToContentData(getCodeEditorController()->contentDataInPort());
 
     getMainWindow()->getGraphEditor()->subscribeToMouseData(getGraphEditorViewController()->mouseDataInPort());
     getMainWindow()->getGraphEditor()->subscribeToKeyData(getGraphEditorViewController()->keyDataInPort());

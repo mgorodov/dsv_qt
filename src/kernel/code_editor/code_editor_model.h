@@ -27,10 +27,6 @@ public:
 
 private:
     void onGraphData(GraphData&& graphData);
-    void addMissingNodes(Graph& graph);
-    void addMissingEdges(Graph& graph);
-    void removeExtraNodes(Graph& graph);
-    void removeExtraEdges(Graph& graph);
     void addNode();
     void addEdge();
     void removeNode();

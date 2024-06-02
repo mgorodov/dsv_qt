@@ -33,7 +33,7 @@ SerializedGraph SerializedGraph::fromGraph(Graph& graph) {
     return serializedGraph;
 }
 
-Graph SerializedGraph::toGraph() {
+Graph SerializedGraph::toGraph() const {
     Graph graph;
     for (const auto& row : rows) {
         if (row.to.isEmpty() && row.weight.isEmpty()) {

@@ -4,6 +4,9 @@
 
 namespace dsv::Kernel {
 
+using ContentData = std::optional<QString>;
+using ObserverContentData = NSLibrary::CObserver<ContentData>;
+
 void CodeEditorController::connect(CodeEditorModel* codeEditorModel) {
     assert(codeEditorModel);
     assert(!codeEditorModel_);
@@ -11,28 +14,17 @@ void CodeEditorController::connect(CodeEditorModel* codeEditorModel) {
     qDebug() << "CodeEditorModel connected to CodeEditorController";
 }
 
-std::vector<size_t> CodeEditorController::getInvalidLines(const QString& content) {
-    std::vector<size_t> invalidLines;
-
-    const auto contentLines = content.split('\n');
-    for (size_t i = 0; i < contentLines.size(); ++i) {
-        const auto& line = contentLines[i];
-        const auto splittedLine = line.split(' ');
-        if (splittedLine.size() != 3) {
-            invalidLines.push_back(i);
-            break;
-        }
-    }
-    return invalidLines;
+ObserverContentData* CodeEditorController::contentDataInPort() {
+    return &contentDataInPort_;
 }
 
-void CodeEditorController::updateOnValidCode(const QString& content) {
-    const auto contentLines = content.split('\n');
-    for (size_t i = 0; i < contentLines.size(); ++i) {
-        const auto& line = contentLines[i];
-        const auto splittedLine = line.split(' ');
-        splittedLine[0].toInt();
+void CodeEditorController::onContentData(ContentData&& contentData) {
+    if (!contentData) {
+        qDebug() << "No content data yet for CodeEditorController";
+        return;
     }
+    qDebug() << "There is content:\n-------" << contentData.value() << "-------";
+    // Here call for changes in CodeEditorModel
 }
 
 }  // namespace dsv::Kernel

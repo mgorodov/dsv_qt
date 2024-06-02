@@ -20,6 +20,7 @@ set(PROJECT_SOURCES
     src/kernel/code_editor/code_editor_controller.cpp
     src/kernel/code_editor/code_editor_model.cpp
     src/kernel/code_editor/code_editor_model_controller.cpp
+    src/kernel/code_editor/serialized_graph.cpp
     src/kernel/graph_editor/graph_editor_model.cpp
     src/kernel/graph_editor/graph_editor_model_controller.cpp
     src/kernel/graph_editor/graph_editor_view_controller.cpp
