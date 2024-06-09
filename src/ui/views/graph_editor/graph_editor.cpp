@@ -1,6 +1,7 @@
 #include "graph_editor.h"
 
-#include <QGraphicsEllipseItem>
+#include <ui/views/graph_editor/edge_item.h>
+#include <ui/views/graph_editor/node_item.h>
 
 namespace dsv::UI {
 
@@ -62,18 +63,13 @@ void GraphEditor::onDrawData(DrawData &&drawData) {
     }
     // qDebug() << "Number of nodes: " << drawData->nodes.size();
     for (const auto &[index, node] : drawData->nodes) {
-        // qDebug() << index << ": " << node.position << " " << node.fill;
-        auto circle = new QGraphicsEllipseItem(node.position.x(), node.position.y(), 30, 30);
-        circle->setFlag(QGraphicsItem::ItemClipsChildrenToShape, true);
-        circle->setBrush(node.fill);
-        scene_->addItem(circle);
+        auto *nodeItem = new NodeItem{node};
+        scene_->addItem(nodeItem);
     }
     for (const auto &[from, toEdge] : drawData->edges) {
         for (const auto &[to, edge] : toEdge) {
-            const auto &fromNode = drawData->nodes.at(from);
-            const auto &toNode = drawData->nodes.at(to);
-            auto *line = new QGraphicsLineItem(QLineF{fromNode.position, toNode.position});
-            scene_->addItem(line);
+            auto *edgeItem = new EdgeItem{edge};
+            scene_->addItem(edgeItem);
         }
     }
 }

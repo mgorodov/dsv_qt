@@ -37,9 +37,9 @@ set(PROJECT_SOURCES
     src/ui/views/code_editor/widget/code_editor_base.cpp
     src/ui/views/code_editor/widget/line_number_area.cpp
     src/ui/views/code_editor/code_editor.cpp
-    src/ui/views/graph_editor/edge.cpp
+    src/ui/views/graph_editor/edge_item.cpp
     src/ui/views/graph_editor/graph_editor.cpp
-    src/ui/views/graph_editor/node.cpp
+    src/ui/views/graph_editor/node_item.cpp
     src/ui/views/settings_pannel/settings_pannel.cpp
     src/ui/widgets/toolbar.cpp
     src/ui/widgets/activity_bar.cpp

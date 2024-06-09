@@ -23,8 +23,12 @@ void CodeEditorController::onContentData(ContentData&& contentData) {
         qDebug() << "No content data yet for CodeEditorController";
         return;
     }
-    qDebug() << "There is content:\n-------" << contentData.value() << "-------";
-    // Here call for changes in CodeEditorModel
+    if (!codeEditorModel_) {
+        qDebug() << "CodeEditorModel is not connected to CodeEditorController";
+        return;
+    }
+    // codeEditorModel_->
+    //  Here call for changes in CodeEditorModel
 }
 
 }  // namespace dsv::Kernel

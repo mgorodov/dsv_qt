@@ -11,17 +11,19 @@ struct DrawableGraph {
     struct Node {
         QPointF position;
         double radius;
-        QString text;
         QColor fill;
         QColor contour;
+        QString text;
+        QColor textColor;
     };
 
     struct Edge {
         QPointF from;
         QPointF to;
         double width;
-        QString text;
         QColor color;
+        QString text;
+        QColor textColor;
     };
 
     std::unordered_map<size_t, Node> nodes;

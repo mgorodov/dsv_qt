@@ -72,12 +72,17 @@ void CodeEditor::onTextData(TextData &&textData) {
         qDebug() << "No text data yet";
         return;
     }
-    qDebug() << "hui pizda blyadina";
     QString text;
     for (const auto &row : textData->rows) {
-        text += row.from + "_" + row.to + "_" + row.weight + "\n";
+        text += row.from;
+        if (!row.to.isEmpty()) {
+            text += " " + row.to;
+        }
+        if (!row.weight.isEmpty()) {
+            text += " " + row.weight;
+        }
+        text += '\n';
     }
-    qDebug() << text;
     setPlainText(text);
 }
 

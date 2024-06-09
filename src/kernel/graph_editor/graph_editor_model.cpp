@@ -59,8 +59,12 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
 
     for (const auto& [index, node] : graphData->getNodes()) {
         if (!drawableGraph.nodes.count(index)) {
-            drawableGraph.nodes[index] =
-                DrNode{QPointF(rndGen_.getRnd(), rndGen_.getRnd()), 30, "", rndGen_.rndClr(), rndGen_.rndClr()};
+            drawableGraph.nodes[index] = DrNode{QPointF(rndGen_.getRnd(), rndGen_.getRnd()),
+                                                30,
+                                                rndGen_.rndClr(),
+                                                rndGen_.rndClr(),
+                                                QString::number(index),
+                                                Qt::white};
         }
     }
     drawDataOutPort_.notify();
