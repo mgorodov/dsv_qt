@@ -23,12 +23,14 @@ public:
 private:
     void onMouseData(MouseData&& mouseData);
     void onKeyData(KeyData&& keyData);
-    void handleDoubleClick();
+    void handleAddNodeInRandomPos();
+    void handleAddNodeInMousePos();
 
     ObserverMouseData mouseDataInPort_ = [this](MouseData&& mouseData) { onMouseData(std::move(mouseData)); };
     ObserverKeyData keyDataInPort_ = [this](KeyData&& keyData) { onKeyData(std::move(keyData)); };
 
     GraphEditorModel* graphEditorModel_ = nullptr;
+    std::optional<QPointF> mousePos_ = std::nullopt;
 };
 
 }  // namespace dsv::Kernel

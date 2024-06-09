@@ -30,8 +30,9 @@ void GraphEditorViewController::onMouseData(MouseData&& mouseData) {
         qDebug() << "No mouse data yet";
         return;
     }
+    mousePos_ = mouseData->position;
     if (mouseData->status == EMouseStatus::DoubleClicked)
-        handleDoubleClick();
+        handleAddNodeInRandomPos();
 
     /*
     qDebug() << "Mouse: " << static_cast<int>(mouseData->status) << ": " << mouseData->position.x() << " "
@@ -45,14 +46,20 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
         return;
     }
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_N)
-        handleDoubleClick();
+        handleAddNodeInMousePos();
 
     qDebug() << "Key: " << static_cast<int>(keyData->status) << ": " << keyData->key;
 }
 
-void GraphEditorViewController::handleDoubleClick() {
-    // TODO
-    graphEditorModel_->addNode();
+void GraphEditorViewController::handleAddNodeInRandomPos() {
+    graphEditorModel_->addNodeRandomPos();
+}
+
+void GraphEditorViewController::handleAddNodeInMousePos() {
+    if (mousePos_.has_value())
+        graphEditorModel_->addNode(mousePos_.value());
+    else
+        handleAddNodeInRandomPos();
 }
 
 }  // namespace dsv::Kernel

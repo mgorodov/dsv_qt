@@ -14,13 +14,13 @@ void GraphEditorModelController::connect(DataModel* dataModel) {
     qDebug() << "DataModel connected to GraphEditorModelController";
 }
 
-void GraphEditorModelController::handleAddingNode() {
-    static int counter = 0;
-    dataModel_->addNode(counter++, Node{0, ENodeState::Intact});
-}
-
 ObserverEditData* GraphEditorModelController::editDataInPort() {
     return &editDataInPort_;
+}
+
+void GraphEditorModelController::handleAddingNode(const size_t index) {
+    static int counter = 0;
+    dataModel_->addNode(index, Node{0, ENodeState::Intact});
 }
 
 void GraphEditorModelController::onEditData(EditData&& editData) {
@@ -29,7 +29,7 @@ void GraphEditorModelController::onEditData(EditData&& editData) {
         return;
     }
     if (editData->object == EObjectType::Node && editData->action == EActionType::Add) {
-        handleAddingNode();
+        handleAddingNode(editData->index);
     }
 }
 

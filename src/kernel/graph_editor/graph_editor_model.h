@@ -30,13 +30,15 @@ public:
     ObserverGraphData* graphDataInPort();
     void subscribeToDrawData(ObserverDrawData* observer);
     void subscribeToEditData(ObserverEditData* observer);
-    void addNode();
+    void addNode(const QPointF pos);
+    void addNodeRandomPos();
     void addEdge();
     void removeNode();
     void removeEdge();
 
 private:
     void onGraphData(GraphData&& graphData);
+    size_t getFirstUnusedIndex();
 
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
     ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& { return drawData_; };

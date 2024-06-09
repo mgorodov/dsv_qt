@@ -14,7 +14,7 @@ public:
     ObserverEditData* editDataInPort();
 
 private:
-    void handleAddingNode();
+    void handleAddingNode(const size_t index);
     void onEditData(EditData&& mouseData);
 
     ObserverEditData editDataInPort_ = [this](EditData&& editData) { onEditData(std::move(editData)); };

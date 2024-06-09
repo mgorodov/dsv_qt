@@ -24,8 +24,21 @@ void GraphEditorModel::subscribeToEditData(ObserverEditData* observer) {
     editDataOutPort_.subscribe(observer);
 }
 
-void GraphEditorModel::addNode() {
-    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add});
+void GraphEditorModel::addNodeRandomPos() {
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add, getFirstUnusedIndex()});
+}
+
+void GraphEditorModel::addNode(const QPointF pos) {
+    DrawableGraph& drawableGraph = drawData_.value();
+    const auto index = getFirstUnusedIndex();
+    drawableGraph.nodes[index] = DrNode{QPointF(pos.x(), pos.y() - (1.5 * 30)),
+                                        30,
+                                        rndGen_.rndClr(),
+                                        rndGen_.rndClr(),
+                                        QString::number(index),
+                                        Qt::white};
+
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add, index});
 }
 
 void GraphEditorModel::addEdge() {
@@ -68,6 +81,16 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
         }
     }
     drawDataOutPort_.notify();
+}
+size_t GraphEditorModel::getFirstUnusedIndex() {
+    size_t ind = 0;
+    DrawableGraph& drawableGraph = drawData_.value();
+    for (const auto& [index, node] : drawableGraph.nodes) {
+        if (!drawableGraph.nodes.count(index)) {
+            return index;
+        }
+    }
+    return drawableGraph.nodes.size();
 }
 
 }  // namespace dsv::Kernel
