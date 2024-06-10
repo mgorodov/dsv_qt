@@ -31,8 +31,13 @@ void GraphEditorViewController::onMouseData(MouseData&& mouseData) {
         return;
     }
     mousePos_ = mouseData->position;
-    if (mouseData->status == EMouseStatus::DoubleClicked)
+    if (mouseData->status == EMouseStatus::DoubleClicked) {
         handleAddNodeInRandomPos();
+    }
+
+    if (mouseData->status == EMouseStatus::Pressed) {
+        handleChangeActive(mouseData->position);
+    }
 
     /*
     qDebug() << "Mouse: " << static_cast<int>(mouseData->status) << ": " << mouseData->position.x() << " "
@@ -48,7 +53,7 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_N)
         handleAddNodeInMousePos();
 
-    qDebug() << "Key: " << static_cast<int>(keyData->status) << ": " << keyData->key;
+    // qDebug() << "Key: " << static_cast<int>(keyData->status) << ": " << keyData->key;
 }
 
 void GraphEditorViewController::handleAddNodeInRandomPos() {
@@ -60,6 +65,37 @@ void GraphEditorViewController::handleAddNodeInMousePos() {
         graphEditorModel_->addNode(mousePos_.value());
     else
         handleAddNodeInRandomPos();
+}
+
+std::optional<size_t> GraphEditorViewController::getNodeInPos(const QPointF pos) {
+    if (!graphEditorModel_->getDrawData()->has_value()) {
+        return std::nullopt;
+    }
+    DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
+
+    for (const auto& [index, node] : drawableGraph.nodes) {
+        if (pow((pos.x() - node.position.x()), 2) + pow(((pos.y() - 1.5 * 30) - node.position.y()), 2) <= pow(30, 2)) {
+            return index;
+        }
+    }
+    return std::nullopt;
+}
+
+void GraphEditorViewController::handleChangeActive(const QPointF pos) {
+    auto index = getNodeInPos(pos);
+    if (index.has_value()) {
+        if (!graphEditorModel_->getDrawData()->has_value()) {
+            return;
+        }
+        DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
+        if (drawableGraph.active_nodes.count(index.value())) {
+            drawableGraph.active_nodes.erase(index.value());
+        } else {
+            drawableGraph.active_nodes.insert(index.value());
+        }
+
+        graphEditorModel_->updateActive();
+    }
 }
 
 }  // namespace dsv::Kernel

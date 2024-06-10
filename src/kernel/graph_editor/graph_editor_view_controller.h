@@ -25,6 +25,8 @@ private:
     void onKeyData(KeyData&& keyData);
     void handleAddNodeInRandomPos();
     void handleAddNodeInMousePos();
+    void handleChangeActive(const QPointF pos);
+    std::optional<size_t> getNodeInPos(const QPointF pos);
 
     ObserverMouseData mouseDataInPort_ = [this](MouseData&& mouseData) { onMouseData(std::move(mouseData)); };
     ObserverKeyData keyDataInPort_ = [this](KeyData&& keyData) { onKeyData(std::move(keyData)); };

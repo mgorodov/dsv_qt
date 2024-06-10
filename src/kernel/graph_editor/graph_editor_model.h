@@ -30,11 +30,13 @@ public:
     ObserverGraphData* graphDataInPort();
     void subscribeToDrawData(ObserverDrawData* observer);
     void subscribeToEditData(ObserverEditData* observer);
+    DrawData* getDrawData();
     void addNode(const QPointF pos);
     void addNodeRandomPos();
     void addEdge();
     void removeNode();
     void removeEdge();
+    void updateActive();
 
 private:
     void onGraphData(GraphData&& graphData);

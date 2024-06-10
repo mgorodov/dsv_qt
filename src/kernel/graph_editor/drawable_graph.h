@@ -4,6 +4,7 @@
 #include <QPoint>
 #include <QString>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace dsv::Kernel {
 
@@ -26,8 +27,14 @@ struct DrawableGraph {
         QColor textColor;
     };
 
+    struct EdgeEnds {
+        size_t start;
+        size_t end;
+    };
+
     std::unordered_map<size_t, Node> nodes;
     std::unordered_map<size_t, std::unordered_map<size_t, Edge>> edges;
+    std::unordered_set<size_t> active_nodes;
 };
 
 }  // namespace dsv::Kernel

@@ -17,7 +17,7 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(option)
     Q_UNUSED(widget)
     painter->setBrush(drawableNode_.fill);
-    painter->setPen(drawableNode_.fill);
+    painter->setPen(QPen(drawableNode_.contour, 3));
     painter->drawEllipse(drawableNode_.position, drawableNode_.radius, drawableNode_.radius);
 
     QFont font;
