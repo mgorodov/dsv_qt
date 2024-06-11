@@ -36,9 +36,8 @@ void GraphEditorModel::addNodeRandomPos() {
 void GraphEditorModel::addNode(const QPointF pos) {
     DrawableGraph& drawableGraph = drawData_.value();
     const auto index = getFirstUnusedIndex();
-    drawableGraph.nodes[index] = DrNode{
-        QPointF(pos.x(), pos.y() - (1.5 * 30)), 30, rndGen_.rndClr(), Qt::white, QString::number(index), Qt::white
-    };
+    drawableGraph.nodes[index] =
+        DrNode{QPointF(pos.x(), pos.y()), 30, rndGen_.rndClr(), Qt::white, QString::number(index), Qt::white};
 
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add, index});
 }
@@ -67,26 +66,31 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     // TODO: Fill drawData_ using some adaptor: GraphData -> DrawableGraph
     DrawableGraph& drawableGraph = drawData_.value();
 
+    std::vector<size_t> nodesToDelete;
     for (const auto& [index, node] : drawableGraph.nodes) {
         if (!graphData->getNodes().count(index)) {
-            drawableGraph.nodes.erase(index);  // тут крашится :(
-            if (drawableGraph.active_nodes.count(index)) {
-                drawableGraph.active_nodes.erase(index);
-            }
+            nodesToDelete.emplace_back(index);
         }
     }
-    updateActive();
+
+    for (const auto& index : nodesToDelete) {
+        drawableGraph.nodes.erase(index);  // тут крашится :(
+        if (drawableGraph.active_nodes.count(index)) {
+            drawableGraph.active_nodes.erase(index);
+        }
+    }
 
     for (const auto& [index, node] : graphData->getNodes()) {
         if (!drawableGraph.nodes.count(index)) {
             drawableGraph.nodes[index] = DrNode{QPointF(rndGen_.getRnd(), rndGen_.getRnd()),
                                                 30,
                                                 rndGen_.rndClr(),
-                                                Qt::white,
+                                                rndGen_.rndClr(),
                                                 QString::number(index),
                                                 Qt::white};
         }
     }
+    updateActive();
     drawDataOutPort_.notify();
 }
 
@@ -111,6 +115,13 @@ void GraphEditorModel::updateActive() {
         }
     }
     drawDataOutPort_.notify();
+}
+
+void GraphEditorModel::updateNodeText(const size_t index, const QString& text) {
+    DrawableGraph& drawableGraph = drawData_.value();
+    auto& node = drawableGraph.nodes.at(index);
+    node.text = text;
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Change, index, text});
 }
 
 }  // namespace dsv::Kernel

@@ -29,4 +29,8 @@ void DataModel::removeEdge(size_t from, size_t to) {
     port_.notify();
 }
 
+void DataModel::changeNodeText(size_t index, const QString& text) {
+    graph_->changeNodeText(index, text.toStdString());
+}
+
 }  // namespace dsv::Kernel

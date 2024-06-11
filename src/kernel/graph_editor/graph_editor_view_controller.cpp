@@ -1,6 +1,8 @@
 #include "graph_editor_view_controller.h"
 
 #include <QDebug>
+#include <QInputDialog>
+#include <set>
 
 namespace dsv::Kernel {
 
@@ -31,11 +33,12 @@ void GraphEditorViewController::onMouseData(MouseData&& mouseData) {
         return;
     }
     mousePos_ = mouseData->position;
-    if (mouseData->status == EMouseStatus::DoubleClicked) {
-        handleAddNodeInRandomPos();
+    if (mouseData->status == EMouseStatus::DoubleClicked && mouseData->button == Qt::LeftButton) {
+        handleChangeLabel(mouseData->position);
     }
 
-    if (mouseData->status == EMouseStatus::Pressed) {
+    if (mouseData->status == EMouseStatus::Pressed && mouseData->button == Qt::RightButton) {
+        qDebug() << "Govno";
         handleChangeActive(mouseData->position);
     }
 
@@ -54,6 +57,8 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
         handleAddNodeInMousePos();
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_X)
         handleRemoveAllActiveNodes();
+    if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_R)
+        handleAddNodeInRandomPos();
 
     // qDebug() << "Key: " << static_cast<int>(keyData->status) << ": " << keyData->key;
 }
@@ -96,16 +101,37 @@ void GraphEditorViewController::handleRemoveAllActiveNodes() {
     }
 }
 
+void GraphEditorViewController::handleChangeLabel(const QPointF pos) {
+    auto index = getNodeInPos(pos);
+    if (index.has_value()) {
+        if (!graphEditorModel_->getDrawData()->has_value()) {
+            return;
+        }
+        DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
+        auto& node = drawableGraph.nodes.at(index.value());
+        bool ok;
+        QString newText =
+            QInputDialog::getText(nullptr, "Edit Node", "Enter new node value", QLineEdit::Normal, node.text, &ok);
+        if (ok && !newText.isEmpty()) {
+            graphEditorModel_->updateNodeText(index.value(), newText);
+        }
+    }
+}
+
 std::optional<size_t> GraphEditorViewController::getNodeInPos(const QPointF pos) {
     if (!graphEditorModel_->getDrawData()->has_value()) {
         return std::nullopt;
     }
     DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
-
+    std::set<std::pair<double, size_t>> nodesUnderMouse;
     for (const auto& [index, node] : drawableGraph.nodes) {
-        if (pow((pos.x() - node.position.x()), 2) + pow(((pos.y() - 1.5 * 30) - node.position.y()), 2) <= pow(30, 2)) {
-            return index;
+        const double dist = pow((pos.x() - node.position.x()), 2) + pow(((pos.y()) - node.position.y()), 2);
+        if (dist <= pow(node.radius, 2)) {
+            nodesUnderMouse.insert({dist, index});
         }
+    }
+    if (nodesUnderMouse.size()) {
+        return (*nodesUnderMouse.begin()).second;
     }
     return std::nullopt;
 }

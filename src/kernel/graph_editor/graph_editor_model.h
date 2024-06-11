@@ -37,6 +37,7 @@ public:
     void removeNode(const size_t index);
     void removeEdge();
     void updateActive();
+    void updateNodeText(const size_t index, const QString& text);
 
 private:
     void onGraphData(GraphData&& graphData);

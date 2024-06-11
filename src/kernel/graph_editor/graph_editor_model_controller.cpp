@@ -19,11 +19,15 @@ ObserverEditData* GraphEditorModelController::editDataInPort() {
 }
 
 void GraphEditorModelController::handleAddingNode(const size_t index) {
-    dataModel_->addNode(index, Node{0, ENodeState::Intact});
+    dataModel_->addNode(index, Node{std::to_string(index), ENodeState::Intact});
 }
 
 void GraphEditorModelController::handleRemovingNode(const size_t index) {
     dataModel_->removeNode(index);
+}
+
+void GraphEditorModelController::handleChangeNodeText(const size_t index, const QString& text) {
+    dataModel_->changeNodeText(index, text);
 }
 
 void GraphEditorModelController::onEditData(EditData&& editData) {
@@ -36,6 +40,10 @@ void GraphEditorModelController::onEditData(EditData&& editData) {
     }
     if (editData->object == EObjectType::Node && editData->action == EActionType::Delete) {
         handleRemovingNode(editData->index);
+    }
+    if (editData->object == EObjectType::Node && editData->action == EActionType::Change) {
+        if (editData->text.has_value())
+            handleChangeNodeText(editData->index, editData->text.value());
     }
 }
 

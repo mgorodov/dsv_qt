@@ -18,6 +18,7 @@ public:
     void removeNode(size_t index);
     void addEdge(size_t from, size_t to, Edge edge);
     void removeEdge(size_t from, size_t to);
+    void changeNodeText(size_t index, const QString& text);
 
 private:
     GraphData graph_;

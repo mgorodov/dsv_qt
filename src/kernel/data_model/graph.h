@@ -2,6 +2,7 @@
 
 #include <stddef.h>
 
+#include <string>
 #include <unordered_map>
 
 namespace dsv::Kernel {
@@ -10,7 +11,7 @@ enum class ENodeState { Intact, Selected, Used };
 enum class EEdgeState { Intact, Selected, Used };
 
 struct Node {
-    int val;
+    std::string val;
     ENodeState state{ENodeState::Intact};
 };
 struct Edge {
@@ -27,6 +28,7 @@ public:
     void removeNode(size_t index);
     void addEdge(size_t from, size_t to, Edge edge);
     void removeEdge(size_t from, size_t to);
+    void changeNodeText(size_t index, const std::string& text);
 
 private:
     //  nodes[i] stores Node with index i

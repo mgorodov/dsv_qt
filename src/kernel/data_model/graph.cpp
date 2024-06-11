@@ -36,4 +36,8 @@ void Graph::removeEdge(size_t from, size_t to) {
     }
 }
 
+void Graph::changeNodeText(size_t index, const std::string& text) {
+    nodes_.at(index).val = text;
+}
+
 }  // namespace dsv::Kernel

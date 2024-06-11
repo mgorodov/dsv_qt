@@ -9,7 +9,7 @@ using DrawData = std::optional<Kernel::DrawableGraph>;
 using ObserverDrawData = NSLibrary::CObserver<DrawData>;
 
 GraphEditor::GraphEditor(QWidget *parent) : QGraphicsView(parent), scene_{new QGraphicsScene(parent)} {
-    scene_->setSceneRect(0, 0, 1200, 800);
+    scene_->setSceneRect(0, 0, 1250, 855);
     fitInView(scene_->sceneRect(), Qt::KeepAspectRatio);
     setRenderHint(QPainter::Antialiasing);
     setMouseTracking(true);
@@ -31,19 +31,19 @@ void GraphEditor::subscribeToKeyData(ObserverKey *observer) {
 }
 
 void GraphEditor::mouseDoubleClickEvent(QMouseEvent *event) {
-    mouseDataOutPort_.set(MouseAction{EMouseStatus::DoubleClicked, event->pos()});
+    mouseDataOutPort_.set(MouseAction{EMouseStatus::DoubleClicked, event->button(), event->pos()});
 }
 
 void GraphEditor::mouseMoveEvent(QMouseEvent *event) {
-    mouseDataOutPort_.set(MouseAction{EMouseStatus::Moved, event->pos()});
+    mouseDataOutPort_.set(MouseAction{EMouseStatus::Moved, event->button(), event->pos()});
 }
 
 void GraphEditor::mousePressEvent(QMouseEvent *event) {
-    mouseDataOutPort_.set(MouseAction{EMouseStatus::Pressed, event->pos()});
+    mouseDataOutPort_.set(MouseAction{EMouseStatus::Pressed, event->button(), event->pos()});
 }
 
 void GraphEditor::mouseReleaseEvent(QMouseEvent *event) {
-    mouseDataOutPort_.set(MouseAction{EMouseStatus::Released, event->pos()});
+    mouseDataOutPort_.set(MouseAction{EMouseStatus::Released, event->button(), event->pos()});
 }
 
 void GraphEditor::keyPressEvent(QKeyEvent *event) {
@@ -61,6 +61,8 @@ void GraphEditor::onDrawData(DrawData &&drawData) {
         qDebug() << "No drawData yet";
         return;
     }
+    scene_->clear();
+
     // qDebug() << "Number of nodes: " << drawData->nodes.size();
     for (const auto &[index, node] : drawData->nodes) {
         auto *nodeItem = new NodeItem{node};
