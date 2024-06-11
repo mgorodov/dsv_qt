@@ -4,7 +4,8 @@ namespace dsv::UI {
 
 using DrawableGraph = Kernel::DrawableGraph;
 
-NodeItem::NodeItem(const DrawableGraph::Node &drawableNode) : drawableNode_{drawableNode} {}
+NodeItem::NodeItem(size_t index, const DrawableGraph::Node &drawableNode)
+    : index_{index}, drawableNode_{drawableNode} {}
 
 QRectF NodeItem::boundingRect() const {
     return QRectF(
@@ -25,6 +26,11 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->setFont(font);
     painter->setPen(drawableNode_.textColor);
     painter->drawText(boundingRect(), Qt::AlignCenter, drawableNode_.text);
+
+    font.setPixelSize(drawableNode_.radius * 0.3);
+    painter->setFont(font);
+    painter->setPen(drawableNode_.textColor);
+    painter->drawText(boundingRect(), Qt::AlignLeft, QString::number(index_));
 }
 
 }  // namespace dsv::UI

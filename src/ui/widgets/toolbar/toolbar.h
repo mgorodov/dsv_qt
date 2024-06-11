@@ -1,7 +1,7 @@
 #pragma once
 #include <ui/views/code_editor/code_editor.h>
-#include <ui/views/settings_pannel/settings_pannel.h>
-#include <ui/widgets/activity_bar.h>
+#include <ui/views/settings_panel/settings_panel.h>
+#include <ui/widgets/toolbar/activity_bar.h>
 
 namespace dsv::UI {
 
@@ -15,7 +15,7 @@ private:
     void createLayout();
 
     ActivityBar activityBar_;
-    SettingsPannel settingsPannel_;
+    SettingsPanel settingsPanel_;
     CodeEditor codeEditor_;
 };
 

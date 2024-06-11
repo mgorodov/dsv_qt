@@ -12,11 +12,12 @@ class NodeItem : public QGraphicsItem {
     using DrawableGraph = Kernel::DrawableGraph;
 
 public:
-    NodeItem(const DrawableGraph::Node &drawableNode);
+    NodeItem(size_t index, const DrawableGraph::Node &drawableNode);
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
+    size_t index_;
     DrawableGraph::Node drawableNode_;
 };
 

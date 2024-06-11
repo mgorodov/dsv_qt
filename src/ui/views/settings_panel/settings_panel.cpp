@@ -1,4 +1,4 @@
-#include "settings_pannel.h"
+#include "settings_panel.h"
 
 #include <QCheckBox>
 #include <QGridLayout>
@@ -8,7 +8,7 @@
 
 namespace dsv::UI {
 
-SettingsPannel::SettingsPannel(QWidget* parent) : QGroupBox{parent} {
+SettingsPanel::SettingsPanel(QWidget* parent) : QGroupBox{parent} {
     auto* grid = new QGridLayout(this);
 
     auto* label = new QLabel(this);

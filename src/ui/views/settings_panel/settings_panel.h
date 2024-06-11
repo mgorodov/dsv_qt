@@ -4,10 +4,10 @@
 
 namespace dsv::UI {
 
-class SettingsPannel : public QGroupBox {
+class SettingsPanel : public QGroupBox {
     Q_OBJECT
 public:
-    SettingsPannel(QWidget* parent = nullptr);
+    SettingsPanel(QWidget* parent = nullptr);
 };
 
 }  // namespace dsv::UI

@@ -40,9 +40,10 @@ set(PROJECT_SOURCES
     src/ui/views/graph_editor/edge_item.cpp
     src/ui/views/graph_editor/graph_editor.cpp
     src/ui/views/graph_editor/node_item.cpp
-    src/ui/views/settings_pannel/settings_pannel.cpp
-    src/ui/widgets/toolbar.cpp
-    src/ui/widgets/activity_bar.cpp
+    src/ui/views/settings_panel/settings_panel.cpp
+    src/ui/widgets/toolbar/toolbar.cpp
+    src/ui/widgets/toolbar/activity_bar.cpp
+    src/ui/widgets/control_panel.cpp
     src/ui/mainwindow.cpp
 
     src/main.cpp
