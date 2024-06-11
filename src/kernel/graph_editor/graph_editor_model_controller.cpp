@@ -19,8 +19,11 @@ ObserverEditData* GraphEditorModelController::editDataInPort() {
 }
 
 void GraphEditorModelController::handleAddingNode(const size_t index) {
-    static int counter = 0;
     dataModel_->addNode(index, Node{0, ENodeState::Intact});
+}
+
+void GraphEditorModelController::handleRemovingNode(const size_t index) {
+    dataModel_->removeNode(index);
 }
 
 void GraphEditorModelController::onEditData(EditData&& editData) {
@@ -30,6 +33,9 @@ void GraphEditorModelController::onEditData(EditData&& editData) {
     }
     if (editData->object == EObjectType::Node && editData->action == EActionType::Add) {
         handleAddingNode(editData->index);
+    }
+    if (editData->object == EObjectType::Node && editData->action == EActionType::Delete) {
+        handleRemovingNode(editData->index);
     }
 }
 

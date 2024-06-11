@@ -26,6 +26,7 @@ private:
     void handleAddNodeInRandomPos();
     void handleAddNodeInMousePos();
     void handleChangeActive(const QPointF pos);
+    void handleRemoveAllActiveNodes();
     std::optional<size_t> getNodeInPos(const QPointF pos);
 
     ObserverMouseData mouseDataInPort_ = [this](MouseData&& mouseData) { onMouseData(std::move(mouseData)); };

@@ -34,7 +34,7 @@ public:
     void addNode(const QPointF pos);
     void addNodeRandomPos();
     void addEdge();
-    void removeNode();
+    void removeNode(const size_t index);
     void removeEdge();
     void updateActive();
 

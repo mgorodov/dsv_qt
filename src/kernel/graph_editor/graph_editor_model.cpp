@@ -47,8 +47,8 @@ void GraphEditorModel::addEdge() {
     editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add});
 }
 
-void GraphEditorModel::removeNode() {
-    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete});
+void GraphEditorModel::removeNode(const size_t index) {
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete, index});
 }
 
 void GraphEditorModel::removeEdge() {
@@ -68,9 +68,14 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     DrawableGraph& drawableGraph = drawData_.value();
 
     for (const auto& [index, node] : drawableGraph.nodes) {
-        if (!graphData->getNodes().count(index))
-            drawableGraph.nodes.erase(index);
+        if (!graphData->getNodes().count(index)) {
+            drawableGraph.nodes.erase(index);  // тут крашится :(
+            if (drawableGraph.active_nodes.count(index)) {
+                drawableGraph.active_nodes.erase(index);
+            }
+        }
     }
+    updateActive();
 
     for (const auto& [index, node] : graphData->getNodes()) {
         if (!drawableGraph.nodes.count(index)) {
@@ -102,7 +107,7 @@ void GraphEditorModel::updateActive() {
         if (drawableGraph.active_nodes.count(index)) {
             node.contour = Qt::red;
         } else {
-            node.contour = Qt::white;
+            node.contour = node.fill;
         }
     }
     drawDataOutPort_.notify();

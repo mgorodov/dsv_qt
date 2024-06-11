@@ -52,6 +52,8 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
     }
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_N)
         handleAddNodeInMousePos();
+    if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_X)
+        handleRemoveAllActiveNodes();
 
     // qDebug() << "Key: " << static_cast<int>(keyData->status) << ": " << keyData->key;
 }
@@ -65,20 +67,6 @@ void GraphEditorViewController::handleAddNodeInMousePos() {
         graphEditorModel_->addNode(mousePos_.value());
     else
         handleAddNodeInRandomPos();
-}
-
-std::optional<size_t> GraphEditorViewController::getNodeInPos(const QPointF pos) {
-    if (!graphEditorModel_->getDrawData()->has_value()) {
-        return std::nullopt;
-    }
-    DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
-
-    for (const auto& [index, node] : drawableGraph.nodes) {
-        if (pow((pos.x() - node.position.x()), 2) + pow(((pos.y() - 1.5 * 30) - node.position.y()), 2) <= pow(30, 2)) {
-            return index;
-        }
-    }
-    return std::nullopt;
 }
 
 void GraphEditorViewController::handleChangeActive(const QPointF pos) {
@@ -96,6 +84,30 @@ void GraphEditorViewController::handleChangeActive(const QPointF pos) {
 
         graphEditorModel_->updateActive();
     }
+}
+
+void GraphEditorViewController::handleRemoveAllActiveNodes() {
+    if (!graphEditorModel_->getDrawData()->has_value()) {
+        return;
+    }
+    DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
+    for (const auto& index : drawableGraph.active_nodes) {
+        graphEditorModel_->removeNode(index);
+    }
+}
+
+std::optional<size_t> GraphEditorViewController::getNodeInPos(const QPointF pos) {
+    if (!graphEditorModel_->getDrawData()->has_value()) {
+        return std::nullopt;
+    }
+    DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
+
+    for (const auto& [index, node] : drawableGraph.nodes) {
+        if (pow((pos.x() - node.position.x()), 2) + pow(((pos.y() - 1.5 * 30) - node.position.y()), 2) <= pow(30, 2)) {
+            return index;
+        }
+    }
+    return std::nullopt;
 }
 
 }  // namespace dsv::Kernel
