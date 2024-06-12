@@ -169,6 +169,7 @@ void GraphEditorViewController::handleAddEdges() {
             }
         }
     }
+    drawableGraph.active_nodes.clear();
 }
 
 std::optional<size_t> GraphEditorViewController::getNodeInPos(const QPointF pos) {
