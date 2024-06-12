@@ -32,14 +32,26 @@ void GraphEditorViewController::onMouseData(MouseData&& mouseData) {
         qDebug() << "No mouse data yet";
         return;
     }
-    mousePos_ = mouseData->position;
+
+    if (mouseData->status == EMouseStatus::Moved) {
+        mousePos_ = mouseData->position;
+        handleMoveDragableNode(mouseData->position);
+    }
+
     if (mouseData->status == EMouseStatus::DoubleClicked && mouseData->button == Qt::LeftButton) {
         handleChangeLabel(mouseData->position);
     }
 
     if (mouseData->status == EMouseStatus::Pressed && mouseData->button == Qt::RightButton) {
-        qDebug() << "Govno";
         handleChangeActive(mouseData->position);
+    }
+
+    if (mouseData->status == EMouseStatus::Pressed && mouseData->button == Qt::LeftButton) {
+        handleAddDragableNode(mouseData->position);
+    }
+
+    if (mouseData->status == EMouseStatus::Released && mouseData->button == Qt::LeftButton) {
+        handleRemoveDragableNode(mouseData->position);
     }
 
     /*
@@ -115,6 +127,30 @@ void GraphEditorViewController::handleChangeLabel(const QPointF pos) {
         if (ok && !newText.isEmpty()) {
             graphEditorModel_->updateNodeText(index.value(), newText);
         }
+    }
+}
+
+void GraphEditorViewController::handleAddDragableNode(const QPointF pos) {
+    auto index = getNodeInPos(pos);
+    if (index.has_value()) {
+        DragableNode dragable;
+        dragable.index = index.value();
+        DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
+        auto& node = drawableGraph.nodes.at(index.value());
+        dragable.xDist = node.position.x() - pos.x();
+        dragable.yDist = node.position.y() - pos.y();
+        dragNode_ = dragable;
+    }
+}
+
+void GraphEditorViewController::handleRemoveDragableNode(const QPointF pos) {
+    if (dragNode_.has_value())
+        dragNode_ = std::nullopt;
+}
+void GraphEditorViewController::handleMoveDragableNode(const QPointF pos) {
+    if (dragNode_.has_value()) {
+        QPointF position = QPointF(pos.x() + dragNode_.value().xDist, pos.y() + dragNode_.value().yDist);
+        graphEditorModel_->moveNode(dragNode_.value().index, position);
     }
 }
 

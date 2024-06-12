@@ -38,6 +38,7 @@ public:
     void removeEdge();
     void updateActive();
     void updateNodeText(const size_t index, const QString& text);
+    void moveNode(const size_t index, const QPointF pos);
 
 private:
     void onGraphData(GraphData&& graphData);

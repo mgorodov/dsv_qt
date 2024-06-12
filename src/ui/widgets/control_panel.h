@@ -2,7 +2,7 @@
 
 #include <QWidget>
 
-namespace dsv::UI{
+namespace dsv::UI {
 
 class ControlPanel : public QWidget {
     Q_OBJECT
@@ -12,4 +12,4 @@ public:
 signals:
 };
 
-}  // namespace dsv
+}  // namespace dsv::UI

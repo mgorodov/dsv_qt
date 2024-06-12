@@ -7,6 +7,12 @@
 
 namespace dsv::Kernel {
 
+struct DragableNode {
+    size_t index;
+    double xDist;
+    double yDist;
+};
+
 class GraphEditorViewController {
     using MouseData = std::optional<MouseAction>;
     using ObserverMouseData = NSLibrary::CObserver<MouseData>;
@@ -28,6 +34,9 @@ private:
     void handleChangeActive(const QPointF pos);
     void handleRemoveAllActiveNodes();
     void handleChangeLabel(const QPointF pos);
+    void handleAddDragableNode(const QPointF pos);
+    void handleRemoveDragableNode(const QPointF pos);
+    void handleMoveDragableNode(const QPointF pos);
 
     std::optional<size_t> getNodeInPos(const QPointF pos);
 
@@ -36,6 +45,7 @@ private:
 
     GraphEditorModel* graphEditorModel_ = nullptr;
     std::optional<QPointF> mousePos_ = std::nullopt;
+    std::optional<DragableNode> dragNode_ = std::nullopt;
 };
 
 }  // namespace dsv::Kernel

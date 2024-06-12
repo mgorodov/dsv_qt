@@ -122,6 +122,14 @@ void GraphEditorModel::updateNodeText(const size_t index, const QString& text) {
     auto& node = drawableGraph.nodes.at(index);
     node.text = text;
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Change, index, text});
+    drawDataOutPort_.notify();
+}
+
+void GraphEditorModel::moveNode(const size_t index, const QPointF pos) {
+    DrawableGraph& drawableGraph = drawData_.value();
+    auto& node = drawableGraph.nodes.at(index);
+    node.position = pos;
+    drawDataOutPort_.notify();
 }
 
 }  // namespace dsv::Kernel
