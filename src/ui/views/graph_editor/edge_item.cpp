@@ -6,8 +6,10 @@ EdgeItem::EdgeItem(const DrawableGraph::Edge &drawableEdge) : drawableEdge_{draw
 
 QRectF EdgeItem::boundingRect() const {
     return QRectF(
-        drawableEdge_.from.x(), drawableEdge_.from.y(), drawableEdge_.to.x() - drawableEdge_.from.x(),
-        drawableEdge_.to.y() - drawableEdge_.from.y()
+        std::min(drawableEdge_.from.x(), drawableEdge_.to.x()) - 100,
+        std::min(drawableEdge_.from.y(), drawableEdge_.to.y()) - 100,
+        std::abs(drawableEdge_.to.x() - drawableEdge_.from.x()) + 200,
+        std::abs(drawableEdge_.to.y() - drawableEdge_.from.y()) + 200
     );
 }
 
@@ -17,8 +19,12 @@ void EdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->setPen(QPen{drawableEdge_.color, drawableEdge_.width});
     painter->drawLine(drawableEdge_.from, drawableEdge_.to);
 
+    QFont font;
+    font.setPixelSize(drawableEdge_.width * 5);
+    painter->setFont(font);
     painter->setPen(drawableEdge_.textColor);
     painter->drawText(boundingRect(), Qt::AlignCenter, drawableEdge_.text);
+    qDebug() << drawableEdge_.text;
 }
 
 }  // namespace dsv::UI

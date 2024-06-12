@@ -97,7 +97,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
             if (!drawableGraph.edges.count(from) || !drawableGraph.edges.at(from).count(to)) {
                 QPointF st = drawableGraph.nodes.at(from).position;
                 QPointF en = drawableGraph.nodes.at(to).position;
-                drawableGraph.edges[from][to] = DrEdge{st, en, 4, Qt::white, QString(""), Qt::white};
+                drawableGraph.edges[from][to] = DrEdge{st, en, 4, Qt::white, QString("penis"), Qt::yellow};
             }
         }
     }
