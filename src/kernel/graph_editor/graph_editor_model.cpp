@@ -5,6 +5,7 @@
 namespace dsv::Kernel {
 using DrawData = std::optional<DrawableGraph>;
 using DrNode = DrawableGraph::Node;
+using DrEdge = DrawableGraph::Edge;
 
 using GraphData = std::optional<Graph>;
 using ObserverGraphData = NSLibrary::CObserver<GraphData>;
@@ -42,16 +43,16 @@ void GraphEditorModel::addNode(const QPointF pos) {
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add, index});
 }
 
-void GraphEditorModel::addEdge() {
-    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add});
+void GraphEditorModel::addEdge(const size_t start, const size_t finish) {
+    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add, start, finish});
 }
 
 void GraphEditorModel::removeNode(const size_t index) {
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete, index});
 }
 
-void GraphEditorModel::removeEdge() {
-    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete});
+void GraphEditorModel::removeEdge(const size_t start, const size_t finish) {
+    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete, start, finish});
 }
 
 void GraphEditorModel::onGraphData(GraphData&& graphData) {
@@ -74,7 +75,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     }
 
     for (const auto& index : nodesToDelete) {
-        drawableGraph.nodes.erase(index);  // тут крашится :(
+        drawableGraph.nodes.erase(index);
         if (drawableGraph.active_nodes.count(index)) {
             drawableGraph.active_nodes.erase(index);
         }
@@ -88,6 +89,16 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
                                                 rndGen_.rndClr(),
                                                 QString::number(index),
                                                 Qt::white};
+        }
+    }
+
+    for (const auto& [from, edges] : graphData->getEdges()) {
+        for (const auto& [to, edge] : edges) {
+            if (!drawableGraph.edges.count(from) || !drawableGraph.edges.at(from).count(to)) {
+                QPointF st = drawableGraph.nodes.at(from).position;
+                QPointF en = drawableGraph.nodes.at(to).position;
+                drawableGraph.edges[from][to] = DrEdge{st, en, 4, Qt::white, QString(""), Qt::white};
+            }
         }
     }
     updateActive();
@@ -121,7 +132,7 @@ void GraphEditorModel::updateNodeText(const size_t index, const QString& text) {
     DrawableGraph& drawableGraph = drawData_.value();
     auto& node = drawableGraph.nodes.at(index);
     node.text = text;
-    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Change, index, text});
+    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Change, index, index, text});
     drawDataOutPort_.notify();
 }
 
@@ -129,6 +140,14 @@ void GraphEditorModel::moveNode(const size_t index, const QPointF pos) {
     DrawableGraph& drawableGraph = drawData_.value();
     auto& node = drawableGraph.nodes.at(index);
     node.position = pos;
+    for (auto& [from, edges] : drawableGraph.edges) {
+        for (auto& [to, edge] : edges) {
+            if (from == index)
+                edge.from = pos;
+            if (to == index)
+                edge.to = pos;
+        }
+    }
     drawDataOutPort_.notify();
 }
 

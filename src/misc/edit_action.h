@@ -12,6 +12,7 @@ struct EditAction {
     EObjectType object;
     EActionType action;
     size_t index;
+    std::optional<size_t> indexEnd;
     std::optional<QString> text;
 };
 

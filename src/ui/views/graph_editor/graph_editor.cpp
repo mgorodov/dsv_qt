@@ -64,15 +64,16 @@ void GraphEditor::onDrawData(DrawData &&drawData) {
     scene_->clear();
 
     // qDebug() << "Number of nodes: " << drawData->nodes.size();
-    for (const auto &[index, node] : drawData->nodes) {
-        auto *nodeItem = new NodeItem{index, node};
-        scene_->addItem(nodeItem);
-    }
     for (const auto &[from, toEdge] : drawData->edges) {
         for (const auto &[to, edge] : toEdge) {
             auto *edgeItem = new EdgeItem{edge};
             scene_->addItem(edgeItem);
         }
+    }
+
+    for (const auto &[index, node] : drawData->nodes) {
+        auto *nodeItem = new NodeItem{index, node};
+        scene_->addItem(nodeItem);
     }
 }
 

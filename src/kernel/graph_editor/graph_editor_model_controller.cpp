@@ -30,6 +30,10 @@ void GraphEditorModelController::handleChangeNodeText(const size_t index, const 
     dataModel_->changeNodeText(index, text);
 }
 
+void GraphEditorModelController::handleAddingEdge(const size_t indexSt, const size_t indexEnd) {
+    dataModel_->addEdge(indexSt, indexEnd, Edge{});
+}
+
 void GraphEditorModelController::onEditData(EditData&& editData) {
     if (!editData) {
         qDebug() << "No data from code editor model yet";
@@ -40,6 +44,10 @@ void GraphEditorModelController::onEditData(EditData&& editData) {
     }
     if (editData->object == EObjectType::Node && editData->action == EActionType::Delete) {
         handleRemovingNode(editData->index);
+    }
+    if (editData->object == EObjectType::Edge && editData->action == EActionType::Add) {
+        if (editData->indexEnd.has_value())
+            handleAddingEdge(editData->index, editData->indexEnd.value());
     }
     if (editData->object == EObjectType::Node && editData->action == EActionType::Change) {
         if (editData->text.has_value())

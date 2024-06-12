@@ -33,9 +33,9 @@ public:
     DrawData* getDrawData();
     void addNode(const QPointF pos);
     void addNodeRandomPos();
-    void addEdge();
+    void addEdge(const size_t start, const size_t finish);
     void removeNode(const size_t index);
-    void removeEdge();
+    void removeEdge(const size_t start, const size_t finish);
     void updateActive();
     void updateNodeText(const size_t index, const QString& text);
     void moveNode(const size_t index, const QPointF pos);
