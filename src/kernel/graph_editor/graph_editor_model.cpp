@@ -87,7 +87,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
                                                 30,
                                                 rndGen_.rndClr(),
                                                 rndGen_.rndClr(),
-                                                QString::number(index),
+                                                QString::fromStdString(graphData->getNodes().at(index).val),
                                                 Qt::white};
         }
     }
@@ -97,7 +97,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
             if (!drawableGraph.edges.count(from) || !drawableGraph.edges.at(from).count(to)) {
                 QPointF st = drawableGraph.nodes.at(from).position;
                 QPointF en = drawableGraph.nodes.at(to).position;
-                drawableGraph.edges[from][to] = DrEdge{st, en, 4, Qt::white, QString(""), Qt::white};
+                drawableGraph.edges[from][to] = DrEdge{st, en, 4, Qt::white, QString::number(graphData->getEdges().at(from).at(to).weight), Qt::white};
             }
         }
     }
