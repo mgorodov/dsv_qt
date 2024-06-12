@@ -24,7 +24,6 @@ void EdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->setFont(font);
     painter->setPen(drawableEdge_.textColor);
     painter->drawText(boundingRect(), Qt::AlignCenter, drawableEdge_.text);
-    qDebug() << drawableEdge_.text;
 }
 
 }  // namespace dsv::UI
