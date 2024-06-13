@@ -74,6 +74,7 @@ void CodeEditor::onTextData(TextData &&textData) {
         return;
     }
     if (textData.value() != prevSerializedGraph_) {
+        prevSerializedGraph_ = textData.value();
         setPlainText(textData->toString());
     }
 }

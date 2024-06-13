@@ -83,7 +83,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
 
     for (const auto& [index, node] : graphData->getNodes()) {
         if (!drawableGraph.nodes.count(index)) {
-            drawableGraph.nodes[index] = DrNode{QPointF(rndGen_.uniformInt(0, 800), rndGen_.uniformInt(0, 800)),
+            drawableGraph.nodes[index] = DrNode{QPointF(rndGen_.uniformInt(200, 900), rndGen_.uniformInt(200, 700)),
                                                 30,
                                                 rndGen_.color(),
                                                 rndGen_.color(),
@@ -121,7 +121,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
         }
     }
     updateValues(*graphData);
-    updateColors(*graphData);
+    // updateColors(*graphData);
     updateActive();
     drawDataOutPort_.notify();
 }
