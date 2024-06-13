@@ -1,5 +1,7 @@
 #include "graph.h"
 
+#include <vector>
+
 namespace dsv::Kernel {
 
 const std::unordered_map<size_t, Node>& Graph::getNodes() {
@@ -16,12 +18,18 @@ void Graph::addNode(size_t index, Node node) {
 
 void Graph::removeNode(size_t index) {
     nodes_.erase(index);
-    for (auto& [to, edge] : edges_[index]) {
-        edges_[to].erase(index);
-        if (edges_[to].empty()) {
-            edges_.erase(to);
+    std::vector<std::pair<size_t, size_t>> toDel;
+
+    for (auto& [from, edgesTo] : edges_) {
+        if (edgesTo.count(index)) {
+            toDel.emplace_back(std::make_pair(from, index));
         }
     }
+
+    for (auto& [from, to] : toDel) {
+        removeEdge(from, to);
+    }
+
     edges_.erase(index);
 }
 

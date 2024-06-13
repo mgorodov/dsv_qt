@@ -89,7 +89,8 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
                 rndGen_.rndClr(),
                 rndGen_.rndClr(),
                 QString::fromStdString(graphData->getNodes().at(index).val),
-                Qt::white};
+                Qt::white
+            };
         }
     }
 
