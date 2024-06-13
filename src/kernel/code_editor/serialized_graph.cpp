@@ -99,7 +99,7 @@ Graph SerializedGraph::toGraph() const {
             int weight = 0;
             if (!row.weight.isEmpty()) {
                 bool ok;
-                row.weight.toInt(&ok);
+                weight = row.weight.toInt(&ok);
                 assert(ok);
             }
             graph.addEdge(from, to, Edge{weight});
