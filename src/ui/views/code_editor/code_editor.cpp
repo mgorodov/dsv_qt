@@ -63,8 +63,8 @@ void CodeEditor::onTextChanged() {
     if (!invalidLines.empty()) {
         return;
     }
-
-    contentDataOutPort_.set(toPlainText());
+    // prevSerializedGraph_ = SerializedGraph::fromString(text);
+    contentDataOutPort_.set(text);
 }
 
 void CodeEditor::onTextData(TextData &&textData) {

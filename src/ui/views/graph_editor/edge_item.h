@@ -17,6 +17,9 @@ public:
 
 private:
     DrawableGraph::Edge drawableEdge_;
+    static constexpr qreal m_widthToTextSize = 5;
+    static constexpr qreal m_maxTextWidth = 200;
+    static constexpr qreal m_textDistFromEdge = 17;
 };
 
 }  // namespace dsv::UI

@@ -115,8 +115,8 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
                 QPointF st = drawableGraph.nodes.at(from).position;
                 QPointF en = drawableGraph.nodes.at(to).position;
                 drawableGraph.edges[from][to] =
-                    DrEdge{st,        en, 4, Qt::white, QString::number(graphData->getEdges().at(from).at(to).weight),
-                           Qt::yellow};
+                    DrEdge{st,       en, 4, Qt::white, QString::number(graphData->getEdges().at(from).at(to).weight),
+                           Qt::white};
             }
         }
     }

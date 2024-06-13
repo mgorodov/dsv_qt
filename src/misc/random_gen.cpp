@@ -8,7 +8,7 @@ int RandomGen::uniformInt(int lower, int upper) {
 }
 
 QColor RandomGen::color() {
-    std::uniform_int_distribution<> distr(0, 255);
+    std::uniform_int_distribution<> distr(0, 127);
     return QColor::fromRgb(distr(gen), distr(gen), distr(gen));
 }
 
