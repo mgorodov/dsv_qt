@@ -33,4 +33,9 @@ void DataModel::changeNodeText(size_t index, const QString& text) {
     graph_->changeNodeText(index, text.toStdString());
 }
 
+void DataModel::reconstructGraph(const Graph& graph) {
+    graph_ = graph;
+    port_.notify();
+}
+
 }  // namespace dsv::Kernel

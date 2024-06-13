@@ -6,20 +6,20 @@ dsv--UI--Toolbar {
     border: none;
 }
 
-dsv--UI--Toolbar QGroupBox {
+dsv--UI--Toolbar > QGroupBox {
     background-color: #181818;
     color: white;
     border: none;
     font-size: 24px;
 }
 
-dsv--UI--Toolbar QPushButton {border:none}
-dsv--UI--Toolbar QPushButton:!hover {background-color: #181818}
-dsv--UI--Toolbar QPushButton:hover {background-color: #282828}
-dsv--UI--Toolbar QPushButton:pressed {background-color: #353535}
-dsv--UI--Toolbar QPushButton:checked {background-color: #404040}
+dsv--UI--ActivityBar > QPushButton {border:none}
+dsv--UI--ActivityBar > QPushButton:!hover {background-color: #181818}
+dsv--UI--ActivityBar > QPushButton:hover {background-color: #282828}
+dsv--UI--ActivityBar > QPushButton:pressed {background-color: #353535}
+dsv--UI--ActivityBar > QPushButton:checked {background-color: #404040}
 
-dsv--UI--SettingsPannel {
+dsv--UI--SettingsPanel {
     background-color: #1f1f1f;
     color: white;
     font-size: 24px;
@@ -35,5 +35,12 @@ dsv--UI--CodeEditorBase {
 
 QGraphicsView {
     background-color: #212121;
+    border: 0px;
+}
+
+dsv--UI--ControlPanel {
+    background-color: #1f1f1f;
+    color: white;
+    font-size: 24px;
     border: 0px;
 }

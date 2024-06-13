@@ -27,7 +27,7 @@ void CodeEditorController::onContentData(ContentData&& contentData) {
         qDebug() << "CodeEditorModel is not connected to CodeEditorController";
         return;
     }
-    // codeEditorModel_->
+    codeEditorModel_->buildFromString(contentData.value());
     //  Here call for changes in CodeEditorModel
 }
 

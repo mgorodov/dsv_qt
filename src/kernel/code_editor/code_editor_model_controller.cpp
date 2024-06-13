@@ -4,8 +4,8 @@
 
 namespace dsv::Kernel {
 
-using EditData = std::optional<EditAction>;
-using ObserverEditData = NSLibrary::CObserver<EditData>;
+using GraphData = std::optional<Graph>;
+using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
 void CodeEditorModelController::connect(DataModel* dataModel) {
     assert(dataModel);
@@ -14,18 +14,21 @@ void CodeEditorModelController::connect(DataModel* dataModel) {
     qDebug() << "DataModel connected to CodeEditorModelController";
 }
 
-ObserverEditData* CodeEditorModelController::editDataInPort() {
-    return &editDataInPort_;
+ObserverGraphData* CodeEditorModelController::graphDataInPort() {
+    return &graphDataInPort_;
 }
 
-void CodeEditorModelController::onEditData(EditData&& editData) {
-    if (!editData) {
+void CodeEditorModelController::onGraphData(GraphData&& graphData) {
+    if (!graphData) {
         qDebug() << "No data from code editor model yet";
         return;
     }
-    if (editData->object == EObjectType::Node && editData->action == EActionType::Add) {
-        // handleAddnigNode();
+    if (!dataModel_) {
+        qDebug() << "DataModel not connected yet to CodeEditorModelController";
+        return;
     }
+    dataModel_->reconstructGraph(graphData.value());
+    // Find diff with dataModel
 }
 
 }  // namespace dsv::Kernel

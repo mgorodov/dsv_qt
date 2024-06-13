@@ -7,9 +7,10 @@
 namespace dsv::Kernel {
 
 struct SerializedGraph {
-    static SerializedGraph fromGraph(Graph& graph);
+    static SerializedGraph fromGraph(const Graph& graph);
+    static SerializedGraph fromString(const QString& str);
     Graph toGraph() const;
-    void migrateTo(const SerializedGraph& newState);
+    QString toString() const;
 
     struct Row {
         QString from;

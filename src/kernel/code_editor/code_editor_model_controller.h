@@ -6,17 +6,17 @@
 namespace dsv::Kernel {
 
 class CodeEditorModelController {
-    using EditData = std::optional<EditAction>;
-    using ObserverEditData = NSLibrary::CObserver<EditData>;
+    using GraphData = std::optional<Graph>;
+    using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
 public:
     void connect(DataModel* dataModel);
-    ObserverEditData* editDataInPort();
+    ObserverGraphData* graphDataInPort();
 
 private:
-    void onEditData(EditData&& mouseData);
+    void onGraphData(GraphData&& graphData);
 
-    ObserverEditData editDataInPort_ = [this](EditData&& editData) { onEditData(std::move(editData)); };
+    ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
 
     DataModel* dataModel_ = nullptr;
 };

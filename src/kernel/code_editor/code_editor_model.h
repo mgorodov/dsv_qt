@@ -10,20 +10,19 @@ namespace dsv::Kernel {
 class CodeEditorModel {
     using GraphData = std::optional<Graph>;
     using ObserverGraphData = NSLibrary::CObserver<GraphData>;
+    using ObservableGraphData = NSLibrary::CObservable<GraphData>;
 
     using TextData = std::optional<SerializedGraph>;
     using ObserverTextData = NSLibrary::CObserver<TextData>;
     using ObservableTextData = NSLibrary::CObservable<TextData>;
 
-    using EditData = std::optional<EditAction>;
-    using ObserverEditData = NSLibrary::CObserver<EditData>;
-    using ObservableEditData = NSLibrary::CObservableDataMono<EditData>;
-
 public:
     CodeEditorModel();
     ObserverGraphData* graphDataInPort();
     void subscribeToTextData(ObserverTextData* observer);
-    void subscribeToEditData(ObserverEditData* observer);
+    void subscribeToGraphData(ObserverGraphData* observer);
+
+    void buildFromString(const QString& str);
 
 private:
     void onGraphData(GraphData&& graphData);
@@ -34,10 +33,10 @@ private:
 
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
     ObservableTextData textDataOutPort_ = [this]() -> const TextData& { return textData_; };
-
-    ObservableEditData editDataOutPort_;
+    ObservableGraphData graphDataOutPort_ = [this]() -> const GraphData& { return graphData_; };
 
     TextData textData_;
+    GraphData graphData_;
 };
 
 }  // namespace dsv::Kernel

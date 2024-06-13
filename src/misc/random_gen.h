@@ -7,11 +7,11 @@ namespace dsv {
 
 class RandomGen {
 public:
-    RandomGen();
-    int getRnd();
-    QColor rndClr();
+    RandomGen() = default;
+    int uniformInt(int lower, int upper);
+    QColor color();
 
-    std::mt19937 gen;
+    std::mt19937 gen{69};
 };
 
 }  // namespace dsv

@@ -2,15 +2,14 @@
 
 namespace dsv {
 
-RandomGen::RandomGen() : gen() {}
-
-int RandomGen::getRnd() {
-    std::uniform_int_distribution<> distr(50, 800);
+int RandomGen::uniformInt(int lower, int upper) {
+    std::uniform_int_distribution<> distr(lower, upper);
     return distr(gen);
 }
 
-QColor RandomGen::rndClr() {
-    return QColor::fromRgb(getRnd() % 255, getRnd() % 255, getRnd() % 255);
+QColor RandomGen::color() {
+    std::uniform_int_distribution<> distr(0, 255);
+    return QColor::fromRgb(distr(gen), distr(gen), distr(gen));
 }
 
 }  // namespace dsv

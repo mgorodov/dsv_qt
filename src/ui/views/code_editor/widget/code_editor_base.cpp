@@ -16,6 +16,10 @@ CodeEditorBase::CodeEditorBase(QWidget *parent) : QPlainTextEdit(parent), lineNu
     highlightCurrentLine();
     setTabStopDistance(50);
     setFrameStyle(QFrame::NoFrame);
+
+    QFont font;
+    font.setFamily("Courier New");
+    setFont(font);
 }
 
 void CodeEditorBase::lineNumberAreaPaintEvent(QPaintEvent *event) {

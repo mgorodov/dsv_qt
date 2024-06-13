@@ -8,8 +8,6 @@
 
 namespace dsv::UI {
 
-using CodeEditorController = Kernel::CodeEditorController;
-
 class MainWindow : public QWidget {
     Q_OBJECT
 public:

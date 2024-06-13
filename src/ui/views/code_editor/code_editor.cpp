@@ -49,7 +49,10 @@ void CodeEditor::subscribeToContentData(ObserverContentData *observer) {
 }
 
 void CodeEditor::onTextChanged() {
-    auto text = toPlainText();
+    const auto text = toPlainText();
+    if (text == prevPlainText_) {
+        return;
+    }
 
     std::vector<size_t> invalidLines;
     const auto contentLines = text.split('\n');
@@ -72,18 +75,11 @@ void CodeEditor::onTextData(TextData &&textData) {
         qDebug() << "No text data yet";
         return;
     }
-    QString text;
-    for (const auto &row : textData->rows) {
-        text += row.from;
-        if (!row.to.isEmpty()) {
-            text += " " + row.to;
-        }
-        if (!row.weight.isEmpty()) {
-            text += " " + row.weight;
-        }
-        text += '\n';
+    const auto plainText = textData->toString();
+    if (plainText != prevPlainText_) {
+        setPlainText(plainText);
+        prevPlainText_ = plainText;
     }
-    setPlainText(text);
 }
 
 }  // namespace dsv::UI

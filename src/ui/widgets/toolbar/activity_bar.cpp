@@ -8,6 +8,7 @@ namespace dsv::UI {
 ActivityBar::ActivityBar(QWidget* parent) : QGroupBox{parent} {
     createSettingsButton();
     createCodeButton();
+    createAlgoButton();
 
     auto* vbox = new QVBoxLayout{this};
     for (auto* button : buttons_.buttons()) {
@@ -45,6 +46,17 @@ void ActivityBar::createCodeButton() {
     codeButton->setCheckable(true);
 
     buttons_.addButton(codeButton, static_cast<int>(Activities::Code));
+}
+
+void ActivityBar::createAlgoButton() {
+    auto* algoButton = new QPushButton(this);
+    algoButton->setAttribute(Qt::WA_LayoutUsesWidgetRect);
+    algoButton->setIcon(QIcon(":/icons/algo.svg"));
+    algoButton->setIconSize(QSize(48, 48));
+    algoButton->setFixedSize(70, 70);
+    algoButton->setCheckable(true);
+
+    buttons_.addButton(algoButton, static_cast<int>(Activities::Algo));
 }
 
 }  // namespace dsv::UI

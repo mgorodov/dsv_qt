@@ -11,6 +11,8 @@ public:
 
 protected:
     MainWindow* getMainWindow();
+    GraphEditor* getMainGraphEditor();
+    CodeEditor* getMainCodeEditor();
 
 private:
     MainWindow mainWindow_;

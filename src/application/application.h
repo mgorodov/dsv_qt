@@ -2,7 +2,6 @@
 
 #include <application/application_gui.h>
 #include <application/application_kernel.h>
-#include <ui/mainwindow.h>
 
 namespace dsv {
 

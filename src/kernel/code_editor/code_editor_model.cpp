@@ -6,7 +6,7 @@ namespace dsv::Kernel {
 using GraphData = std::optional<Graph>;
 using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
-CodeEditorModel::CodeEditorModel() : textData_{std::in_place_t{}} {}
+CodeEditorModel::CodeEditorModel() : textData_{std::in_place_t{}}, graphData_{std::in_place_t{}} {}
 
 ObserverGraphData* CodeEditorModel::graphDataInPort() {
     return &graphDataInPort_;
@@ -17,9 +17,9 @@ void CodeEditorModel::subscribeToTextData(ObserverTextData* observer) {
     textDataOutPort_.subscribe(observer);
 }
 
-void CodeEditorModel::subscribeToEditData(ObserverEditData* observer) {
+void CodeEditorModel::subscribeToGraphData(ObserverGraphData* observer) {
     assert(observer);
-    editDataOutPort_.subscribe(observer);
+    graphDataOutPort_.subscribe(observer);
 }
 
 void CodeEditorModel::onGraphData(GraphData&& graphData) {
@@ -31,20 +31,10 @@ void CodeEditorModel::onGraphData(GraphData&& graphData) {
     textDataOutPort_.notify();
 }
 
-void CodeEditorModel::addNode() {
-    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add});
-}
-
-void CodeEditorModel::addEdge() {
-    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add});
-}
-
-void CodeEditorModel::removeNode() {
-    editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete});
-}
-
-void CodeEditorModel::removeEdge() {
-    editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete});
+void CodeEditorModel::buildFromString(const QString& str) {
+    textData_ = SerializedGraph::fromString(str);
+    graphData_ = textData_->toGraph();
+    graphDataOutPort_.notify();
 }
 
 }  // namespace dsv::Kernel

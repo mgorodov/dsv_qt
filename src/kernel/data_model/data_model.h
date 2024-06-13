@@ -20,6 +20,8 @@ public:
     void removeEdge(size_t from, size_t to);
     void changeNodeText(size_t index, const QString& text);
 
+    void reconstructGraph(const Graph& graph);
+
 private:
     GraphData graph_;
     ObservableGraphData port_ = [this]() -> const GraphData& { return graph_; };

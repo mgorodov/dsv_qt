@@ -21,8 +21,8 @@ struct Edge {
 
 class Graph {
 public:
-    const std::unordered_map<size_t, Node>& getNodes();
-    const std::unordered_map<size_t, std::unordered_map<size_t, Edge>>& getEdges();
+    const std::unordered_map<size_t, Node>& getNodes() const;
+    const std::unordered_map<size_t, std::unordered_map<size_t, Edge>>& getEdges() const;
 
     void addNode(size_t index, Node node);
     void removeNode(size_t index);

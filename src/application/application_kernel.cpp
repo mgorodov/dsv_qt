@@ -15,7 +15,7 @@ ApplicationKernel::ApplicationKernel() {
     dataModel_.subscribe(codeEditorModel_.graphDataInPort());
 
     graphEditorModel_.subscribeToEditData(graphEditorModelController_.editDataInPort());
-    codeEditorModel_.subscribeToEditData(codeEditorModelController_.editDataInPort());
+    codeEditorModel_.subscribeToGraphData(codeEditorModelController_.graphDataInPort());
 }
 
 CodeEditorModel* ApplicationKernel::getCodeEditorModel() {

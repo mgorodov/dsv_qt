@@ -33,6 +33,8 @@ private:
 
     ObserverTextData textDataInPort_ = [this](TextData &&textData) { onTextData(std::move(textData)); };
     ObservableContentData contentDataOutPort_;
+
+    QString prevPlainText_;
 };
 
 }  // namespace dsv::UI

@@ -1,15 +1,14 @@
 #pragma once
 
-#include <QWidget>
+#include <QGroupBox>
 
 namespace dsv::UI {
 
-class ControlPanel : public QWidget {
+class ControlPanel : public QGroupBox {
     Q_OBJECT
 public:
     explicit ControlPanel(QWidget *parent = nullptr);
-
-signals:
+    void createLayout();
 };
 
 }  // namespace dsv::UI

@@ -5,7 +5,7 @@
 
 namespace dsv::UI {
 
-enum class Activities { Settings, Code };
+enum class Activities { Settings, Code, Algo };
 
 class ActivityBar : public QGroupBox {
     Q_OBJECT
@@ -16,6 +16,7 @@ public:
 private:
     void createSettingsButton();
     void createCodeButton();
+    void createAlgoButton();
     QButtonGroup buttons_;
 };
 

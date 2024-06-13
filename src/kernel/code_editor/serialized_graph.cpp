@@ -1,5 +1,7 @@
 #include "serialized_graph.h"
 
+#include <QDebug>
+#include <QList>
 #include <unordered_set>
 
 namespace dsv::Kernel {
@@ -8,7 +10,7 @@ bool SerializedGraph::Row::operator==(const SerializedGraph::Row& rhs) const {
     return from == rhs.from && to == rhs.to && weight == rhs.weight;
 }
 
-SerializedGraph SerializedGraph::fromGraph(Graph& graph) {
+SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
     SerializedGraph serializedGraph;
 
     std::unordered_set<size_t> usedNodes;
@@ -33,36 +35,70 @@ SerializedGraph SerializedGraph::fromGraph(Graph& graph) {
     return serializedGraph;
 }
 
+SerializedGraph SerializedGraph::fromString(const QString& str) {
+    SerializedGraph serializedGraph;
+
+    for (const auto& row : str.split("\n")) {
+        const auto splittedRow = row.split(" ");
+        if (splittedRow.size() == 1) {
+            SerializedGraph::Row row{.from = splittedRow[0]};
+            serializedGraph.rows.push_back(std::move(row));
+        } else if (splittedRow.size() == 2) {
+            SerializedGraph::Row row{.from = splittedRow[0], .to = splittedRow[1]};
+            serializedGraph.rows.push_back(std::move(row));
+        } else if (splittedRow.size() == 3) {
+            SerializedGraph::Row row{.from = splittedRow[0], .to = splittedRow[1], .weight = splittedRow[2]};
+            serializedGraph.rows.push_back(std::move(row));
+        } else {
+            qDebug() << "ShitShitShitShitShit happened";
+        }
+    }
+
+    return serializedGraph;
+}
+
 Graph SerializedGraph::toGraph() const {
     Graph graph;
     for (const auto& row : rows) {
-        if (row.to.isEmpty() && row.weight.isEmpty()) {
-            auto index = row.from.toInt();
-            graph.addNode(index, Node{0});
-        } else {
+        if (!row.from.isEmpty()) {
+            bool ok;
+            auto from = row.from.toInt(&ok);
+            assert(ok);
+            graph.addNode(from, Node{row.from.toStdString()});
+        }
+
+        if (!row.to.isEmpty()) {
+            bool ok;
+            auto to = row.to.toInt(&ok);
+            assert(ok);
+            graph.addNode(to, Node{row.to.toStdString()});
+        }
+
+        if (!row.from.isEmpty() && !row.from.isEmpty() && !row.weight.isEmpty()) {
             auto from = row.from.toInt();
             auto to = row.to.toInt();
-            auto weight = row.weight.toInt();
+            bool ok;
+            auto weight = row.weight.toInt(&ok);
+            assert(ok);
             graph.addEdge(from, to, Edge{weight});
         }
     }
     return graph;
 }
 
-void SerializedGraph::migrateTo(const SerializedGraph& newState) {
-    std::vector<SerializedGraph::Row> extraRows;
-    for (const auto& srcRow : rows) {
-        if (std::find(newState.rows.begin(), newState.rows.end(), srcRow) == newState.rows.end()) {
-            extraRows.push_back(srcRow);
+QString SerializedGraph::toString() const {
+    QString text;
+    for (const auto& row : rows) {
+        text += row.from;
+        if (!row.to.isEmpty()) {
+            text += " " + row.to;
         }
-    }
-
-    std::vector<SerializedGraph::Row> missingRows;
-    for (const auto& dstRow : newState.rows) {
-        if (std::find(rows.begin(), rows.end(), dstRow) == rows.end()) {
-            missingRows.push_back(dstRow);
+        if (!row.weight.isEmpty()) {
+            text += " " + row.weight;
         }
+        text += '\n';
     }
+    return text;
 }
 
 }  // namespace dsv::Kernel

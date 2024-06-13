@@ -9,6 +9,7 @@ namespace dsv::UI {
 Toolbar::Toolbar(QWidget* parent) : QGroupBox{parent} {
     settingsPanel_.setVisible(false);
     codeEditor_.setVisible(true);
+    controlPanel_.setVisible(false);
     activityBar_.getButton(Activities::Code)->setChecked(true);
 
     connect(
@@ -16,6 +17,9 @@ Toolbar::Toolbar(QWidget* parent) : QGroupBox{parent} {
         &SettingsPanel::setVisible
     );
     connect(activityBar_.getButton(Activities::Code), &QAbstractButton::toggled, &codeEditor_, &CodeEditor::setVisible);
+    connect(
+        activityBar_.getButton(Activities::Algo), &QAbstractButton::toggled, &controlPanel_, &ControlPanel::setVisible
+    );
 
     createLayout();
 }
@@ -29,6 +33,7 @@ void Toolbar::createLayout() {
     hbox->addWidget(&activityBar_);
     hbox->addWidget(&settingsPanel_);
     hbox->addWidget(&codeEditor_);
+    hbox->addWidget(&controlPanel_);
     hbox->setSpacing(0);
     hbox->setContentsMargins(0, 0, 0, 0);
 

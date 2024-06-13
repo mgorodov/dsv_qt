@@ -38,7 +38,7 @@ void GraphEditorModel::addNode(const QPointF pos) {
     DrawableGraph& drawableGraph = drawData_.value();
     const auto index = getFirstUnusedIndex();
     drawableGraph.nodes[index] =
-        DrNode{QPointF(pos.x(), pos.y()), 30, rndGen_.rndClr(), Qt::white, QString::number(index), Qt::white};
+        DrNode{QPointF(pos.x(), pos.y()), 30, rndGen_.color(), Qt::white, QString::number(index), Qt::white};
 
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add, index});
 }
@@ -83,14 +83,12 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
 
     for (const auto& [index, node] : graphData->getNodes()) {
         if (!drawableGraph.nodes.count(index)) {
-            drawableGraph.nodes[index] = DrNode{
-                QPointF(rndGen_.getRnd(), rndGen_.getRnd()),
-                30,
-                rndGen_.rndClr(),
-                rndGen_.rndClr(),
-                QString::fromStdString(graphData->getNodes().at(index).val),
-                Qt::white
-            };
+            drawableGraph.nodes[index] = DrNode{QPointF(rndGen_.uniformInt(0, 800), rndGen_.uniformInt(0, 800)),
+                                                30,
+                                                rndGen_.color(),
+                                                rndGen_.color(),
+                                                QString::fromStdString(graphData->getNodes().at(index).val),
+                                                Qt::white};
         }
     }
 

@@ -4,11 +4,11 @@
 
 namespace dsv::Kernel {
 
-const std::unordered_map<size_t, Node>& Graph::getNodes() {
+const std::unordered_map<size_t, Node>& Graph::getNodes() const {
     return nodes_;
 }
 
-const std::unordered_map<size_t, std::unordered_map<size_t, Edge>>& Graph::getEdges() {
+const std::unordered_map<size_t, std::unordered_map<size_t, Edge>>& Graph::getEdges() const {
     return edges_;
 }
 
