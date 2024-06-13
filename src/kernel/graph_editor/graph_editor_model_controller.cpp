@@ -19,7 +19,7 @@ ObserverEditData* GraphEditorModelController::editDataInPort() {
 }
 
 void GraphEditorModelController::handleAddingNode(const size_t index) {
-    dataModel_->addNode(index, Node{std::to_string(index), ENodeState::Intact});
+    dataModel_->addNode(index, Node{std::to_string(index), EState::Intact});
 }
 
 void GraphEditorModelController::handleRemovingNode(const size_t index) {

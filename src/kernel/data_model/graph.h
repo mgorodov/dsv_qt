@@ -7,16 +7,15 @@
 
 namespace dsv::Kernel {
 
-enum class ENodeState { Intact, Selected, Used };
-enum class EEdgeState { Intact, Selected, Used };
+enum class EState { Intact, Selected, Used };
 
 struct Node {
     std::string val;
-    ENodeState state{ENodeState::Intact};
+    EState state{EState::Intact};
 };
 struct Edge {
     int weight{0};
-    EEdgeState state{EEdgeState::Intact};
+    EState state{EState::Intact};
 };
 
 class Graph {

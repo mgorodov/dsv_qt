@@ -120,7 +120,8 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
             }
         }
     }
-
+    updateValues(*graphData);
+    updateColors(*graphData);
     updateActive();
     drawDataOutPort_.notify();
 }
@@ -148,6 +149,42 @@ void GraphEditorModel::updateActive() {
     drawDataOutPort_.notify();
 }
 
+void GraphEditorModel::updateValues(GraphData&& graphData)
+{
+    DrawableGraph& drawableGraph = drawData_.value();
+    for (const auto& [index, node] : graphData->getNodes()) {
+        if (drawableGraph.nodes.count(index)) {
+            drawableGraph.nodes.at(index).text = QString::fromStdString(node.val);
+        }
+    }
+
+    for (const auto& [from, edges] : graphData->getEdges()) {
+        for (const auto& [to, edge] : edges) {
+            if (drawableGraph.edges.count(from) && drawableGraph.edges.at(from).count(to)) {
+                drawableGraph.edges.at(from).at(to).text = QString::number(edge.weight);
+            }
+        }
+    }
+}
+
+void GraphEditorModel::updateColors(GraphData&& graphData)
+{
+    DrawableGraph& drawableGraph = drawData_.value();
+    for (const auto& [index, node] : graphData->getNodes()) {
+        if (drawableGraph.nodes.count(index)) {
+            drawableGraph.nodes.at(index).fill = getColor(node.state);
+        }
+    }
+
+    for (const auto& [from, edges] : graphData->getEdges()) {
+        for (const auto& [to, edge] : edges) {
+            if (drawableGraph.edges.count(from) && drawableGraph.edges.at(from).count(to)) {
+                drawableGraph.edges.at(from).at(to).color = getColor(edge.state);
+            }
+        }
+    }
+}
+
 void GraphEditorModel::updateNodeText(const size_t index, const QString& text) {
     DrawableGraph& drawableGraph = drawData_.value();
     auto& node = drawableGraph.nodes.at(index);
@@ -169,6 +206,20 @@ void GraphEditorModel::moveNode(const size_t index, const QPointF pos) {
         }
     }
     drawDataOutPort_.notify();
+}
+
+
+QColor GraphEditorModel::getColor(EState state)
+{
+    switch(state)
+    {
+        case dsv::Kernel::EState::Intact:
+            return Qt::lightGray;
+        case dsv::Kernel::EState::Selected:
+            return Qt::yellow;
+        case dsv::Kernel::EState::Used:
+            return Qt::green;
+    }
 }
 
 }  // namespace dsv::Kernel
