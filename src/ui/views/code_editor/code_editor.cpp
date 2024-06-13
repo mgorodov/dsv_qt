@@ -50,9 +50,6 @@ void CodeEditor::subscribeToContentData(ObserverContentData *observer) {
 
 void CodeEditor::onTextChanged() {
     const auto text = toPlainText();
-    if (SerializedGraph::fromString(text).rows == prevSerializedGraph_.rows) {
-        return;
-    }
 
     std::vector<size_t> invalidLines;
     const auto contentLines = text.split('\n');
@@ -76,8 +73,10 @@ void CodeEditor::onTextData(TextData &&textData) {
         return;
     }
     if (textData->rows != prevSerializedGraph_.rows) {
-        setPlainText(textData->toString());
         prevSerializedGraph_ = textData.value();
+        blockSignals(true);
+        setPlainText(textData->toString());
+        blockSignals(false);
     }
 }
 
