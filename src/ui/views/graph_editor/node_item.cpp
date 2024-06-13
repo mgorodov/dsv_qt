@@ -18,19 +18,20 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(option)
     Q_UNUSED(widget)
     painter->setBrush(drawableNode_.fill);
-    painter->setPen(QPen(drawableNode_.contour, 3));
+    painter->setPen(QPen(drawableNode_.contour, m_contourWidth));
     painter->drawEllipse(drawableNode_.position, drawableNode_.radius, drawableNode_.radius);
 
     QFont font;
-    font.setPixelSize(drawableNode_.radius * 0.7);
+    font.setPixelSize(drawableNode_.radius * m_radiusToTextSize);
     painter->setFont(font);
     painter->setPen(drawableNode_.textColor);
     painter->drawText(boundingRect(), Qt::AlignCenter, drawableNode_.text);
 
-    font.setPixelSize(drawableNode_.radius * 0.3);
+    font.setPixelSize(drawableNode_.radius * m_radiusToIndexSize);
+    font.setUnderline(true);
     painter->setFont(font);
     painter->setPen(drawableNode_.textColor);
-    painter->drawText(boundingRect(), Qt::AlignLeft, QString::number(index_));
+    painter->drawText(boundingRect(), Qt::AlignTop | Qt::AlignHCenter, QString::number(index_));
 }
 
 }  // namespace dsv::UI

@@ -12,7 +12,7 @@
 namespace dsv::UI {
 
 MainWindow::MainWindow() {
-    setGeometry(160, 90, 1600, 900);
+    setGeometry(0, 0, 1600, 900);
     createInterface();
 }
 

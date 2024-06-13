@@ -9,11 +9,17 @@ using DrawData = std::optional<Kernel::DrawableGraph>;
 using ObserverDrawData = NSLibrary::CObserver<DrawData>;
 
 GraphEditor::GraphEditor(QWidget *parent) : QGraphicsView(parent), scene_{new QGraphicsScene(parent)} {
-    scene_->setSceneRect(0, 0, 1250, 855);
-    fitInView(scene_->sceneRect(), Qt::KeepAspectRatio);
     setRenderHint(QPainter::Antialiasing);
     setMouseTracking(true);
     setScene(scene_);
+    // setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+}
+
+void GraphEditor::resizeEvent(QResizeEvent *event) {
+    Q_UNUSED(event);
+    const auto viewSize = size();
+    scene_->setSceneRect(0, 0, viewSize.width(), viewSize.height());
+    fitInView(scene_->sceneRect(), Qt::KeepAspectRatio);
 }
 
 ObserverDrawData *GraphEditor::drawDataInPort() {

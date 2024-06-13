@@ -19,6 +19,10 @@ public:
 private:
     size_t index_;
     DrawableGraph::Node drawableNode_;
+
+    static constexpr qreal m_contourWidth = 3;
+    static constexpr qreal m_radiusToTextSize = 0.7;
+    static constexpr qreal m_radiusToIndexSize = 0.35;
 };
 
 }  // namespace dsv::UI
