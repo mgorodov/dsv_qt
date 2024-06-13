@@ -10,12 +10,18 @@ bool SerializedGraph::Row::operator==(const SerializedGraph::Row& rhs) const {
     return from == rhs.from && to == rhs.to && weight == rhs.weight;
 }
 
-bool SerializedGraph::operator==(const SerializedGraph& rhs) const {
-    return rows == rhs.rows;
-}
-
 size_t SerializedGraph::RowHash::operator()(const SerializedGraph::Row& row) const {
     return qHash(row.from) ^ qHash(row.to) ^ qHash(row.weight);
+}
+
+bool SerializedGraph::operator==(const SerializedGraph& rhs) const {
+    const auto curGraph = toGraph();
+    const auto rhsGraph = rhs.toGraph();
+    return curGraph.getEdges() == rhsGraph.getEdges() && curGraph.getNodes() == rhsGraph.getNodes();
+}
+
+bool SerializedGraph::operator!=(const SerializedGraph& rhs) const {
+    return !(*this == rhs);
 }
 
 SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
@@ -24,10 +30,15 @@ SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
     std::unordered_set<size_t> usedNodes;
     for (const auto& [from, toEdges] : graph.getEdges()) {
         for (const auto& [to, edge] : toEdges) {
-            SerializedGraph::Row row{
-                .from = QString::number(from), .to = QString::number(to), .weight = QString::number(edge.weight)
-            };
-            serializedGraph.rows.insert(std::move(row));
+            if (edge.weight != 0) {
+                SerializedGraph::Row row{
+                    .from = QString::number(from), .to = QString::number(to), .weight = QString::number(edge.weight)
+                };
+                serializedGraph.rows.push_back(std::move(row));
+            } else {
+                SerializedGraph::Row row{.from = QString::number(from), .to = QString::number(to)};
+                serializedGraph.rows.push_back(std::move(row));
+            }
             usedNodes.insert(from);
             usedNodes.insert(to);
         }
@@ -37,7 +48,7 @@ SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
         if (usedNodes.count(index))
             continue;
         SerializedGraph::Row row{.from = QString::number(index)};
-        serializedGraph.rows.insert(std::move(row));
+        serializedGraph.rows.push_back(std::move(row));
     }
 
     return serializedGraph;
@@ -50,13 +61,13 @@ SerializedGraph SerializedGraph::fromString(const QString& str) {
         const auto splittedRow = row.split(" ");
         if (splittedRow.size() == 1) {
             SerializedGraph::Row row{.from = splittedRow[0]};
-            serializedGraph.rows.insert(std::move(row));
+            serializedGraph.rows.push_back(std::move(row));
         } else if (splittedRow.size() == 2) {
             SerializedGraph::Row row{.from = splittedRow[0], .to = splittedRow[1]};
-            serializedGraph.rows.insert(std::move(row));
+            serializedGraph.rows.push_back(std::move(row));
         } else if (splittedRow.size() == 3) {
             SerializedGraph::Row row{.from = splittedRow[0], .to = splittedRow[1], .weight = splittedRow[2]};
-            serializedGraph.rows.insert(std::move(row));
+            serializedGraph.rows.push_back(std::move(row));
         } else {
             qDebug() << "ShitShitShitShitShit happened";
         }
@@ -82,12 +93,15 @@ Graph SerializedGraph::toGraph() const {
             graph.addNode(to, Node{row.to.toStdString()});
         }
 
-        if (!row.from.isEmpty() && !row.from.isEmpty() && !row.weight.isEmpty()) {
+        if (!row.from.isEmpty() && !row.to.isEmpty()) {
             auto from = row.from.toInt();
             auto to = row.to.toInt();
-            bool ok;
-            auto weight = row.weight.toInt(&ok);
-            assert(ok);
+            int weight = 0;
+            if (!row.weight.isEmpty()) {
+                bool ok;
+                row.weight.toInt(&ok);
+                assert(ok);
+            }
             graph.addEdge(from, to, Edge{weight});
         }
     }

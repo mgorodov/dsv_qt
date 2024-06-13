@@ -24,8 +24,9 @@ struct SerializedGraph {
     struct RowHash {
         size_t operator()(const Row& row) const;
     };
-    std::unordered_set<Row, RowHash> rows;
+    std::vector<Row> rows;
     bool operator==(const SerializedGraph& rhs) const;
+    bool operator!=(const SerializedGraph& rhs) const;
 };
 
 }  // namespace dsv::Kernel

@@ -31,10 +31,8 @@ inline bool isValidLine(const QString &line) {
 }  // namespace
 
 CodeEditor::CodeEditor(QWidget *parent) : CodeEditorBase(parent) {
-    setMaximumWidth(300);
-    setMinimumWidth(200);
-    setPlainText("1, 2\n2, 3\n");
-    setPlaceholderText("EXTREMELY\nPARTICULARLY\nHUGE\n&\nJUST\nAWESOME\nCOCK\n\n\\( ͡❛ ͜ʖ ͡❛)/\n    ......\n8=====D");
+    setFixedWidth(300);
+    setPlaceholderText(m_placeholderText);
     connect(this, &CodeEditorBase::textChanged, this, &CodeEditor::onTextChanged);
     connect(this, &CodeEditor::invalidLinesChanged, this, &CodeEditorBase::updateInvalidLines);
 }
@@ -63,8 +61,11 @@ void CodeEditor::onTextChanged() {
     if (!invalidLines.empty()) {
         return;
     }
-    // prevSerializedGraph_ = SerializedGraph::fromString(text);
-    contentDataOutPort_.set(text);
+    auto curSerializedGraph = SerializedGraph::fromString(text);
+    if (curSerializedGraph != prevSerializedGraph_) {
+        prevSerializedGraph_ = curSerializedGraph;
+        contentDataOutPort_.set(text);
+    }
 }
 
 void CodeEditor::onTextData(TextData &&textData) {
@@ -72,11 +73,8 @@ void CodeEditor::onTextData(TextData &&textData) {
         qDebug() << "No text data yet";
         return;
     }
-    if (textData->rows != prevSerializedGraph_.rows) {
-        prevSerializedGraph_ = textData.value();
-        blockSignals(true);
+    if (textData.value() != prevSerializedGraph_) {
         setPlainText(textData->toString());
-        blockSignals(false);
     }
 }
 

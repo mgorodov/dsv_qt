@@ -28,7 +28,7 @@ void CodeEditorController::onContentData(ContentData&& contentData) {
         return;
     }
     codeEditorModel_->buildFromString(contentData.value());
-    //  Here call for changes in CodeEditorModel
+    //   Here call for changes in CodeEditorModel
 }
 
 }  // namespace dsv::Kernel

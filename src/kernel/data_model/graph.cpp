@@ -4,6 +4,14 @@
 
 namespace dsv::Kernel {
 
+bool Node::operator==(const Node& rhs) const {
+    return val == rhs.val && state == rhs.state;
+}
+
+bool Edge::operator==(const Edge& rhs) const {
+    return weight == rhs.weight && state == rhs.state;
+}
+
 const std::unordered_map<size_t, Node>& Graph::getNodes() const {
     return nodes_;
 }
