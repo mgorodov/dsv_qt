@@ -27,6 +27,9 @@ private slots:
 private:
     QWidget *lineNumberArea_;
     std::vector<size_t> invalidLines_;
+
+    static constexpr QColor m_selectedBlockColor{180, 180, 180};
+    static constexpr QColor m_regularBlockColor{110, 118, 129};
 };
 
 }  // namespace dsv::UI

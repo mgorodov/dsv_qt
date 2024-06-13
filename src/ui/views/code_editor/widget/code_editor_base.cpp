@@ -36,9 +36,9 @@ void CodeEditorBase::lineNumberAreaPaintEvent(QPaintEvent *event) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
             if (blockNumber == textCursor().blockNumber())
-                painter.setPen(QColor(180, 180, 180));
+                painter.setPen(m_selectedBlockColor);
             else
-                painter.setPen(QColor(110, 118, 129));
+                painter.setPen(m_regularBlockColor);
             painter.drawText(0, top, lineNumberArea_->width(), fontMetrics().height(), Qt::AlignRight, number);
         }
 

@@ -12,10 +12,13 @@ enum class EState { Intact, Selected, Used };
 struct Node {
     std::string val;
     EState state{EState::Intact};
+    bool operator==(const Node& rhs) const;
 };
+
 struct Edge {
     int weight{0};
     EState state{EState::Intact};
+    bool operator==(const Edge& rhs) const;
 };
 
 class Graph {

@@ -35,6 +35,32 @@ private:
     ObservableContentData contentDataOutPort_;
 
     SerializedGraph prevSerializedGraph_;
+
+    static constexpr const char *m_placeholderText = R"(Each row define either edge or vertex
+
+Example:
+0 1
+1 2
+3
+
+Such graph has
+4 vertexes:
+  {0, 1, 2, 3}
+2 edges:
+  0->1 and 1->2
+
+
+Moreover you can specify weight of edge
+Example:
+0 1 5
+1 2 0
+
+Such graph has
+3 vertexes:
+  {0, 1, 2}
+2 edges:
+ 0->1 of weight 5
+ 1->2 of weight 0)";
 };
 
 }  // namespace dsv::UI
