@@ -73,6 +73,8 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
         handleAddNodeInRandomPos();
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_E)
         handleAddEdges();
+    if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_D)
+        handleRemoveEdges();
 
     // qDebug() << "Key: " << static_cast<int>(keyData->status) << ": " << keyData->key;
 }
@@ -166,6 +168,23 @@ void GraphEditorViewController::handleAddEdges() {
         for (size_t i = 0; i < indexes.size(); ++i) {
             for (size_t j = i + 1; j < indexes.size(); ++j) {
                 graphEditorModel_->addEdge(indexes[i], indexes[j]);
+            }
+        }
+    }
+    drawableGraph.active_nodes.clear();
+}
+
+void GraphEditorViewController::handleRemoveEdges() {
+    if (!graphEditorModel_->getDrawData()->has_value()) {
+        return;
+    }
+    DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
+    if (drawableGraph.active_nodes.size() > 1) {
+        std::vector<size_t> indexes(drawableGraph.active_nodes.begin(), drawableGraph.active_nodes.end());
+        for (size_t i = 0; i < indexes.size(); ++i) {
+            for (size_t j = i + 1; j < indexes.size(); ++j) {
+                graphEditorModel_->removeEdge(indexes[i], indexes[j]);
+                graphEditorModel_->removeEdge(indexes[j], indexes[i]);
             }
         }
     }

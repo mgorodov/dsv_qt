@@ -38,6 +38,7 @@ private:
     void handleRemoveDragableNode(const QPointF pos);
     void handleMoveDragableNode(const QPointF pos);
     void handleAddEdges();
+    void handleRemoveEdges();
 
     std::optional<size_t> getNodeInPos(const QPointF pos);
 

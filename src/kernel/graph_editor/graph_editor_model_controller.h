@@ -19,6 +19,7 @@ private:
     void onEditData(EditData&& mouseData);
     void handleChangeNodeText(const size_t index, const QString& text);
     void handleAddingEdge(const size_t indexSt, const size_t indexEnd);
+    void handleRemovingEdge(const size_t indexSt, const size_t indexEnd);
 
     ObserverEditData editDataInPort_ = [this](EditData&& editData) { onEditData(std::move(editData)); };
 
