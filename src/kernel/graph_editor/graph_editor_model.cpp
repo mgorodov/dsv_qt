@@ -149,8 +149,7 @@ void GraphEditorModel::updateActive() {
     drawDataOutPort_.notify();
 }
 
-void GraphEditorModel::updateValues(GraphData&& graphData)
-{
+void GraphEditorModel::updateValues(GraphData&& graphData) {
     DrawableGraph& drawableGraph = drawData_.value();
     for (const auto& [index, node] : graphData->getNodes()) {
         if (drawableGraph.nodes.count(index)) {
@@ -167,8 +166,7 @@ void GraphEditorModel::updateValues(GraphData&& graphData)
     }
 }
 
-void GraphEditorModel::updateColors(GraphData&& graphData)
-{
+void GraphEditorModel::updateColors(GraphData&& graphData) {
     DrawableGraph& drawableGraph = drawData_.value();
     for (const auto& [index, node] : graphData->getNodes()) {
         if (drawableGraph.nodes.count(index)) {
@@ -208,11 +206,8 @@ void GraphEditorModel::moveNode(const size_t index, const QPointF pos) {
     drawDataOutPort_.notify();
 }
 
-
-QColor GraphEditorModel::getColor(EState state)
-{
-    switch(state)
-    {
+QColor GraphEditorModel::getColor(EState state) {
+    switch (state) {
         case dsv::Kernel::EState::Intact:
             return Qt::lightGray;
         case dsv::Kernel::EState::Selected:
