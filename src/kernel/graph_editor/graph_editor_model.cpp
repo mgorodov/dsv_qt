@@ -83,12 +83,31 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
 
     for (const auto& [index, node] : graphData->getNodes()) {
         if (!drawableGraph.nodes.count(index)) {
-            drawableGraph.nodes[index] = DrNode{QPointF(rndGen_.getRnd(), rndGen_.getRnd()),
-                                                30,
-                                                rndGen_.rndClr(),
-                                                rndGen_.rndClr(),
-                                                QString::fromStdString(graphData->getNodes().at(index).val),
-                                                Qt::white};
+            drawableGraph.nodes[index] = DrNode{
+                QPointF(rndGen_.getRnd(), rndGen_.getRnd()),
+                30,
+                rndGen_.rndClr(),
+                rndGen_.rndClr(),
+                QString::fromStdString(graphData->getNodes().at(index).val),
+                Qt::white
+            };
+        }
+    }
+
+    std::vector<std::pair<size_t, size_t>> edgesToDel;
+
+    for (const auto& [from, edges] : drawableGraph.edges) {
+        for (const auto& [to, edge] : edges) {
+            if (!graphData->getEdges().count(from) || !graphData->getEdges().at(from).count(to)) {
+                edgesToDel.emplace_back(std::make_pair(from, to));
+            }
+        }
+    }
+
+    for (const auto& [from, to] : edgesToDel) {
+        drawableGraph.edges.at(from).erase(to);
+        if (drawableGraph.edges.at(from).empty()) {
+            drawableGraph.edges.erase(from);
         }
     }
 
@@ -97,10 +116,13 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
             if (!drawableGraph.edges.count(from) || !drawableGraph.edges.at(from).count(to)) {
                 QPointF st = drawableGraph.nodes.at(from).position;
                 QPointF en = drawableGraph.nodes.at(to).position;
-                drawableGraph.edges[from][to] = DrEdge{st, en, 4, Qt::white, QString::number(graphData->getEdges().at(from).at(to).weight), Qt::yellow};
+                drawableGraph.edges[from][to] =
+                    DrEdge{st,        en, 4, Qt::white, QString::number(graphData->getEdges().at(from).at(to).weight),
+                           Qt::yellow};
             }
         }
     }
+
     updateActive();
     drawDataOutPort_.notify();
 }
