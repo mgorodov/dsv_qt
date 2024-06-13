@@ -50,7 +50,7 @@ void CodeEditor::subscribeToContentData(ObserverContentData *observer) {
 
 void CodeEditor::onTextChanged() {
     const auto text = toPlainText();
-    if (text == prevPlainText_) {
+    if (SerializedGraph::fromString(text).rows == prevSerializedGraph_.rows) {
         return;
     }
 
@@ -75,10 +75,9 @@ void CodeEditor::onTextData(TextData &&textData) {
         qDebug() << "No text data yet";
         return;
     }
-    const auto plainText = textData->toString();
-    if (plainText != prevPlainText_) {
-        setPlainText(plainText);
-        prevPlainText_ = plainText;
+    if (textData->rows != prevSerializedGraph_.rows) {
+        setPlainText(textData->toString());
+        prevSerializedGraph_ = textData.value();
     }
 }
 

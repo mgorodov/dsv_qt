@@ -3,6 +3,7 @@
 #include <kernel/data_model/graph.h>
 
 #include <QString>
+#include <unordered_set>
 
 namespace dsv::Kernel {
 
@@ -19,7 +20,12 @@ struct SerializedGraph {
 
         bool operator==(const Row& rhs) const;
     };
-    std::vector<Row> rows;
+
+    struct RowHash {
+        size_t operator()(const Row& row) const;
+    };
+    std::unordered_set<Row, RowHash> rows;
+    bool operator==(const SerializedGraph& rhs) const;
 };
 
 }  // namespace dsv::Kernel

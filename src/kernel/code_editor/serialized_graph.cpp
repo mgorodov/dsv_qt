@@ -1,13 +1,21 @@
 #include "serialized_graph.h"
 
 #include <QDebug>
+#include <QHash>
 #include <QList>
-#include <unordered_set>
 
 namespace dsv::Kernel {
 
 bool SerializedGraph::Row::operator==(const SerializedGraph::Row& rhs) const {
     return from == rhs.from && to == rhs.to && weight == rhs.weight;
+}
+
+bool SerializedGraph::operator==(const SerializedGraph& rhs) const {
+    return rows == rhs.rows;
+}
+
+size_t SerializedGraph::RowHash::operator()(const SerializedGraph::Row& row) const {
+    return qHash(row.from) ^ qHash(row.to) ^ qHash(row.weight);
 }
 
 SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
@@ -19,7 +27,7 @@ SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
             SerializedGraph::Row row{
                 .from = QString::number(from), .to = QString::number(to), .weight = QString::number(edge.weight)
             };
-            serializedGraph.rows.push_back(std::move(row));
+            serializedGraph.rows.insert(std::move(row));
             usedNodes.insert(from);
             usedNodes.insert(to);
         }
@@ -29,7 +37,7 @@ SerializedGraph SerializedGraph::fromGraph(const Graph& graph) {
         if (usedNodes.count(index))
             continue;
         SerializedGraph::Row row{.from = QString::number(index)};
-        serializedGraph.rows.push_back(std::move(row));
+        serializedGraph.rows.insert(std::move(row));
     }
 
     return serializedGraph;
@@ -42,13 +50,13 @@ SerializedGraph SerializedGraph::fromString(const QString& str) {
         const auto splittedRow = row.split(" ");
         if (splittedRow.size() == 1) {
             SerializedGraph::Row row{.from = splittedRow[0]};
-            serializedGraph.rows.push_back(std::move(row));
+            serializedGraph.rows.insert(std::move(row));
         } else if (splittedRow.size() == 2) {
             SerializedGraph::Row row{.from = splittedRow[0], .to = splittedRow[1]};
-            serializedGraph.rows.push_back(std::move(row));
+            serializedGraph.rows.insert(std::move(row));
         } else if (splittedRow.size() == 3) {
             SerializedGraph::Row row{.from = splittedRow[0], .to = splittedRow[1], .weight = splittedRow[2]};
-            serializedGraph.rows.push_back(std::move(row));
+            serializedGraph.rows.insert(std::move(row));
         } else {
             qDebug() << "ShitShitShitShitShit happened";
         }
