@@ -3,6 +3,8 @@
 #include <kernel/data_model/graph.h>
 #include <misc/Observer.h>
 
+#include <unordered_set>
+
 namespace dsv::Kernel {
 
 class DataModel {
@@ -19,11 +21,13 @@ public:
     void addEdge(size_t from, size_t to, Edge edge);
     void removeEdge(size_t from, size_t to);
     void changeNodeText(size_t index, const QString& text);
-
+    void runDFS(size_t index = 0);
+    void DFS(size_t index);
     void reconstructGraph(const Graph& graph);
 
 private:
     GraphData graph_;
+    std::unordered_set<size_t> used_;
     ObservableGraphData port_ = [this]() -> const GraphData& { return graph_; };
 };
 

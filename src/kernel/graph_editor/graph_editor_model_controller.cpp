@@ -38,6 +38,10 @@ void GraphEditorModelController::handleRemovingEdge(const size_t indexSt, const 
     dataModel_->removeEdge(indexSt, indexEnd);
 }
 
+void GraphEditorModelController::handleStartAlgorithm(const size_t index) {
+    dataModel_->runDFS(index);
+}
+
 void GraphEditorModelController::onEditData(EditData&& editData) {
     if (!editData) {
         qDebug() << "No data from code editor model yet";
@@ -60,6 +64,9 @@ void GraphEditorModelController::onEditData(EditData&& editData) {
     if (editData->object == EObjectType::Node && editData->action == EActionType::Change) {
         if (editData->text.has_value())
             handleChangeNodeText(editData->index, editData->text.value());
+    }
+    if (editData->object == EObjectType::Algorithm && editData->action == EActionType::DFS) {
+        handleStartAlgorithm(editData->index);
     }
 }
 

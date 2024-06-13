@@ -214,7 +214,13 @@ QColor GraphEditorModel::getColor(EState state) {
             return Qt::yellow;
         case dsv::Kernel::EState::Used:
             return Qt::green;
+        default:
+            return Qt::lightGray;
     }
+}
+
+void GraphEditorModel::startAlgorithm(size_t index) {
+    editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::DFS, index});
 }
 
 }  // namespace dsv::Kernel

@@ -42,6 +42,7 @@ public:
     void updateNodeText(const size_t index, const QString& text);
     void moveNode(const size_t index, const QPointF pos);
     QColor getColor(EState state);
+    void startAlgorithm(size_t index);
 
 private:
     void onGraphData(GraphData&& graphData);

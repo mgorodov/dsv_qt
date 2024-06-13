@@ -31,6 +31,8 @@ public:
     void addEdge(size_t from, size_t to, Edge edge);
     void removeEdge(size_t from, size_t to);
     void changeNodeText(size_t index, const std::string& text);
+    void changeNodeState(size_t index, EState state);
+    void changeEdgeState(size_t from, size_t to, EState state);
 
 private:
     //  nodes[i] stores Node with index i

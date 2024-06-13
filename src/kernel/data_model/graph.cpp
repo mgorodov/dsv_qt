@@ -56,4 +56,14 @@ void Graph::changeNodeText(size_t index, const std::string& text) {
     nodes_.at(index).val = text;
 }
 
+void Graph::changeNodeState(size_t index, EState state) {
+    if (nodes_.count(index))
+        nodes_.at(index).state = state;
+}
+
+void Graph::changeEdgeState(size_t from, size_t to, EState state) {
+    if (edges_.count(from) && edges_.at(from).count(to))
+        edges_.at(from).at(to).state = state;
+}
+
 }  // namespace dsv::Kernel
