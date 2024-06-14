@@ -40,6 +40,7 @@ private:
     void handleAddEdges();
     void handleRemoveEdges();
     void handleStartAlgorithm(const QPointF pos);
+    void handleEndAlgorithm();
 
     std::optional<size_t> getNodeInPos(const QPointF pos);
 

@@ -10,7 +10,7 @@ using DrEdge = DrawableGraph::Edge;
 using GraphData = std::optional<Graph>;
 using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
-GraphEditorModel::GraphEditorModel() : drawData_{std::in_place} {}
+GraphEditorModel::GraphEditorModel() : drawData_{std::in_place}, isAlgorithmActive_(false) {}
 
 ObserverGraphData* GraphEditorModel::graphDataInPort() {
     return &graphDataInPort_;
@@ -37,8 +37,9 @@ void GraphEditorModel::addNodeRandomPos() {
 void GraphEditorModel::addNode(const QPointF pos) {
     DrawableGraph& drawableGraph = drawData_.value();
     const auto index = getFirstUnusedIndex();
+    auto fill = rndGen_.color();
     drawableGraph.nodes[index] =
-        DrNode{QPointF(pos.x(), pos.y()), 30, rndGen_.color(), Qt::white, QString::number(index), Qt::white};
+        DrNode{QPointF(pos.x(), pos.y()), 30, fill, fill, QString::number(index), Qt::white, fill};
 
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add, index});
 }
@@ -83,12 +84,10 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
 
     for (const auto& [index, node] : graphData->getNodes()) {
         if (!drawableGraph.nodes.count(index)) {
-            drawableGraph.nodes[index] = DrNode{QPointF(rndGen_.uniformInt(200, 900), rndGen_.uniformInt(200, 700)),
-                                                30,
-                                                rndGen_.color(),
-                                                rndGen_.color(),
-                                                QString::fromStdString(graphData->getNodes().at(index).val),
-                                                Qt::white};
+            auto fill = rndGen_.color();
+            drawableGraph.nodes[index] =
+                DrNode{QPointF(rndGen_.uniformInt(200, 900), rndGen_.uniformInt(200, 700)), 30,        fill, fill,
+                       QString::fromStdString(graphData->getNodes().at(index).val),         Qt::white, fill};
         }
     }
 
@@ -114,14 +113,15 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
             if (!drawableGraph.edges.count(from) || !drawableGraph.edges.at(from).count(to)) {
                 QPointF st = drawableGraph.nodes.at(from).position;
                 QPointF en = drawableGraph.nodes.at(to).position;
-                drawableGraph.edges[from][to] =
-                    DrEdge{st,       en, 4, Qt::white, QString::number(graphData->getEdges().at(from).at(to).weight),
-                           Qt::white};
+                drawableGraph.edges[from][to] = DrEdge{
+                    st,        en,       4, Qt::white, QString::number(graphData->getEdges().at(from).at(to).weight),
+                    Qt::white, Qt::white
+                };
             }
         }
     }
     updateValues(*graphData);
-    // updateColors(*graphData);
+    updateColors(*graphData);
     updateActive();
     drawDataOutPort_.notify();
 }
@@ -170,14 +170,22 @@ void GraphEditorModel::updateColors(GraphData&& graphData) {
     DrawableGraph& drawableGraph = drawData_.value();
     for (const auto& [index, node] : graphData->getNodes()) {
         if (drawableGraph.nodes.count(index)) {
-            drawableGraph.nodes.at(index).fill = getColor(node.state);
+            if (isAlgorithmActive_) {
+                drawableGraph.nodes.at(index).fill = getColor(node.state);
+            } else {
+                drawableGraph.nodes.at(index).fill = drawableGraph.nodes.at(index).defaultColor;
+            }
         }
     }
 
     for (const auto& [from, edges] : graphData->getEdges()) {
         for (const auto& [to, edge] : edges) {
             if (drawableGraph.edges.count(from) && drawableGraph.edges.at(from).count(to)) {
-                drawableGraph.edges.at(from).at(to).color = getColor(edge.state);
+                if (isAlgorithmActive_) {
+                    drawableGraph.edges.at(from).at(to).color = getColor(edge.state);
+                } else {
+                    drawableGraph.edges.at(from).at(to).color = drawableGraph.edges.at(from).at(to).defaultColor;
+                }
             }
         }
     }
@@ -220,7 +228,13 @@ QColor GraphEditorModel::getColor(EState state) {
 }
 
 void GraphEditorModel::startAlgorithm(size_t index) {
+    isAlgorithmActive_ = true;
     editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::DFS, index});
+}
+
+void GraphEditorModel::finishAlgorithm() {
+    isAlgorithmActive_ = false;
+    editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::Finish});
 }
 
 }  // namespace dsv::Kernel

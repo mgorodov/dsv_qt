@@ -1,5 +1,7 @@
 #include "data_model.h"
 
+#include <unistd.h>
+
 #include <unordered_set>
 
 namespace dsv::Kernel {
@@ -33,6 +35,12 @@ void DataModel::removeEdge(size_t from, size_t to) {
 
 void DataModel::changeNodeText(size_t index, const QString& text) {
     graph_->changeNodeText(index, text.toStdString());
+    port_.notify();
+}
+
+void DataModel::resetState() {
+    graph_->resetState();
+    port_.notify();
 }
 
 void DataModel::DFS(size_t index) {

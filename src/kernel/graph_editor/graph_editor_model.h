@@ -43,6 +43,7 @@ public:
     void moveNode(const size_t index, const QPointF pos);
     QColor getColor(EState state);
     void startAlgorithm(size_t index);
+    void finishAlgorithm();
 
 private:
     void onGraphData(GraphData&& graphData);
@@ -54,6 +55,7 @@ private:
 
     DrawData drawData_;
     RandomGen rndGen_;
+    bool isAlgorithmActive_;
 };
 
 }  // namespace dsv::Kernel

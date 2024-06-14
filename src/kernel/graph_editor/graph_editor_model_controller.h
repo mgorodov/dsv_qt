@@ -21,6 +21,7 @@ private:
     void handleAddingEdge(const size_t indexSt, const size_t indexEnd);
     void handleRemovingEdge(const size_t indexSt, const size_t indexEnd);
     void handleStartAlgorithm(const size_t index);
+    void handleFinishAlgorithm();
 
     ObserverEditData editDataInPort_ = [this](EditData&& editData) { onEditData(std::move(editData)); };
 

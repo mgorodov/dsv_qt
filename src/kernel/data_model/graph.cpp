@@ -66,4 +66,16 @@ void Graph::changeEdgeState(size_t from, size_t to, EState state) {
         edges_.at(from).at(to).state = state;
 }
 
+void Graph::resetState() {
+    for (auto& [index, node] : nodes_) {
+        changeNodeState(index, EState::Intact);
+    }
+
+    for (auto& [from, edgesTo] : edges_) {
+        for (auto& [to, edge] : edgesTo) {
+            changeEdgeState(from, to, EState::Intact);
+        }
+    }
+}
+
 }  // namespace dsv::Kernel

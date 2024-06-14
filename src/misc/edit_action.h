@@ -6,7 +6,7 @@
 namespace dsv {
 
 enum class EObjectType { Node, Edge, Algorithm };
-enum class EActionType { Add, Delete, Change, DFS };
+enum class EActionType { Add, Delete, Change, DFS, Finish };
 
 struct EditAction {
     EObjectType object;

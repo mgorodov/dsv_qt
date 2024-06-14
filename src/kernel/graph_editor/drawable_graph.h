@@ -16,6 +16,7 @@ struct DrawableGraph {
         QColor contour;
         QString text;
         QColor textColor;
+        QColor defaultColor;
     };
 
     struct Edge {
@@ -25,6 +26,7 @@ struct DrawableGraph {
         QColor color;
         QString text;
         QColor textColor;
+        QColor defaultColor;
     };
 
     struct EdgeEnds {

@@ -42,6 +42,10 @@ void GraphEditorModelController::handleStartAlgorithm(const size_t index) {
     dataModel_->runDFS(index);
 }
 
+void GraphEditorModelController::handleFinishAlgorithm() {
+    dataModel_->resetState();
+}
+
 void GraphEditorModelController::onEditData(EditData&& editData) {
     if (!editData) {
         qDebug() << "No data from code editor model yet";
@@ -67,6 +71,9 @@ void GraphEditorModelController::onEditData(EditData&& editData) {
     }
     if (editData->object == EObjectType::Algorithm && editData->action == EActionType::DFS) {
         handleStartAlgorithm(editData->index);
+    }
+    if (editData->object == EObjectType::Algorithm && editData->action == EActionType::Finish) {
+        handleFinishAlgorithm();
     }
 }
 

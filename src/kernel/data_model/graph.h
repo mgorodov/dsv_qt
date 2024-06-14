@@ -33,6 +33,7 @@ public:
     void changeNodeText(size_t index, const std::string& text);
     void changeNodeState(size_t index, EState state);
     void changeEdgeState(size_t from, size_t to, EState state);
+    void resetState();
 
 private:
     //  nodes[i] stores Node with index i
