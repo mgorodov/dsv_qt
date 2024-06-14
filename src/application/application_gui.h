@@ -14,6 +14,7 @@ protected:
     GraphEditor* getMainGraphEditor();
     CodeEditor* getMainCodeEditor();
     ControlPanel* getMainControlPanel();
+    SettingsPanel* getMainSettingsPanel();
 
 private:
     MainWindow mainWindow_;

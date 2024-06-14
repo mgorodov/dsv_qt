@@ -7,7 +7,8 @@ namespace dsv {
 struct Settings {
     bool weighted = false;
     bool directed = false;
-    qreal animationFPS = 0.5;
+    qreal nodeRadius = 30;
+    qreal animationFPS = 2;
 };
 
 }  // namespace dsv

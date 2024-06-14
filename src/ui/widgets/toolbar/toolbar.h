@@ -12,6 +12,7 @@ public:
     Toolbar(QWidget* parent = nullptr);
     CodeEditor* getCodeEditor();
     ControlPanel* getControlPanel();
+    SettingsPanel* getSettingsPanel();
 
 private:
     void createLayout();

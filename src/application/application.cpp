@@ -12,6 +12,7 @@ Application::Application() {
     getMainGraphEditor()->subscribeToMouseData(getGraphEditorViewController()->mouseDataInPort());
     getMainGraphEditor()->subscribeToKeyData(getGraphEditorViewController()->keyDataInPort());
     getMainControlPanel()->subscribeToAlgoData(getGraphEditorViewController()->algoDataInPort());
+    getMainSettingsPanel()->subscribeToSettingsData(getGraphEditorViewController()->settingsDataInPort());
 }
 
 void Application::showMainWindow() {

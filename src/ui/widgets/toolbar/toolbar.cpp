@@ -32,6 +32,10 @@ ControlPanel* Toolbar::getControlPanel() {
     return &controlPanel_;
 }
 
+SettingsPanel* Toolbar::getSettingsPanel() {
+    return &settingsPanel_;
+}
+
 void Toolbar::createLayout() {
     auto* hbox = new QHBoxLayout{this};
     hbox->addWidget(&activityBar_);
