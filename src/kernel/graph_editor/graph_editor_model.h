@@ -55,6 +55,7 @@ private slots:
 private:
     void onGraphData(GraphData&& graphData);
     size_t getFirstUnusedIndex();
+    void updateAlgoSummary(GraphData&& graphData);
 
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
     ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& { return drawData_; };

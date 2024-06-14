@@ -1,5 +1,6 @@
 #pragma once
 
+#include <kernel/graph_editor/drawable_graph.h>
 #include <misc/algorithm_action.h>
 #include <misc/Observer.h>
 
@@ -16,12 +17,16 @@ namespace dsv::UI {
 
 class ControlPanel : public QGroupBox {
     Q_OBJECT
+    using DrawData = std::optional<Kernel::DrawableGraph>;
+    using ObserverDrawData = NSLibrary::CObserver<DrawData>;
+
     using AlgoData = std::optional<AlgorithmAction>;
     using ObservableAlgoData = NSLibrary::CObservableDataMono<AlgoData>;
     using ObserverAlgoData = NSLibrary::CObserver<AlgoData>;
 
 public:
     explicit ControlPanel(QWidget* parent = nullptr);
+    ObserverDrawData* drawDataInPort();
     void subscribeToAlgoData(ObserverAlgoData* observer);
 
 private slots:
@@ -33,6 +38,7 @@ private slots:
     void startVertexChanged(const QString& text);
 
 private:
+    void onDrawData(DrawData&& drawData);
     void createLayout();
 
     QLabel label;
@@ -50,6 +56,7 @@ private:
     EAlgorithm currentAlgorithm_;
     size_t startVertex_{0};
 
+    ObserverDrawData drawDataInPort_ = [this](DrawData&& drawData) { onDrawData(std::move(drawData)); };
     ObservableAlgoData algoDataOutPort_;
 };
 

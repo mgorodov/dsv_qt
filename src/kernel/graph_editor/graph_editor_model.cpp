@@ -78,7 +78,8 @@ void GraphEditorModel::removeEdge(const size_t start, const size_t finish) {
 void GraphEditorModel::onTimer() {
     if (isAlgorithmActive_) {
         if (currentFrame_ + 1 < frames_.size()) {
-            updateColors(frames_[++currentFrame_].value());
+            updateColors(frames_[currentFrame_].value());
+            updateAlgoSummary(frames_[++currentFrame_].value());
         }
     }
     drawDataOutPort_.notify();
@@ -220,6 +221,11 @@ void GraphEditorModel::updateColors(GraphData&& graphData) {
             }
         }
     }
+}
+
+void GraphEditorModel::updateAlgoSummary(GraphData&& graphData) {
+    DrawableGraph& drawableGraph = drawData_.value();
+    drawableGraph.algorithmOutput = QString::fromStdString(graphData->algorithmOutput);
 }
 
 void GraphEditorModel::updateNodeText(const size_t index, const QString& text) {

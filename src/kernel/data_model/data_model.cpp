@@ -5,6 +5,22 @@
 #include <queue>
 #include <unordered_set>
 
+namespace {
+std::string dumpDFSSummary(const std::unordered_set<size_t>& used) {
+    std::string summary = "Running DFS\n\nVisited vertixes:\n{";
+    bool first = true;
+    for (auto i : used) {
+        if (!first) {
+            summary += ", ";
+        }
+        summary += std::to_string(i);
+        first = false;
+    }
+    summary += "}\n";
+    return summary;
+}
+}  // namespace
+
 namespace dsv::Kernel {
 
 DataModel::DataModel() : graph_{std::in_place_t{}} {}
@@ -49,7 +65,7 @@ void DataModel::DFS(size_t index) {
     port_.notify();
 
     used_.insert(index);
-
+    graph_->algorithmOutput = dumpDFSSummary(used_);
     graph_->changeNodeState(index, EState::Selected);
     port_.notify();
 
