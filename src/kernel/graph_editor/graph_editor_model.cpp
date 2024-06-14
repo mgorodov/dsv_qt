@@ -35,10 +35,16 @@ DrawData* GraphEditorModel::getDrawData() {
 }
 
 void GraphEditorModel::addNodeRandomPos() {
+    if (isAlgorithmActive_) {
+        return;
+    }
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add, getFirstUnusedIndex()});
 }
 
 void GraphEditorModel::addNode(const QPointF pos) {
+    if (isAlgorithmActive_) {
+        return;
+    }
     DrawableGraph& drawableGraph = drawData_.value();
     const auto index = getFirstUnusedIndex();
     auto fill = rndGen_.color();
@@ -49,14 +55,23 @@ void GraphEditorModel::addNode(const QPointF pos) {
 }
 
 void GraphEditorModel::addEdge(const size_t start, const size_t finish) {
+    if (isAlgorithmActive_) {
+        return;
+    }
     editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Add, start, finish});
 }
 
 void GraphEditorModel::removeNode(const size_t index) {
+    if (isAlgorithmActive_) {
+        return;
+    }
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Delete, index});
 }
 
 void GraphEditorModel::removeEdge(const size_t start, const size_t finish) {
+    if (isAlgorithmActive_) {
+        return;
+    }
     editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete, start, finish});
 }
 
@@ -208,6 +223,9 @@ void GraphEditorModel::updateColors(GraphData&& graphData) {
 }
 
 void GraphEditorModel::updateNodeText(const size_t index, const QString& text) {
+    if (isAlgorithmActive_) {
+        return;
+    }
     DrawableGraph& drawableGraph = drawData_.value();
     auto& node = drawableGraph.nodes.at(index);
     node.text = text;
@@ -235,6 +253,8 @@ QColor GraphEditorModel::getColor(EState state) {
         case dsv::Kernel::EState::Intact:
             return Qt::lightGray;
         case dsv::Kernel::EState::Selected:
+            return QColor(5, 9, 116);
+        case dsv::Kernel::EState::Current:
             return QColor(126, 9, 116);
         case dsv::Kernel::EState::Used:
             return QColor(54, 75, 73);

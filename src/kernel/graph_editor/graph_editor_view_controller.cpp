@@ -76,7 +76,7 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_D)
         handleRemoveEdges();
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_T)
-        handleStartAlgorithm(mousePos_.value_or(QPointF(0, 0)));
+        handleStartAlgorithm();
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_Y)
         handleEndAlgorithm();
 
@@ -195,9 +195,14 @@ void GraphEditorViewController::handleRemoveEdges() {
     drawableGraph.active_nodes.clear();
 }
 
-void GraphEditorViewController::handleStartAlgorithm(const QPointF pos) {
-    auto index = getNodeInPos(pos);
-    graphEditorModel_->startAlgorithm(index.value_or(0));
+void GraphEditorViewController::handleStartAlgorithm() {
+    if (!graphEditorModel_->getDrawData()->has_value()) {
+        return;
+    }
+    DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
+    if (!drawableGraph.active_nodes.empty()) {
+        graphEditorModel_->startAlgorithm(*drawableGraph.active_nodes.begin());
+    }
 }
 
 void GraphEditorViewController::handleEndAlgorithm() {

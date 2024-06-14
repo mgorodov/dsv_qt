@@ -39,7 +39,7 @@ void GraphEditorModelController::handleRemovingEdge(const size_t indexSt, const 
 }
 
 void GraphEditorModelController::handleStartAlgorithm(const size_t index) {
-    dataModel_->runDFS(index);
+    dataModel_->runBFS(index);
 }
 
 void GraphEditorModelController::handleFinishAlgorithm() {

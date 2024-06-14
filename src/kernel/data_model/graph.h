@@ -7,7 +7,7 @@
 
 namespace dsv::Kernel {
 
-enum class EState { Intact, Selected, Used };
+enum class EState { Intact, Selected, Current, Used };
 
 struct Node {
     std::string val;

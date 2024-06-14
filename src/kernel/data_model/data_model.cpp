@@ -2,6 +2,7 @@
 
 #include <unistd.h>
 
+#include <queue>
 #include <unordered_set>
 
 namespace dsv::Kernel {
@@ -44,36 +45,80 @@ void DataModel::resetState() {
 }
 
 void DataModel::DFS(size_t index) {
-    graph_->changeNodeState(index, EState::Selected);
+    graph_->changeNodeState(index, EState::Current);
     port_.notify();
+
     used_.insert(index);
-    graph_->changeNodeState(index, EState::Used);
+
+    graph_->changeNodeState(index, EState::Selected);
     port_.notify();
 
     if (!graph_->getEdges().count(index)) {
+        graph_->changeNodeState(index, EState::Used);
+        port_.notify();
         return;
     }
 
     for (auto& [to, edge] : graph_->getEdges().at(index)) {
-        graph_->changeEdgeState(index, to, EState::Selected);
-        port_.notify();
-        graph_->changeEdgeState(index, to, EState::Used);
-        port_.notify();
+        if (!used_.count(to)) {
+            graph_->changeEdgeState(index, to, EState::Current);
+            port_.notify();
+            graph_->changeEdgeState(index, to, EState::Used);
 
-        DFS(to);
-
-        graph_->changeEdgeState(index, to, EState::Selected);
-        port_.notify();
-        graph_->changeEdgeState(index, to, EState::Used);
-        port_.notify();
+            DFS(to);
+        }
     }
+
+    graph_->changeNodeState(index, EState::Current);
+    port_.notify();
+
+    graph_->changeNodeState(index, EState::Used);
+    port_.notify();
 }
 
 void DataModel::runDFS(size_t index) {
     used_.clear();
-    for (auto& [index, node] : graph_->getNodes()) {
-        if (!used_.count(index)) {
-            DFS(index);
+    DFS(index);
+}
+
+void DataModel::runBFS(size_t index) {
+    used_.clear();
+    std::queue<size_t> q;
+
+    graph_->changeNodeState(index, EState::Current);
+    port_.notify();
+
+    q.push(index);
+    used_.insert(index);
+
+    graph_->changeNodeState(index, EState::Selected);
+    port_.notify();
+
+    while (!q.empty()) {
+        auto cur = q.front();
+        q.pop();
+
+        graph_->changeNodeState(cur, EState::Used);
+        port_.notify();
+
+        if (!graph_->getEdges().count(cur)) {
+            return;
+        }
+
+        for (auto& [to, edge] : graph_->getEdges().at(cur)) {
+            if (!used_.count(to)) {
+                graph_->changeEdgeState(cur, to, EState::Current);
+                port_.notify();
+                graph_->changeEdgeState(cur, to, EState::Used);
+                graph_->changeNodeState(index, EState::Current);
+                port_.notify();
+
+                q.push(to);
+                used_.insert(to);
+
+                graph_->changeNodeState(index, EState::Selected);
+                port_.notify();
+            }
         }
     }
 }
