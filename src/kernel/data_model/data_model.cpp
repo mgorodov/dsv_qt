@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 namespace {
+
 std::string dumpDFSSummary(const std::unordered_set<size_t>& used) {
     std::string summary = "Running DFS\n\nVisited vertixes:\n{";
     bool first = true;
@@ -19,6 +20,7 @@ std::string dumpDFSSummary(const std::unordered_set<size_t>& used) {
     summary += "}\n";
     return summary;
 }
+
 }  // namespace
 
 namespace dsv::Kernel {

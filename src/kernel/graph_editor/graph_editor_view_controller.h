@@ -5,6 +5,7 @@
 #include <misc/keyboard_action.h>
 #include <misc/mouse_action.h>
 #include <misc/Observer.h>
+#include <misc/settings.h>
 
 namespace dsv::Kernel {
 
@@ -24,17 +25,22 @@ class GraphEditorViewController {
     using AlgoData = std::optional<AlgorithmAction>;
     using ObserverAlgoData = NSLibrary::CObserver<AlgoData>;
 
+    using SettingsData = std::optional<Settings>;
+    using ObserverSettingsData = NSLibrary::CObserver<SettingsData>;
+
 public:
     void connect(GraphEditorModel* graphEditorModel);
 
     ObserverMouseData* mouseDataInPort();
     ObserverKeyData* keyDataInPort();
     ObserverAlgoData* algoDataInPort();
+    ObserverSettingsData* settingsDataInPort();
 
 private:
     void onMouseData(MouseData&& mouseData);
     void onKeyData(KeyData&& keyData);
     void onAlgoData(AlgoData&& algoData);
+    void onSettingsData(SettingsData&& settingsData);
 
     void handleAddNodeInRandomPos();
     void handleAddNodeInMousePos();
@@ -54,6 +60,9 @@ private:
     ObserverMouseData mouseDataInPort_ = [this](MouseData&& mouseData) { onMouseData(std::move(mouseData)); };
     ObserverKeyData keyDataInPort_ = [this](KeyData&& keyData) { onKeyData(std::move(keyData)); };
     ObserverAlgoData algoDataInPort_ = [this](AlgoData&& algoData) { onAlgoData(std::move(algoData)); };
+    ObserverSettingsData settingsDataInPort_ = [this](SettingsData&& settingsData) {
+        onSettingsData(std::move(settingsData));
+    };
 
     GraphEditorModel* graphEditorModel_ = nullptr;
     std::optional<QPointF> mousePos_ = std::nullopt;

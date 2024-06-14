@@ -28,6 +28,10 @@ ControlPanel *MainWindow::getControlPanel() {
     return toolbar_.getControlPanel();
 }
 
+SettingsPanel *MainWindow::getSettingsPanel() {
+    return toolbar_.getSettingsPanel();
+}
+
 void MainWindow::createInterface() {
     auto *mainLayout = new QGridLayout(this);
     mainLayout->addWidget(&toolbar_, 0, 0);

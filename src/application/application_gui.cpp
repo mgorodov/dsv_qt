@@ -28,4 +28,8 @@ ControlPanel *ApplicationGUI::getMainControlPanel() {
     return mainWindow_.getControlPanel();
 }
 
+SettingsPanel *ApplicationGUI::getMainSettingsPanel() {
+    return mainWindow_.getSettingsPanel();
+}
+
 }  // namespace dsv::UI

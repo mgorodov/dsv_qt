@@ -17,6 +17,7 @@ public:
     GraphEditor* getGraphEditor();
     CodeEditor* getCodeEditor();
     ControlPanel* getControlPanel();
+    SettingsPanel* getSettingsPanel();
 
 private:
     void createInterface();
