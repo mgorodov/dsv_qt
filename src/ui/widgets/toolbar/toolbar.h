@@ -11,6 +11,7 @@ class Toolbar : public QGroupBox {
 public:
     Toolbar(QWidget* parent = nullptr);
     CodeEditor* getCodeEditor();
+    ControlPanel* getControlPanel();
 
 private:
     void createLayout();

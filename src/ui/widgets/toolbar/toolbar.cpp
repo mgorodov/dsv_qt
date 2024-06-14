@@ -28,6 +28,10 @@ CodeEditor* Toolbar::getCodeEditor() {
     return &codeEditor_;
 }
 
+ControlPanel* Toolbar::getControlPanel() {
+    return &controlPanel_;
+}
+
 void Toolbar::createLayout() {
     auto* hbox = new QHBoxLayout{this};
     hbox->addWidget(&activityBar_);
