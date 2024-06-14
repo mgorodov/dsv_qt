@@ -25,6 +25,7 @@ public:
     void runDFS(size_t index = 0);
     void DFS(size_t index);
     void runBFS(size_t index);
+    void runPrim(size_t index);
     void reconstructGraph(const Graph& graph);
 
 private:

@@ -47,7 +47,7 @@ void GraphEditorModelController::handleStartBFS(const size_t index) {
 }
 
 void GraphEditorModelController::handleStartPrim(const size_t index) {
-    // dataModel_->runPrim(index);
+    dataModel_->runPrim(index);
 }
 
 void GraphEditorModelController::handleFinishAlgorithm() {

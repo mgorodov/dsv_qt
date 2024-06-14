@@ -106,6 +106,7 @@ void DataModel::runBFS(size_t index) {
 
     q.push(index);
     used_.insert(index);
+    graph_->algorithmOutput = dumpDFSSummary(used_);
 
     graph_->changeNodeState(index, EState::Selected);
     port_.notify();
@@ -131,11 +132,63 @@ void DataModel::runBFS(size_t index) {
 
                 q.push(to);
                 used_.insert(to);
+                graph_->algorithmOutput = dumpDFSSummary(used_);
 
                 graph_->changeNodeState(to, EState::Selected);
                 port_.notify();
             }
         }
+    }
+}
+
+void DataModel::runPrim(size_t index) {
+    const static long long int INF = 1e9;
+    used_.clear();
+    int numEdge = 0;
+
+    graph_->changeNodeState(index, EState::Current);
+    port_.notify();
+
+    used_.insert(index);
+    graph_->algorithmOutput = dumpDFSSummary(used_);
+
+    graph_->changeNodeState(index, EState::Used);
+    port_.notify();
+
+    while (numEdge < graph_->getNodes().size() - 1) {
+        long long min = INF;
+        size_t st = 0;
+        size_t fin = 0;
+
+        for (auto& [from, edgesTo] : graph_->getEdges()) {
+            if (used_.count(from)) {
+                for (auto& [to, edge] : edgesTo) {
+                    if (!used_.count(to)) {
+                        graph_->changeEdgeState(from, to, EState::Current);
+                        graph_->changeNodeState(to, EState::Current);
+                        port_.notify();
+
+                        if (min > edge.weight) {
+                            min = edge.weight;
+                            st = from;
+                            fin = to;
+                        }
+
+                        graph_->changeEdgeState(from, to, EState::Intact);
+                        graph_->changeNodeState(to, EState::Intact);
+                        port_.notify();
+                    }
+                }
+            }
+        }
+
+        graph_->changeEdgeState(st, fin, EState::Used);
+        graph_->changeNodeState(fin, EState::Used);
+        port_.notify();
+
+        used_.insert(fin);
+        graph_->algorithmOutput = dumpDFSSummary(used_);
+        numEdge++;
     }
 }
 
