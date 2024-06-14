@@ -123,6 +123,8 @@ void DataModel::runBFS(size_t index) {
     }
 }
 
+
+
 void DataModel::reconstructGraph(const Graph& graph) {
     graph_ = graph;
     port_.notify();
