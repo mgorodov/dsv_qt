@@ -35,6 +35,8 @@ public:
     void changeEdgeState(size_t from, size_t to, EState state);
     void resetState();
 
+    std::string algorithmOutput;
+
 private:
     //  nodes[i] stores Node with index i
     std::unordered_map<size_t, Node> nodes_;

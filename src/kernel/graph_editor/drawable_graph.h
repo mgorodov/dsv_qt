@@ -38,6 +38,7 @@ struct DrawableGraph {
     std::unordered_map<size_t, std::unordered_map<size_t, Edge>> edges;
     // std::unordered_map<std::pair<size_t, size_t>, Edge> edges;
     std::unordered_set<size_t> active_nodes;
+    QString algorithmOutput;
 };
 
 }  // namespace dsv::Kernel

@@ -2,8 +2,27 @@
 
 namespace dsv::UI {
 
+using DrawData = std::optional<Kernel::DrawableGraph>;
+using ObserverDrawData = NSLibrary::CObserver<DrawData>;
+
+using AlgoData = std::optional<AlgorithmAction>;
+using ObservableAlgoData = NSLibrary::CObservableDataMono<AlgoData>;
+using ObserverAlgoData = NSLibrary::CObserver<AlgoData>;
+
 ControlPanel::ControlPanel(QWidget* parent) : QGroupBox{parent} {
     createLayout();
+}
+
+ObserverDrawData* ControlPanel::drawDataInPort() {
+    return &drawDataInPort_;
+}
+
+void ControlPanel::onDrawData(DrawData&& drawData) {
+    if (!drawData) {
+        qDebug() << "No drawData yet in ControlPanel";
+        return;
+    }
+    algoOutput.setPlainText(drawData->algorithmOutput);
 }
 
 void ControlPanel::subscribeToAlgoData(ObserverAlgoData* observer) {

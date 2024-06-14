@@ -5,6 +5,7 @@ namespace dsv {
 Application::Application() {
     getCodeEditorModel()->subscribeToTextData(getMainCodeEditor()->textDataInPort());
     getGraphEditorModel()->subscribeToDrawData(getMainGraphEditor()->drawDataInPort());
+    getGraphEditorModel()->subscribeToDrawData(getMainControlPanel()->drawDataInPort());
 
     getMainCodeEditor()->subscribeToContentData(getCodeEditorController()->contentDataInPort());
 
