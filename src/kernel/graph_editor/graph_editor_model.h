@@ -3,12 +3,12 @@
 #include <kernel/data_model/graph.h>
 #include <kernel/graph_editor/drawable_graph.h>
 #include <kernel/graph_editor/graph_editor_model_controller.h>
+#include <misc/algorithm_action.h>
 #include <misc/edit_action.h>
 #include <misc/mouse_action.h>
 #include <misc/Observer.h>
 #include <misc/random_gen.h>
 
-#include <list>
 #include <QObject>
 #include <QTimer>
 
@@ -46,7 +46,7 @@ public:
     void updateNodeText(const size_t index, const QString& text);
     void moveNode(const size_t index, const QPointF pos);
     QColor getColor(EState state);
-    void startAlgorithm(size_t index);
+    void startAlgorithm(size_t index, EAlgorithm algo);
     void finishAlgorithm();
 
 private slots:

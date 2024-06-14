@@ -269,10 +269,19 @@ QColor GraphEditorModel::getColor(EState state) {
     }
 }
 
-void GraphEditorModel::startAlgorithm(size_t index) {
+void GraphEditorModel::startAlgorithm(size_t index, EAlgorithm algo) {
     isAlgorithmActive_ = true;
     currentFrame_ = frames_.size() - 1;
-    editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::DFS, index});
+    switch (algo) {
+        case EAlgorithm::DFS:
+            editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::DFS, index});
+        case EAlgorithm::BFS:
+            editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::BFS, index});
+        case EAlgorithm::Prim:
+            editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::Prim, index});
+        case EAlgorithm::Dijkstra:
+            editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::Dijkstra, index});
+    }
 }
 
 void GraphEditorModel::finishAlgorithm() {

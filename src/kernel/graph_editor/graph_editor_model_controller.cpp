@@ -38,8 +38,16 @@ void GraphEditorModelController::handleRemovingEdge(const size_t indexSt, const 
     dataModel_->removeEdge(indexSt, indexEnd);
 }
 
-void GraphEditorModelController::handleStartAlgorithm(const size_t index) {
+void GraphEditorModelController::handleStartDFS(const size_t index) {
     dataModel_->runDFS(index);
+}
+
+void GraphEditorModelController::handleStartBFS(const size_t index) {
+    dataModel_->runBFS(index);
+}
+
+void GraphEditorModelController::handleStartPrim(const size_t index) {
+    // dataModel_->runPrim(index);
 }
 
 void GraphEditorModelController::handleFinishAlgorithm() {
@@ -70,7 +78,13 @@ void GraphEditorModelController::onEditData(EditData&& editData) {
             handleChangeNodeText(editData->index, editData->text.value());
     }
     if (editData->object == EObjectType::Algorithm && editData->action == EActionType::DFS) {
-        handleStartAlgorithm(editData->index);
+        handleStartDFS(editData->index);
+    }
+    if (editData->object == EObjectType::Algorithm && editData->action == EActionType::BFS) {
+        handleStartBFS(editData->index);
+    }
+    if (editData->object == EObjectType::Algorithm && editData->action == EActionType::Prim) {
+        handleStartPrim(editData->index);
     }
     if (editData->object == EObjectType::Algorithm && editData->action == EActionType::Finish) {
         handleFinishAlgorithm();

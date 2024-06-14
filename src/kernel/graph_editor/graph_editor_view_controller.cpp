@@ -82,8 +82,6 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
         handleAddEdges();
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_D)
         handleRemoveEdges();
-    if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_T)
-        handleStartAlgorithm();
     if (keyData->status == EKeyStatus::Pressed && keyData->key == Qt::Key_Y)
         handleEndAlgorithm();
 
@@ -95,8 +93,16 @@ void GraphEditorViewController::onAlgoData(AlgoData&& algoData) {
         qDebug() << "No algo data yet";
         return;
     }
+
+    if (algoData->clickedButton == EControlButton::Run)
+        handleStartAlgorithm(algoData->startVertex, algoData->selectedAlgorithm);
+    if (algoData->clickedButton == EControlButton::Stop)
+        handleEndAlgorithm();
+
+    /*
     qDebug() << "onAlgoData in GraphEditorViewController: " << int(algoData->selectedAlgorithm) << " "
              << int(algoData->clickedButton) << " " << int(algoData->startVertex);
+    */
 }
 
 void GraphEditorViewController::handleAddNodeInRandomPos() {
@@ -211,13 +217,13 @@ void GraphEditorViewController::handleRemoveEdges() {
     drawableGraph.active_nodes.clear();
 }
 
-void GraphEditorViewController::handleStartAlgorithm() {
+void GraphEditorViewController::handleStartAlgorithm(size_t index, EAlgorithm algo) {
     if (!graphEditorModel_->getDrawData()->has_value()) {
         return;
     }
     DrawableGraph& drawableGraph = graphEditorModel_->getDrawData()->value();
-    if (!drawableGraph.active_nodes.empty()) {
-        graphEditorModel_->startAlgorithm(*drawableGraph.active_nodes.begin());
+    if (drawableGraph.nodes.count(index)) {
+        graphEditorModel_->startAlgorithm(index, algo);
     }
 }
 
