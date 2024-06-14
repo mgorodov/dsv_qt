@@ -24,4 +24,8 @@ CodeEditor *ApplicationGUI::getMainCodeEditor() {
     return mainWindow_.getCodeEditor();
 }
 
+ControlPanel *ApplicationGUI::getMainControlPanel() {
+    return mainWindow_.getControlPanel();
+}
+
 }  // namespace dsv::UI

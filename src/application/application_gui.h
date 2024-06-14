@@ -13,6 +13,7 @@ protected:
     MainWindow* getMainWindow();
     GraphEditor* getMainGraphEditor();
     CodeEditor* getMainCodeEditor();
+    ControlPanel* getMainControlPanel();
 
 private:
     MainWindow mainWindow_;

@@ -12,6 +12,9 @@ using ObserverMouseData = NSLibrary::CObserver<MouseData>;
 using KeyData = std::optional<KeyAction>;
 using ObserverKeyData = NSLibrary::CObserver<KeyData>;
 
+using AlgoData = std::optional<AlgorithmAction>;
+using ObserverAlgoData = NSLibrary::CObserver<AlgoData>;
+
 void GraphEditorViewController::connect(GraphEditorModel* graphEditorModel) {
     assert(graphEditorModel);
     assert(!graphEditorModel_);
@@ -25,6 +28,10 @@ ObserverMouseData* GraphEditorViewController::mouseDataInPort() {
 
 ObserverKeyData* GraphEditorViewController::keyDataInPort() {
     return &keyDataInPort_;
+}
+
+ObserverAlgoData* GraphEditorViewController::algoDataInPort() {
+    return &algoDataInPort_;
 }
 
 void GraphEditorViewController::onMouseData(MouseData&& mouseData) {
@@ -81,6 +88,15 @@ void GraphEditorViewController::onKeyData(KeyData&& keyData) {
         handleEndAlgorithm();
 
     // qDebug() << "Key: " << static_cast<int>(keyData->status) << ": " << keyData->key;
+}
+
+void GraphEditorViewController::onAlgoData(AlgoData&& algoData) {
+    if (!algoData) {
+        qDebug() << "No algo data yet";
+        return;
+    }
+    qDebug() << "onAlgoData in GraphEditorViewController: " << int(algoData->selectedAlgorithm) << " "
+             << int(algoData->clickedButton) << " " << int(algoData->startVertex);
 }
 
 void GraphEditorViewController::handleAddNodeInRandomPos() {
