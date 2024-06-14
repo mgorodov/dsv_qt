@@ -102,7 +102,7 @@ void DataModel::runBFS(size_t index) {
         port_.notify();
 
         if (!graph_->getEdges().count(cur)) {
-            return;
+            continue;
         }
 
         for (auto& [to, edge] : graph_->getEdges().at(cur)) {
@@ -110,13 +110,13 @@ void DataModel::runBFS(size_t index) {
                 graph_->changeEdgeState(cur, to, EState::Current);
                 port_.notify();
                 graph_->changeEdgeState(cur, to, EState::Used);
-                graph_->changeNodeState(index, EState::Current);
+                graph_->changeNodeState(to, EState::Current);
                 port_.notify();
 
                 q.push(to);
                 used_.insert(to);
 
-                graph_->changeNodeState(index, EState::Selected);
+                graph_->changeNodeState(to, EState::Selected);
                 port_.notify();
             }
         }
