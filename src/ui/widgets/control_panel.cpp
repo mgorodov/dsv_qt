@@ -122,6 +122,7 @@ void ControlPanel::createLayout() {
     algoOutputFont.setFamily("Courier New");
     algoOutputFont.setPixelSize(20);
     // algoOutput.setFixedW(30);
+    algoOutput.setFixedHeight(400);
     algoOutput.setFont(algoOutputFont);
 
     grid->addWidget(&label, 0, 0, 1, 6, Qt::AlignTop);
@@ -142,7 +143,7 @@ void ControlPanel::createLayout() {
     grid->addWidget(&algoOutput, 7, 0, 1, 6, Qt::AlignTop);
 
     auto* empty = new QLabel;
-    grid->addWidget(empty, 7, 0, 5, 6, Qt::AlignTop);
+    grid->addWidget(empty, 8, 0, 1, 6, Qt::AlignTop);
     grid->setSpacing(0);
     // grid.setContentsMargins(0, 0, 0, 0);
     setLayout(grid);
