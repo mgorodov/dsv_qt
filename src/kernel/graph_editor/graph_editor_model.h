@@ -57,12 +57,10 @@ private:
     size_t getFirstUnusedIndex();
 
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
-    ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& {
-        return isAlgorithmActive_ ? frames_[currentFrame_] : drawData_;
-    };
+    ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& { return drawData_; };
     ObservableEditData editDataOutPort_;
 
-    std::vector<DrawData> frames_;
+    std::vector<GraphData> frames_;
     size_t currentFrame_;
     QTimer animationTimer_;
 

@@ -11,7 +11,7 @@ using GraphData = std::optional<Graph>;
 using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
 GraphEditorModel::GraphEditorModel()
-    : drawData_{std::in_place}, isAlgorithmActive_(false), frames_(1, DrawData(std::in_place)), currentFrame_{0} {
+    : drawData_{std::in_place}, isAlgorithmActive_(false), frames_(1, GraphData(std::in_place)), currentFrame_{0} {
     connect(&animationTimer_, &QTimer::timeout, this, &GraphEditorModel::onTimer);
     animationTimer_.start(1000);
 }
@@ -63,12 +63,10 @@ void GraphEditorModel::removeEdge(const size_t start, const size_t finish) {
 void GraphEditorModel::onTimer() {
     if (isAlgorithmActive_) {
         if (currentFrame_ + 1 < frames_.size()) {
-            drawData_ = frames_[++currentFrame_];
-            drawDataOutPort_.notify();
+            updateColors(frames_[++currentFrame_].value());
         }
-    } else {
-        currentFrame_ = frames_.size() - 2;
     }
+    drawDataOutPort_.notify();
 }
 
 void GraphEditorModel::onGraphData(GraphData&& graphData) {
@@ -79,6 +77,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
         }
         return;
     }
+    frames_.push_back(graphData);
 
     // TODO: Fill drawData_ using some adaptor: GraphData -> DrawableGraph
     DrawableGraph& drawableGraph = drawData_.value();
@@ -136,13 +135,11 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
         }
     }
     updateValues(*graphData);
-    updateColors(*graphData);
-    updateActive();
-    frames_.push_back(drawData_);
     if (!isAlgorithmActive_) {
-        currentFrame_ = frames_.size() - 2;
-        drawDataOutPort_.notify();
+        updateColors(*graphData);
+        updateActive();
     }
+    drawDataOutPort_.notify();
 }
 
 size_t GraphEditorModel::getFirstUnusedIndex() {
