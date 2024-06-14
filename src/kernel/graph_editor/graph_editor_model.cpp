@@ -77,9 +77,10 @@ void GraphEditorModel::removeEdge(const size_t start, const size_t finish) {
 
 void GraphEditorModel::onTimer() {
     if (isAlgorithmActive_) {
+        updateColors(frames_[currentFrame_].value());
+        updateAlgoSummary(frames_[currentFrame_].value());
         if (currentFrame_ + 1 < frames_.size()) {
-            updateColors(frames_[currentFrame_].value());
-            updateAlgoSummary(frames_[++currentFrame_].value());
+            currentFrame_++;
         }
     }
     drawDataOutPort_.notify();
