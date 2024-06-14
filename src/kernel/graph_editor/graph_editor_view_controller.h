@@ -54,6 +54,7 @@ private:
     void handleRemoveEdges();
     void handleStartAlgorithm(size_t index, EAlgorithm algo);
     void handleEndAlgorithm();
+    void handleMoveFrame(bool isForward);
 
     std::optional<size_t> getNodeInPos(const QPointF pos);
 

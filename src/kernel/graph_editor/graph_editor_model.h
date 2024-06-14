@@ -48,6 +48,9 @@ public:
     QColor getColor(EState state);
     void startAlgorithm(size_t index, EAlgorithm algo);
     void finishAlgorithm();
+    void updateRadius(qreal radius);
+    void updateFPS(qreal fps);
+    void updateCurrentFrame(bool isForward);
 
 private slots:
     void onTimer();
@@ -68,6 +71,8 @@ private:
     DrawData drawData_;
     RandomGen rndGen_;
     bool isAlgorithmActive_;
+    qreal radius_;
+    qreal fps_;
 };
 
 }  // namespace dsv::Kernel

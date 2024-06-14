@@ -7,8 +7,8 @@
 
 namespace {
 
-std::string dumpDFSSummary(const std::unordered_set<size_t>& used) {
-    std::string summary = "Running DFS\n\nVisited vertixes:\n{";
+std::string dumpSummary(const std::unordered_set<size_t>& used, std::string algo) {
+    std::string summary = "Running " + algo + "\n\nVisited vertixes:\n{";
     bool first = true;
     for (auto i : used) {
         if (!first) {
@@ -67,7 +67,7 @@ void DataModel::DFS(size_t index) {
     port_.notify();
 
     used_.insert(index);
-    graph_->algorithmOutput = dumpDFSSummary(used_);
+    graph_->algorithmOutput = dumpSummary(used_, "DFS");
     graph_->changeNodeState(index, EState::Selected);
     port_.notify();
 
@@ -108,7 +108,7 @@ void DataModel::runBFS(size_t index) {
 
     q.push(index);
     used_.insert(index);
-    graph_->algorithmOutput = dumpDFSSummary(used_);
+    graph_->algorithmOutput = dumpSummary(used_, "BFS");
 
     graph_->changeNodeState(index, EState::Selected);
     port_.notify();
@@ -134,7 +134,7 @@ void DataModel::runBFS(size_t index) {
 
                 q.push(to);
                 used_.insert(to);
-                graph_->algorithmOutput = dumpDFSSummary(used_);
+                graph_->algorithmOutput = dumpSummary(used_, "BFS");
 
                 graph_->changeNodeState(to, EState::Selected);
                 port_.notify();
@@ -152,7 +152,7 @@ void DataModel::runPrim(size_t index) {
     port_.notify();
 
     used_.insert(index);
-    graph_->algorithmOutput = dumpDFSSummary(used_);
+    graph_->algorithmOutput = dumpSummary(used_, "Prim");
 
     graph_->changeNodeState(index, EState::Used);
     port_.notify();
@@ -189,7 +189,7 @@ void DataModel::runPrim(size_t index) {
         port_.notify();
 
         used_.insert(fin);
-        graph_->algorithmOutput = dumpDFSSummary(used_);
+        graph_->algorithmOutput = dumpSummary(used_, "Prim");
         numEdge++;
     }
 }

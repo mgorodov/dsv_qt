@@ -66,7 +66,7 @@ void SettingsPanel::createLayout() {
     radiusSelector.setFixedWidth(150);
     connect(&radiusSelector, &QSlider::valueChanged, this, &SettingsPanel::radiusChanged);
 
-    fpsLabel.setText("Animation delay");
+    fpsLabel.setText("Animation FPS");
     font.setPixelSize(18);
     fpsLabel.setFont(font);
     fpsLabel.setAlignment(Qt::AlignCenter);

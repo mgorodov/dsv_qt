@@ -105,6 +105,10 @@ void GraphEditorViewController::onAlgoData(AlgoData&& algoData) {
         handleStartAlgorithm(algoData->startVertex, algoData->selectedAlgorithm);
     if (algoData->clickedButton == EControlButton::Stop)
         handleEndAlgorithm();
+    if (algoData->clickedButton == EControlButton::Forward)
+        handleMoveFrame(true);
+    if (algoData->clickedButton == EControlButton::Backward)
+        handleMoveFrame(false);
 
     /*
     qDebug() << "onAlgoData in GraphEditorViewController: " << int(algoData->selectedAlgorithm) << " "
@@ -117,7 +121,11 @@ void GraphEditorViewController::onSettingsData(SettingsData&& settingsData) {
         qDebug() << "No settings data yet";
         return;
     }
+    graphEditorModel_->updateRadius(settingsData->nodeRadius);
+    graphEditorModel_->updateFPS(settingsData->animationFPS);
+    /*
     qDebug() << "onSettingsData" << settingsData->animationFPS << " " << settingsData->nodeRadius;
+    */
 }
 
 void GraphEditorViewController::handleAddNodeInRandomPos() {
@@ -244,6 +252,10 @@ void GraphEditorViewController::handleStartAlgorithm(size_t index, EAlgorithm al
 
 void GraphEditorViewController::handleEndAlgorithm() {
     graphEditorModel_->finishAlgorithm();
+}
+
+void GraphEditorViewController::handleMoveFrame(bool isForward) {
+    graphEditorModel_->updateCurrentFrame(isForward);
 }
 
 std::optional<size_t> GraphEditorViewController::getNodeInPos(const QPointF pos) {

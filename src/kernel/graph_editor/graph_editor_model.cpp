@@ -11,7 +11,12 @@ using GraphData = std::optional<Graph>;
 using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
 GraphEditorModel::GraphEditorModel()
-    : drawData_{std::in_place}, isAlgorithmActive_(false), frames_(1, GraphData(std::in_place)), currentFrame_{0} {
+    : drawData_{std::in_place},
+      isAlgorithmActive_(false),
+      frames_(1, GraphData(std::in_place)),
+      currentFrame_{0},
+      radius_{30},
+      fps_{1} {
     connect(&animationTimer_, &QTimer::timeout, this, &GraphEditorModel::onTimer);
     animationTimer_.start(1000);
 }
@@ -49,7 +54,7 @@ void GraphEditorModel::addNode(const QPointF pos) {
     const auto index = getFirstUnusedIndex();
     auto fill = rndGen_.color();
     drawableGraph.nodes[index] =
-        DrNode{QPointF(pos.x(), pos.y()), 30, fill, fill, QString::number(index), Qt::white, fill};
+        DrNode{QPointF(pos.x(), pos.y()), radius_, fill, fill, QString::number(index), Qt::white, fill};
 
     editDataOutPort_.set(EditAction{EObjectType::Node, EActionType::Add, index});
 }
@@ -117,7 +122,7 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
         if (!drawableGraph.nodes.count(index)) {
             auto fill = rndGen_.color();
             drawableGraph.nodes[index] =
-                DrNode{QPointF(rndGen_.uniformInt(200, 900), rndGen_.uniformInt(200, 700)), 30,        fill, fill,
+                DrNode{QPointF(rndGen_.uniformInt(200, 900), rndGen_.uniformInt(200, 700)), radius_,   fill, fill,
                        QString::fromStdString(graphData->getNodes().at(index).val),         Qt::white, fill};
         }
     }
@@ -272,6 +277,7 @@ QColor GraphEditorModel::getColor(EState state) {
 
 void GraphEditorModel::startAlgorithm(size_t index, EAlgorithm algo) {
     isAlgorithmActive_ = true;
+    animationTimer_.start(1000.0 / fps_);
     currentFrame_ = frames_.size() - 1;
     switch (algo) {
         case EAlgorithm::DFS:
@@ -288,6 +294,36 @@ void GraphEditorModel::startAlgorithm(size_t index, EAlgorithm algo) {
 void GraphEditorModel::finishAlgorithm() {
     isAlgorithmActive_ = false;
     editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::Finish});
+}
+
+void GraphEditorModel::updateRadius(qreal radius) {
+    DrawableGraph& drawableGraph = drawData_.value();
+    for (auto& [index, node] : drawableGraph.nodes) {
+        node.radius = radius;
+    }
+    radius_ = radius;
+    drawDataOutPort_.notify();
+}
+
+void GraphEditorModel::updateFPS(qreal fps) {
+    fps_ = fps;
+    animationTimer_.start(1000.0 / fps_);
+}
+
+void GraphEditorModel::updateCurrentFrame(bool isForward) {
+    if (isForward && currentFrame_ < frames_.size() - 1) {
+        animationTimer_.start(100000000.0);
+        currentFrame_++;
+        updateColors(frames_[currentFrame_].value());
+        updateAlgoSummary(frames_[currentFrame_].value());
+        drawDataOutPort_.notify();
+    } else if (!isForward && currentFrame_ > 0) {
+        animationTimer_.start(100000000.0);
+        currentFrame_--;
+        updateColors(frames_[currentFrame_].value());
+        updateAlgoSummary(frames_[currentFrame_].value());
+        drawDataOutPort_.notify();
+    }
 }
 
 }  // namespace dsv::Kernel
