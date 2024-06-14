@@ -8,9 +8,13 @@
 #include <misc/Observer.h>
 #include <misc/random_gen.h>
 
+#include <list>
+#include <QObject>
+#include <QTimer>
+
 namespace dsv::Kernel {
 
-class GraphEditorModel {
+class GraphEditorModel : public QObject {
     using GraphData = std::optional<Graph>;
     using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
@@ -24,7 +28,7 @@ class GraphEditorModel {
     using EditData = std::optional<EditAction>;
     using ObserverEditData = NSLibrary::CObserver<EditData>;
     using ObservableEditData = NSLibrary::CObservableDataMono<EditData>;
-
+    Q_OBJECT
 public:
     GraphEditorModel();
     ObserverGraphData* graphDataInPort();
@@ -45,13 +49,22 @@ public:
     void startAlgorithm(size_t index);
     void finishAlgorithm();
 
+private slots:
+    void onTimer();
+
 private:
     void onGraphData(GraphData&& graphData);
     size_t getFirstUnusedIndex();
 
     ObserverGraphData graphDataInPort_ = [this](GraphData&& graphData) { onGraphData(std::move(graphData)); };
-    ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& { return drawData_; };
+    ObservableDrawData drawDataOutPort_ = [this]() -> const DrawData& {
+        return isAlgorithmActive_ ? frames_[currentFrame_] : drawData_;
+    };
     ObservableEditData editDataOutPort_;
+
+    std::vector<DrawData> frames_;
+    size_t currentFrame_;
+    QTimer animationTimer_;
 
     DrawData drawData_;
     RandomGen rndGen_;

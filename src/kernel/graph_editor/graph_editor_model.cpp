@@ -10,7 +10,11 @@ using DrEdge = DrawableGraph::Edge;
 using GraphData = std::optional<Graph>;
 using ObserverGraphData = NSLibrary::CObserver<GraphData>;
 
-GraphEditorModel::GraphEditorModel() : drawData_{std::in_place}, isAlgorithmActive_(false) {}
+GraphEditorModel::GraphEditorModel()
+    : drawData_{std::in_place}, isAlgorithmActive_(false), frames_(1, DrawData(std::in_place)), currentFrame_{0} {
+    connect(&animationTimer_, &QTimer::timeout, this, &GraphEditorModel::onTimer);
+    animationTimer_.start(1000);
+}
 
 ObserverGraphData* GraphEditorModel::graphDataInPort() {
     return &graphDataInPort_;
@@ -54,6 +58,17 @@ void GraphEditorModel::removeNode(const size_t index) {
 
 void GraphEditorModel::removeEdge(const size_t start, const size_t finish) {
     editDataOutPort_.set(EditAction{EObjectType::Edge, EActionType::Delete, start, finish});
+}
+
+void GraphEditorModel::onTimer() {
+    if (isAlgorithmActive_) {
+        if (currentFrame_ + 1 < frames_.size()) {
+            drawData_ = frames_[++currentFrame_];
+            drawDataOutPort_.notify();
+        }
+    } else {
+        currentFrame_ = frames_.size() - 2;
+    }
 }
 
 void GraphEditorModel::onGraphData(GraphData&& graphData) {
@@ -123,7 +138,11 @@ void GraphEditorModel::onGraphData(GraphData&& graphData) {
     updateValues(*graphData);
     updateColors(*graphData);
     updateActive();
-    drawDataOutPort_.notify();
+    frames_.push_back(drawData_);
+    if (!isAlgorithmActive_) {
+        currentFrame_ = frames_.size() - 2;
+        drawDataOutPort_.notify();
+    }
 }
 
 size_t GraphEditorModel::getFirstUnusedIndex() {
@@ -219,9 +238,9 @@ QColor GraphEditorModel::getColor(EState state) {
         case dsv::Kernel::EState::Intact:
             return Qt::lightGray;
         case dsv::Kernel::EState::Selected:
-            return Qt::yellow;
+            return QColor(126, 9, 116);
         case dsv::Kernel::EState::Used:
-            return Qt::green;
+            return QColor(54, 75, 73);
         default:
             return Qt::lightGray;
     }
@@ -229,6 +248,7 @@ QColor GraphEditorModel::getColor(EState state) {
 
 void GraphEditorModel::startAlgorithm(size_t index) {
     isAlgorithmActive_ = true;
+    currentFrame_ = frames_.size() - 1;
     editDataOutPort_.set(EditAction{EObjectType::Algorithm, EActionType::DFS, index});
 }
 
